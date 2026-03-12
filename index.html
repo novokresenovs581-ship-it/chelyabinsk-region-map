@@ -585,8 +585,6 @@
       <div class="heroBadges">
         <div class="badge">Горные пейзажи Южного Урала</div>
         <div class="badge">Озёра, парки и древние памятники</div>
-        <div class="badge">Расширенные pop-up окна</div>
-        <div class="badge">Природный визуальный стиль</div>
       </div>
     </div>
   </header>
@@ -595,8 +593,7 @@
     <h2>О регионе</h2>
     <p class="sub">
       Челябинская область расположена на Южном Урале и особенно интересна своим сочетанием горных хребтов,
-      лесных массивов, степей, озёр и туристических достопримечательностей. На карте ниже можно переключать слои,
-      смотреть районы и открывать расширенную информацию по каждому объекту.
+      лесных массивов, степей, озёр и туристических достопримечательностей.
     </p>
 
     <div class="stats">
@@ -608,19 +605,11 @@
         <div class="num" data-count="25">0</div>
         <div class="label">точек на карте: города, природа и история</div>
       </div>
-      <div class="stat">
-        <div class="num" data-count="6">0</div>
-        <div class="label">отдельных инструментов интерактива</div>
-      </div>
     </div>
   </section>
 
   <section id="mapSection" class="reveal">
     <h2>Интерактивная карта</h2>
-    <p class="sub">
-      На карте отображаются районы из GeoJSON, города, озёра, реки и историко-природные объекты.
-      Справа — поиск по районам и панель подробной информации.
-    </p>
 
     <div class="mapWrap">
       <div class="filters">
@@ -870,10 +859,6 @@
         <div class="line"><b>Фауна:</b> ${details.fauna}</div>
         <div class="line"><b>Чем знаменит:</b> ${details.famous}</div>
       ` : `
-        <h4>${d.name}</h4>
-        <div class="line"><b>Тип:</b> ${d.type}</div>
-        <div class="line"><b>Код:</b> ${d.code}</div>
-        <div class="line">Подробная информация для этого района пока не добавлена.</div>
       `;
     }
 
@@ -901,8 +886,6 @@
 
     fetch("chelyabinsk_districts.geojson")
       .then(r => {
-        if(!r.ok) throw new Error("GeoJSON не найден. Проверь файл chelyabinsk_districts.geojson рядом с index.html");
-        return r.json();
       })
       .then(geo => {
         const districtGeo = L.geoJSON(geo, {
