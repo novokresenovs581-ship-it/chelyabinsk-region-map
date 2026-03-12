@@ -1068,9 +1068,7 @@ function normalizeDistrictName(name){
           }),
           onEachFeature: (feature, layer) => {
             const p = feature.properties || {};
-            const name = (p.NL_NAME_2 || p.NAME_2 || 'Район')
-              .replace(/(?<!\s)(район|область|округ)/gi, ' $1')
-              .trim();
+            const name = normalizeDistrictName(p.NL_NAME_2 || p.NAME_2 || "Район");
             const type = p.ENGTYPE_2 || p.TYPE_2 || 'Административная единица';
             const code = p.HASC_2 || p.GID_2 || '—';
             const details = districtDetails[name];
