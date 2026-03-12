@@ -1041,8 +1041,17 @@
           item.classList.add('active');
         });
       });
-    }
-
+    
+function normalizeDistrictName(name){
+  if(!name) return "";
+  return String(name)
+    .replace(/\(горсовет\)/gi, "")
+    .replace(/(?<!\s)(район|область|округ)/gi, " $1")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+    
+    chelyabinsk_districts.geojson
     fetch("chelyabinsk_districts.geojson")
       .then(r => {
         if(!r.ok) throw new Error("GeoJSON не найден. Проверь файл chelyabinsk_districts.geojson рядом с index.html");
