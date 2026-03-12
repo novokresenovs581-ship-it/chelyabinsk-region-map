@@ -41,7 +41,11 @@
       overflow-x:hidden;
     }
 
-    #tsparticles{ position:fixed; inset:0; z-index:-1; }
+    #tsparticles{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+    }
 
     nav{
       position:fixed;
@@ -414,7 +418,9 @@
       outline:none;
     }
 
-    .searchInput::placeholder{ color:rgba(255,255,255,.5); }
+    .searchInput::placeholder{
+      color:rgba(255,255,255,.5);
+    }
 
     .districtList{
       display:grid;
@@ -571,11 +577,11 @@
 
     <div class="stats">
       <div class="stat">
-        <div class="num" data-count="45">0</div>
-        <div class="label">районов и городских округов в GeoJSON</div>
+        <div class="num" data-count="27">0</div>
+        <div class="label">районов в справочнике</div>
       </div>
       <div class="stat">
-        <div class="num" data-count="37">0</div>
+        <div class="num" data-count="11">0</div>
         <div class="label">точек на карте: города, природа и история</div>
       </div>
       <div class="stat">
@@ -694,224 +700,224 @@
       history: L.layerGroup()
     };
 
-  const districtDetails = {
-  "Агаповский район": {
-    center:"село Агаповка",
-    population:"~30 тыс. чел.",
-    area:"~2 600 км²",
-    flora:"степные травы, берёзовые колки",
-    fauna:"суслики, лисицы, косули",
-    famous:"сельское хозяйство, близость к Магнитогорску"
-  },
-  "Аргаяшский район": {
-    center:"село Аргаяш",
-    population:"~40 тыс.",
-    area:"~2 700 км²",
-    flora:"сосна, берёза, лесостепная растительность",
-    fauna:"лось, кабан",
-    famous:"озёра Увильды и Аргази, башкирская культура"
-  },
-  "Ашинский район": {
-    center:"город Аша",
-    population:"~55 тыс.",
-    area:"~2 800 км²",
-    flora:"ель, пихта",
-    fauna:"медведь, рысь",
-    famous:"металлургия, живописные горы"
-  },
-  "Брединский район": {
-    center:"посёлок Бреды",
-    population:"~25 тыс.",
-    area:"~5 000 км²",
-    flora:"ковыль, типчак",
-    fauna:"сайгак (редко), степной орёл",
-    famous:"археологический комплекс Аркаим"
-  },
-  "Варненский район": {
-    center:"село Варна",
-    population:"~25 тыс.",
-    area:"~3 900 км²",
-    flora:"полынь, разнотравье",
-    fauna:"сурки, журавли",
-    famous:"сельское хозяйство"
-  },
-  "Верхнеуральский район": {
-    center:"город Верхнеуральск",
-    population:"~33 тыс.",
-    area:"~3 500 км²",
-    flora:"ковыль, степные травы",
-    fauna:"косуля, лисица",
-    famous:"старинный казачий город"
-  },
-  "Еманжелинский район": {
-    center:"город Еманжелинск",
-    population:"~50 тыс.",
-    area:"~130 км²",
-    flora:"берёза, луговая растительность",
-    fauna:"заяц, лиса",
-    famous:"угольная промышленность"
-  },
-  "Еткульский район": {
-    center:"село Еткуль",
-    population:"~30 тыс.",
-    area:"~2 500 км²",
-    flora:"сосновые боры, приозёрные травы",
-    fauna:"утки, щука",
-    famous:"озёра и базы отдыха"
-  },
-  "Карталинский район": {
-    center:"город Карталы",
-    population:"~45 тыс.",
-    area:"~4 700 км²",
-    flora:"полынь, степное разнотравье",
-    fauna:"степной хорёк",
-    famous:"железнодорожный узел"
-  },
-  "Каслинский район": {
-    center:"город Касли",
-    population:"~30 тыс.",
-    area:"~3 300 км²",
-    flora:"сосна, берёза",
-    fauna:"бобр, лось",
-    famous:"каслинское художественное литьё"
-  },
-  "Катав-Ивановский район": {
-    center:"город Катав-Ивановск",
-    population:"~30 тыс.",
-    area:"~3 400 км²",
-    flora:"ель, пихта",
-    fauna:"медведь",
-    famous:"цементная промышленность"
-  },
-  "Кизильский район": {
-    center:"село Кизильское",
-    population:"~23 тыс.",
-    area:"~4 400 км²",
-    flora:"ковыль, степные травы",
-    fauna:"сурок-байбак",
-    famous:"археология, древние поселения"
-  },
-  "Коркинский район": {
-    center:"город Коркино",
-    population:"~60 тыс.",
-    area:"~100 км²",
-    flora:"берёза, лесостепная растительность",
-    fauna:"лисица",
-    famous:"Коркинский угольный разрез"
-  },
-  "Красноармейский район": {
-    center:"село Миасское",
-    population:"~40 тыс.",
-    area:"~3 800 км²",
-    flora:"сосна, луговые травы",
-    fauna:"лось",
-    famous:"сельское хозяйство, рыболовство"
-  },
-  "Кунашакский район": {
-    center:"село Кунашак",
-    population:"~30 тыс.",
-    area:"~3 300 км²",
-    flora:"камыш, берёза",
-    fauna:"водоплавающие птицы",
-    famous:"рыбные хозяйства"
-  },
-  "Кусинский район": {
-    center:"город Куса",
-    population:"~25 тыс.",
-    area:"~3 100 км²",
-    flora:"ель, сосна, берёза",
-    fauna:"лось, медведь, куница",
-    famous:"горнозаводская история, близость к Таганаю и Златоусту"
-  },
-  "Нагайбакский район": {
-    center:"село Фершампенуаз",
-    population:"~20 тыс.",
-    area:"~3 000 км²",
-    flora:"ковыль",
-    fauna:"степные птицы",
-    famous:"нагайбакская культура"
-  },
-  "Нязепетровский район": {
-    center:"город Нязепетровск",
-    population:"~22 тыс.",
-    area:"~3 500 км²",
-    flora:"сосна, ель, берёза",
-    fauna:"лось, кабан, бобр",
-    famous:"лесные ландшафты, река Уфа, металлургическая история"
-  },
-  "Октябрьский район": {
-    center:"село Октябрьское",
-    population:"~25 тыс.",
-    area:"~4 400 км²",
-    flora:"степные травы",
-    fauna:"суслик, журавль",
-    famous:"аграрное производство"
-  },
-  "Пластовский район": {
-    center:"город Пласт",
-    population:"~25 тыс.",
-    area:"~1 800 км²",
-    flora:"сосна",
-    fauna:"косуля",
-    famous:"добыча золота"
-  },
-  "Саткинский район": {
-    center:"город Сатка",
-    population:"~80 тыс.",
-    area:"~2 400 км²",
-    flora:"ель, пихта",
-    fauna:"медведь, рысь",
-    famous:"национальный парк Зюраткуль"
-  },
-  "Сосновский район": {
-    center:"село Долгодеревенское",
-    population:"~90 тыс.",
-    area:"~2 100 км²",
-    flora:"сосна, лесостепная растительность",
-    fauna:"лось",
-    famous:"пригород Челябинска"
-  },
-  "Троицкий район": {
-    center:"город Троицк",
-    population:"~30 тыс.",
-    area:"~4 000 км²",
-    flora:"ковыль",
-    fauna:"степные орлы",
-    famous:"историческая архитектура"
-  },
-  "Увельский район": {
-    center:"посёлок Увельский",
-    population:"~35 тыс.",
-    area:"~2 300 км²",
-    flora:"берёза",
-    fauna:"косуля",
-    famous:"сельское хозяйство"
-  },
-  "Уйский район": {
-    center:"село Уйское",
-    population:"~25 тыс.",
-    area:"~2 600 км²",
-    flora:"сосна",
-    fauna:"лиса",
-    famous:"природные ландшафты"
-  },
-  "Чебаркульский район": {
-    center:"город Чебаркуль",
-    population:"~40 тыс.",
-    area:"~2 900 км²",
-    flora:"леса, приозёрная растительность",
-    fauna:"бобр, щука",
-    famous:"озёра и район падения метеорита 2013 года"
-  },
-  "Чесменский район": {
-    center:"село Чесма",
-    population:"~20 тыс.",
-    area:"~4 000 км²",
-    flora:"ковыль, полынь",
-    fauna:"сурки, степные птицы",
-    famous:"сельское хозяйство и степные природные комплексы"
-  }
-};
+    const districtDetails = {
+      "Агаповский район": {
+        center:"село Агаповка",
+        population:"~30 тыс. чел.",
+        area:"~2 600 км²",
+        flora:"степные травы, берёзовые колки",
+        fauna:"суслики, лисицы, косули",
+        famous:"сельское хозяйство, близость к Магнитогорску"
+      },
+      "Аргаяшский район": {
+        center:"село Аргаяш",
+        population:"~40 тыс.",
+        area:"~2 700 км²",
+        flora:"сосна, берёза, лесостепная растительность",
+        fauna:"лось, кабан",
+        famous:"озёра Увильды и Аргази, башкирская культура"
+      },
+      "Ашинский район": {
+        center:"город Аша",
+        population:"~55 тыс.",
+        area:"~2 800 км²",
+        flora:"ель, пихта",
+        fauna:"медведь, рысь",
+        famous:"металлургия, живописные горы"
+      },
+      "Брединский район": {
+        center:"посёлок Бреды",
+        population:"~25 тыс.",
+        area:"~5 000 км²",
+        flora:"ковыль, типчак",
+        fauna:"сайгак (редко), степной орёл",
+        famous:"археологический комплекс Аркаим"
+      },
+      "Варненский район": {
+        center:"село Варна",
+        population:"~25 тыс.",
+        area:"~3 900 км²",
+        flora:"полынь, разнотравье",
+        fauna:"сурки, журавли",
+        famous:"сельское хозяйство"
+      },
+      "Верхнеуральский район": {
+        center:"город Верхнеуральск",
+        population:"~33 тыс.",
+        area:"~3 500 км²",
+        flora:"ковыль, степные травы",
+        fauna:"косуля, лисица",
+        famous:"старинный казачий город"
+      },
+      "Еманжелинский район": {
+        center:"город Еманжелинск",
+        population:"~50 тыс.",
+        area:"~130 км²",
+        flora:"берёза, луговая растительность",
+        fauna:"заяц, лиса",
+        famous:"угольная промышленность"
+      },
+      "Еткульский район": {
+        center:"село Еткуль",
+        population:"~30 тыс.",
+        area:"~2 500 км²",
+        flora:"сосновые боры, приозёрные травы",
+        fauna:"утки, щука",
+        famous:"озёра и базы отдыха"
+      },
+      "Карталинский район": {
+        center:"город Карталы",
+        population:"~45 тыс.",
+        area:"~4 700 км²",
+        flora:"полынь, степное разнотравье",
+        fauna:"степной хорёк",
+        famous:"железнодорожный узел"
+      },
+      "Каслинский район": {
+        center:"город Касли",
+        population:"~30 тыс.",
+        area:"~3 300 км²",
+        flora:"сосна, берёза",
+        fauna:"бобр, лось",
+        famous:"каслинское художественное литьё"
+      },
+      "Катав-Ивановский район": {
+        center:"город Катав-Ивановск",
+        population:"~30 тыс.",
+        area:"~3 400 км²",
+        flora:"ель, пихта",
+        fauna:"медведь",
+        famous:"цементная промышленность"
+      },
+      "Кизильский район": {
+        center:"село Кизильское",
+        population:"~23 тыс.",
+        area:"~4 400 км²",
+        flora:"ковыль, степные травы",
+        fauna:"сурок-байбак",
+        famous:"археология, древние поселения"
+      },
+      "Коркинский район": {
+        center:"город Коркино",
+        population:"~60 тыс.",
+        area:"~100 км²",
+        flora:"берёза, лесостепная растительность",
+        fauna:"лисица",
+        famous:"Коркинский угольный разрез"
+      },
+      "Красноармейский район": {
+        center:"село Миасское",
+        population:"~40 тыс.",
+        area:"~3 800 км²",
+        flora:"сосна, луговые травы",
+        fauna:"лось",
+        famous:"сельское хозяйство, рыболовство"
+      },
+      "Кунашакский район": {
+        center:"село Кунашак",
+        population:"~30 тыс.",
+        area:"~3 300 км²",
+        flora:"камыш, берёза",
+        fauna:"водоплавающие птицы",
+        famous:"рыбные хозяйства"
+      },
+      "Кусинский район": {
+        center:"город Куса",
+        population:"~25 тыс.",
+        area:"~3 100 км²",
+        flora:"ель, сосна, берёза",
+        fauna:"лось, медведь, куница",
+        famous:"горнозаводская история, близость к Таганаю и Златоусту"
+      },
+      "Нагайбакский район": {
+        center:"село Фершампенуаз",
+        population:"~20 тыс.",
+        area:"~3 000 км²",
+        flora:"ковыль",
+        fauna:"степные птицы",
+        famous:"нагайбакская культура"
+      },
+      "Нязепетровский район": {
+        center:"город Нязепетровск",
+        population:"~22 тыс.",
+        area:"~3 500 км²",
+        flora:"сосна, ель, берёза",
+        fauna:"лось, кабан, бобр",
+        famous:"лесные ландшафты, река Уфа, металлургическая история"
+      },
+      "Октябрьский район": {
+        center:"село Октябрьское",
+        population:"~25 тыс.",
+        area:"~4 400 км²",
+        flora:"степные травы",
+        fauna:"суслик, журавль",
+        famous:"аграрное производство"
+      },
+      "Пластовский район": {
+        center:"город Пласт",
+        population:"~25 тыс.",
+        area:"~1 800 км²",
+        flora:"сосна",
+        fauna:"косуля",
+        famous:"добыча золота"
+      },
+      "Саткинский район": {
+        center:"город Сатка",
+        population:"~80 тыс.",
+        area:"~2 400 км²",
+        flora:"ель, пихта",
+        fauna:"медведь, рысь",
+        famous:"национальный парк Зюраткуль"
+      },
+      "Сосновский район": {
+        center:"село Долгодеревенское",
+        population:"~90 тыс.",
+        area:"~2 100 км²",
+        flora:"сосна, лесостепная растительность",
+        fauna:"лось",
+        famous:"пригород Челябинска"
+      },
+      "Троицкий район": {
+        center:"город Троицк",
+        population:"~30 тыс.",
+        area:"~4 000 км²",
+        flora:"ковыль",
+        fauna:"степные орлы",
+        famous:"историческая архитектура"
+      },
+      "Увельский район": {
+        center:"посёлок Увельский",
+        population:"~35 тыс.",
+        area:"~2 300 км²",
+        flora:"берёза",
+        fauna:"косуля",
+        famous:"сельское хозяйство"
+      },
+      "Уйский район": {
+        center:"село Уйское",
+        population:"~25 тыс.",
+        area:"~2 600 км²",
+        flora:"сосна",
+        fauna:"лиса",
+        famous:"природные ландшафты"
+      },
+      "Чебаркульский район": {
+        center:"город Чебаркуль",
+        population:"~40 тыс.",
+        area:"~2 900 км²",
+        flora:"леса, приозёрная растительность",
+        fauna:"бобр, щука",
+        famous:"озёра и район падения метеорита 2013 года"
+      },
+      "Чесменский район": {
+        center:"село Чесма",
+        population:"~20 тыс.",
+        area:"~4 000 км²",
+        flora:"ковыль, полынь",
+        fauna:"сурки, степные птицы",
+        famous:"сельское хозяйство и степные природные комплексы"
+      }
+    };
 
     const data = {
       cities: [
@@ -929,7 +935,7 @@
         { name: "Урал", coords: [[53.45,58.90],[53.38,59.04],[52.95,59.20]], type: "Река", info: "Крупная водная артерия", population: "населённые пункты тяготеют к долине", area: "крупнейшая речная система юга области", capital: "Важный центр — Магнитогорск", flora: "степная пойма, камыш, ивовые заросли", fauna: "судак, щука, утки, цапли", description: "Одна из крупнейших рек региона, проходящая через южную часть области." }
       ],
       history: [
-        { name: "Аркаим", coords: [52.63, 59.55], type: "Археология", info: "Памятник эпохи бронзы", population: "постоянного городского населения нет", area: "музейно-заповедная территория", capital: "Ближайший центр — Бреды", flora: "степные травы, ковыль, полынь", fauna: "сайгак в прошлом ареале, сурок, степные птицы", description: "Археологический комплекс международной известности, одно из ключевых исторических мест Южного Урала." },
+        { name: "Аркаим", coords: [52.63, 59.55], type: "Археология", info: "Памятник эпохи бронзы", population: "постоянного городского населения нет", area: "музейно-заповедная территория", capital: "Ближайший центр — Бреды", flora: "степные травы, ковыль, полынь", fauna: "сурок, степные птицы", description: "Археологический комплекс международной известности, одно из ключевых исторических мест Южного Урала." },
         { name: "Таганай", coords: [55.25, 59.80], type: "Нацпарк", info: "Горные хребты и курумы", population: "постоянного населения нет", area: "≈ 568 км²", capital: "Ближайший центр — Златоуст", flora: "пихта, ель, кедровый стланик, горные тундры", fauna: "медведь, рысь, лось, глухарь", description: "Национальный парк с вершинами, каменными реками и развитой сетью пеших маршрутов." },
         { name: "Зюраткуль (НП)", coords: [54.88, 59.19], type: "Нацпарк", info: "Озеро и хребты", population: "постоянного населения нет", area: "≈ 882 км²", capital: "Ближайший центр — Сатка", flora: "ель, пихта, берёза, высокогорные луга", fauna: "лось, медведь, выдра, тетерев", description: "Территория с озером, хребтами, экотропами и панорамными вершинами." }
       ]
@@ -1002,6 +1008,15 @@
 
     let districtMeta = [];
 
+    function normalizeDistrictName(name){
+      if(!name) return "";
+      return String(name)
+        .replace(/\(горсовет\)/gi, "")
+        .replace(/(?<!\s)(район|область|округ)/gi, " $1")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
     function setDistrictInfo(d){
       const details = districtDetails[d.name];
       selectedDistrictInfo.innerHTML = details ? `
@@ -1022,7 +1037,7 @@
     }
 
     function renderDistrictList(list){
-      districtList.innerHTML = list.map((d, index) => `
+      districtList.innerHTML = list.map((d) => `
         <div class="districtItem" data-name="${d.name}">
           <strong>${d.name}</strong>
           <span>${d.type} • ${d.code}</span>
@@ -1041,17 +1056,8 @@
           item.classList.add('active');
         });
       });
-    
-function normalizeDistrictName(name){
-  if(!name) return "";
-  return String(name)
-    .replace(/\(горсовет\)/gi, "")
-    .replace(/(?<!\s)(район|область|округ)/gi, " $1")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-    
-    chelyabinsk_districts.geojson
+    }
+
     fetch("chelyabinsk_districts.geojson")
       .then(r => {
         if(!r.ok) throw new Error("GeoJSON не найден. Проверь файл chelyabinsk_districts.geojson рядом с index.html");
@@ -1059,11 +1065,11 @@ function normalizeDistrictName(name){
       })
       .then(geo => {
         const districtGeo = L.geoJSON(geo, {
-  filter: (feature) => {
-    const p = feature.properties || {};
-    const name = normalizeDistrictName(p.NL_NAME_2 || p.NAME_2 || "");
-    return name.toLowerCase().includes("район");
-  },
+          filter: (feature) => {
+            const p = feature.properties || {};
+            const name = normalizeDistrictName(p.NL_NAME_2 || p.NAME_2 || "");
+            return name.toLowerCase().includes("район");
+          },
           style: () => ({
             color: '#e9ff8f',
             weight: 2.8,
@@ -1074,7 +1080,7 @@ function normalizeDistrictName(name){
           onEachFeature: (feature, layer) => {
             const p = feature.properties || {};
             const name = normalizeDistrictName(p.NL_NAME_2 || p.NAME_2 || "Район");
-            const type = p.ENGTYPE_2 || p.TYPE_2 || 'Административная единица';
+            const type = p.ENGTYPE_2 || p.TYPE_2 || 'District';
             const code = p.HASC_2 || p.GID_2 || '—';
             const details = districtDetails[name];
 
@@ -1174,17 +1180,20 @@ function normalizeDistrictName(name){
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
     }, { threshold: 0.18 });
+
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
     function animateCount(el, to){
       const duration = 900;
       const start = performance.now();
+
       function frame(t){
         const p = Math.min(1, (t - start)/duration);
         const val = Math.floor(to * (p*p*(3-2*p)));
         el.textContent = val;
         if(p < 1) requestAnimationFrame(frame);
       }
+
       requestAnimationFrame(frame);
     }
 
@@ -1197,6 +1206,7 @@ function normalizeDistrictName(name){
         }
       });
     }, { threshold: 0.3 });
+
     aboutObs.observe(about);
   </script>
 </body>
