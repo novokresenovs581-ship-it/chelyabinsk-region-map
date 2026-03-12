@@ -1059,6 +1059,11 @@ function normalizeDistrictName(name){
       })
       .then(geo => {
         const districtGeo = L.geoJSON(geo, {
+  filter: (feature) => {
+    const p = feature.properties || {};
+    const name = normalizeDistrictName(p.NL_NAME_2 || p.NAME_2 || "");
+    return name.toLowerCase().includes("район");
+  },
           style: () => ({
             color: '#e9ff8f',
             weight: 2.8,
