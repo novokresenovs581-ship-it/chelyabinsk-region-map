@@ -6,6 +6,7 @@
   <title>Челябинская область — интерактивная карта</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link rel="icon" href="logo.png"/>
 
   <style>
     :root{
@@ -38,6 +39,7 @@
       transform:translateX(-50%);
       z-index:999;
       display:flex;
+      align-items:center;
       gap:10px;
       padding:10px 14px;
       border-radius:999px;
@@ -46,12 +48,37 @@
       border:1px solid var(--border);
       box-shadow: var(--shadow);
       transition: opacity .3s ease, transform .3s ease;
+      max-width: calc(100% - 24px);
     }
 
     nav.hide{
       opacity:0;
       pointer-events:none;
       transform:translateX(-50%) translateY(-18px);
+    }
+
+    .navBrand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-right:10px;
+      padding-right:10px;
+      border-right:1px solid rgba(255,255,255,.12);
+      flex-shrink:0;
+    }
+
+    .navLogo{
+      width:34px;
+      height:34px;
+      object-fit:contain;
+      display:block;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+    }
+
+    .navBrandText{
+      font-weight:700;
+      font-size:14px;
+      white-space:nowrap;
     }
 
     nav a{
@@ -79,6 +106,20 @@
 
     .hero{
       max-width:980px;
+    }
+
+    .heroLogoWrap{
+      display:flex;
+      justify-content:center;
+      margin-bottom:20px;
+    }
+
+    .heroLogo{
+      width:120px;
+      height:120px;
+      object-fit:contain;
+      display:block;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.28));
     }
 
     .hero h1{
@@ -154,7 +195,7 @@
 
     .grid{
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
+      grid-template-columns:1.2fr .8fr;
       gap:18px;
       align-items:start;
     }
@@ -181,6 +222,13 @@
       border-radius:999px;
       border:1px solid var(--border);
       background:rgba(255,255,255,.05);
+      color:var(--text);
+      cursor:pointer;
+      text-decoration:none;
+    }
+
+    button.chip{
+      font:inherit;
     }
 
     .dot{
@@ -261,7 +309,7 @@
       }
 
       .grid{
-        grid-template-columns: 1fr;
+        grid-template-columns:1fr;
       }
 
       #map{
@@ -281,12 +329,20 @@
       #map{
         height:420px;
       }
+
+      .heroLogo{
+        width:100px;
+        height:100px;
+      }
     }
   </style>
 </head>
 <body>
-
   <nav id="topNav">
+    <div class="navBrand">
+      <img src="logo.png" alt="Логотип" class="navLogo">
+      <span class="navBrandText">Челябинская область</span>
+    </div>
     <a href="#hero">Главная</a>
     <a href="#mapSection">Карта</a>
     <a href="#objectsSection">Объекты</a>
@@ -295,12 +351,17 @@
 
   <header id="hero">
     <div class="hero">
+      <div class="heroLogoWrap">
+        <img src="logo.png" alt="Логотип Челябинской области" class="heroLogo">
+      </div>
+
       <h1>Челябинская область</h1>
       <p>
         Интерактивная карта с районами, природными объектами, реками, озёрами,
         городами и историческими достопримечательностями. Сайт адаптирован
         для телефона и компьютера.
       </p>
+
       <div class="heroBadges">
         <div class="badge">Районы области</div>
         <div class="badge">Природные объекты</div>
@@ -320,8 +381,21 @@
             <b>chelyabinsk_districts.geojson</b> лежит рядом с <b>index.html</b>.
           </div>
         </div>
+
         <div id="map"></div>
+
         <div class="sectionBody">
+          <div class="legend" style="margin-bottom:12px;">
+            <button class="chip" onclick="showLayer('all')">Все</button>
+            <button class="chip" onclick="showLayer('districts')">Районы</button>
+            <button class="chip" onclick="showLayer('districtCenters')">Центры районов</button>
+            <button class="chip" onclick="showLayer('cities')">Города</button>
+            <button class="chip" onclick="showLayer('lakes')">Озёра</button>
+            <button class="chip" onclick="showLayer('rivers')">Реки</button>
+            <button class="chip" onclick="showLayer('nature')">Природа</button>
+            <button class="chip" onclick="showLayer('history')">История</button>
+          </div>
+
           <div class="legend">
             <span class="chip"><span class="dot" style="background:#ffe066"></span>Центры районов</span>
             <span class="chip"><span class="dot" style="background:#ff3b30"></span>Города</span>
@@ -340,65 +414,18 @@
         </div>
         <div class="sectionBody">
           <div class="infoList">
-            <div class="infoCard">
-              <b>Озеро Тургояк</b>
-              <p>Одно из самых чистых озёр Южного Урала. Известно прозрачной водой, туристическими маршрутами и островом Веры.</p>
-            </div>
-
-            <div class="infoCard">
-              <b>Озеро Увильды</b>
-              <p>Крупное озеро области, известное базами отдыха, лесными берегами и курортной зоной.</p>
-            </div>
-
-            <div class="infoCard">
-              <b>Озеро Чебаркуль</b>
-              <p>Известно падением метеорита в 2013 году. Важный природный и туристический объект области.</p>
-            </div>
-
-            <div class="infoCard">
-              <b>Аргазинское водохранилище</b>
-              <p>Крупный водоём, используемый для отдыха, рыбалки и водоснабжения. Популярное место в тёплый сезон.</p>
-            </div>
-
-            <div class="infoCard">
-              <b>Национальный парк Таганай</b>
-              <p>Горные хребты, «каменные реки», хвойные леса и одна из самых известных природных территорий области.</p>
-            </div>
-
-            <div class="infoCard">
-              <b>Национальный парк Зюраткуль</b>
-              <p>Высокогорное озеро, хребты и природные маршруты. Один из главных туристических центров региона.</p>
-            </div>
-
-            <div class="infoCard">
-              <b>Ильменский заповедник</b>
-              <p>Особо охраняемая природная территория, известная разнообразием минералов и уникальными лесными экосистемами.</p>
-            </div>
-
-            <div class="infoCard">
-              <b>Аркаим</b>
-              <p>Археологический комплекс эпохи бронзы. Один из самых известных исторических объектов Южного Урала.</p>
-            </div>
-
-            <div class="infoCard">
-              <b>Река Миасс</b>
-              <p>Одна из важнейших рек области, протекает через Челябинск и играет большую роль в истории и хозяйстве региона.</p>
-            </div>
-
-            <div class="infoCard">
-              <b>Река Урал</b>
-              <p>Крупная река, важная для южных районов области. Связана с историей освоения территории и промышленным развитием.</p>
-            </div>
-
-            <div class="infoCard">
-              <b>Златоуст</b>
-              <p>Горный город с богатыми оружейными традициями, рядом с природными достопримечательностями Таганая.</p>
-            </div>
-
-            <div class="infoCard">
-              <b>Магнитогорск</b>
-              <p>Один из крупнейших индустриальных центров России, известный металлургическим комбинатом и расположением на реке Урал.</p>
-            </div>
+            <div class="infoCard"><b>Озеро Тургояк</b><p>Одно из самых чистых озёр Южного Урала. Известно прозрачной водой, туристическими маршрутами и островом Веры.</p></div>
+            <div class="infoCard"><b>Озеро Увильды</b><p>Крупное озеро области, известное базами отдыха, лесными берегами и курортной зоной.</p></div>
+            <div class="infoCard"><b>Озеро Чебаркуль</b><p>Известно падением метеорита в 2013 году. Важный природный и туристический объект области.</p></div>
+            <div class="infoCard"><b>Аргазинское водохранилище</b><p>Крупный водоём, используемый для отдыха, рыбалки и водоснабжения. Популярное место в тёплый сезон.</p></div>
+            <div class="infoCard"><b>Национальный парк Таганай</b><p>Горные хребты, «каменные реки», хвойные леса и одна из самых известных природных территорий области.</p></div>
+            <div class="infoCard"><b>Национальный парк Зюраткуль</b><p>Высокогорное озеро, хребты и природные маршруты. Один из главных туристических центров региона.</p></div>
+            <div class="infoCard"><b>Ильменский заповедник</b><p>Особо охраняемая природная территория, известная разнообразием минералов и уникальными лесными экосистемами.</p></div>
+            <div class="infoCard"><b>Аркаим</b><p>Археологический комплекс эпохи бронзы. Один из самых известных исторических объектов Южного Урала.</p></div>
+            <div class="infoCard"><b>Река Миасс</b><p>Одна из важнейших рек области, протекает через Челябинск и играет большую роль в истории и хозяйстве региона.</p></div>
+            <div class="infoCard"><b>Река Урал</b><p>Крупная река, важная для южных районов области. Связана с историей освоения территории и промышленным развитием.</p></div>
+            <div class="infoCard"><b>Златоуст</b><p>Горный город с богатыми оружейными традициями, рядом с природными достопримечательностями Таганая.</p></div>
+            <div class="infoCard"><b>Магнитогорск</b><p>Один из крупнейших индустриальных центров России, известный металлургическим комбинатом и расположением на реке Урал.</p></div>
           </div>
         </div>
       </section>
@@ -411,38 +438,18 @@
       </div>
       <div class="sectionBody">
         <div class="infoList">
-          <div class="infoCard">
-            <b>Челябинск</b>
-            <p>Административный центр области, крупнейший промышленный и транспортный узел региона.</p>
-          </div>
-          <div class="infoCard">
-            <b>Миасс</b>
-            <p>Город у подножия гор, рядом озеро Тургояк. Сочетает промышленность и туризм.</p>
-          </div>
-          <div class="infoCard">
-            <b>Сосновский район</b>
-            <p>Пригородная территория Челябинска. Известен лесами, озёрами и быстрым развитием жилой зоны.</p>
-          </div>
-          <div class="infoCard">
-            <b>Саткинский район</b>
-            <p>Горный район с природными достопримечательностями, в том числе национальным парком Зюраткуль.</p>
-          </div>
-          <div class="infoCard">
-            <b>Каслинский район</b>
-            <p>Озёра, леса и художественное литьё — главные особенности этой северной территории области.</p>
-          </div>
-          <div class="infoCard">
-            <b>Троицкий район</b>
-            <p>Южная часть области со степными ландшафтами и исторической архитектурой города Троицка.</p>
-          </div>
+          <div class="infoCard"><b>Челябинск</b><p>Административный центр области, крупнейший промышленный и транспортный узел региона.</p></div>
+          <div class="infoCard"><b>Миасс</b><p>Город у подножия гор, рядом озеро Тургояк. Сочетает промышленность и туризм.</p></div>
+          <div class="infoCard"><b>Сосновский район</b><p>Пригородная территория Челябинска. Известен лесами, озёрами и быстрым развитием жилой зоны.</p></div>
+          <div class="infoCard"><b>Саткинский район</b><p>Горный район с природными достопримечательностями, в том числе национальным парком Зюраткуль.</p></div>
+          <div class="infoCard"><b>Каслинский район</b><p>Озёра, леса и художественное литьё — главные особенности этой северной территории области.</p></div>
+          <div class="infoCard"><b>Троицкий район</b><p>Южная часть области со степными ландшафтами и исторической архитектурой города Троицка.</p></div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    Проект о Челябинской области • HTML • CSS • JavaScript • Leaflet
-  </footer>
+  <footer>Проект о Челябинской области • HTML • CSS • JavaScript • Leaflet</footer>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
@@ -451,11 +458,8 @@
 
     function updateNavVisibility() {
       const heroBottom = hero.getBoundingClientRect().bottom;
-      if (heroBottom <= 80) {
-        nav.classList.add("hide");
-      } else {
-        nav.classList.remove("hide");
-      }
+      if (heroBottom <= 80) nav.classList.add("hide");
+      else nav.classList.remove("hide");
     }
 
     window.addEventListener("scroll", updateNavVisibility);
@@ -466,6 +470,12 @@
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "&copy; OpenStreetMap"
     }).addTo(map);
+
+    map.createPane("districtsPane");
+    map.getPane("districtsPane").style.zIndex = 200;
+
+    map.createPane("markersPane");
+    map.getPane("markersPane").style.zIndex = 650;
 
     const palette = [
       "#f59e0b","#10b981","#3b82f6","#ef4444","#8b5cf6","#06b6d4",
@@ -485,301 +495,114 @@
       return palette[hashString(name) % palette.length];
     }
 
+    function normalizeDistrictName(raw){
+      if(!raw) return "";
+      let n = String(raw).trim().replace(/\s+/g, " ");
+      n = n.replace("(горсовет)", "").trim();
+      if (n.endsWith("район")) n = n.replace("район", " район");
+      return n;
+    }
+
     const districtInfo = {
-      "Агаповский район": {
-        center:"село Агаповка",
-        area:"~2 600 км²",
-        population:"~30 тыс. чел.",
-        nature:"Степные травы, берёзовые колки; суслики, лисицы, косули.",
-        famous:"Сельское хозяйство, близость к Магнитогорску."
-      },
-      "Аргаяшский район": {
-        center:"село Аргаяш",
-        area:"~2 700 км²",
-        population:"~40 тыс.",
-        nature:"Лесостепь, озёра Увильды и Аргази; сосна, берёза; лось, кабан.",
-        famous:"Крупные озёра, башкирская культура."
-      },
-      "Ашинский район": {
-        center:"город Аша",
-        area:"~2 800 км²",
-        population:"~55 тыс.",
-        nature:"Горно-лесная зона Южного Урала; ель, пихта; медведь, рысь.",
-        famous:"Металлургия, живописные горы."
-      },
-      "Брединский район": {
-        center:"посёлок Бреды",
-        area:"~5 000 км²",
-        population:"~25 тыс.",
-        nature:"Степи; ковыль, типчак; сайгак (редко), степной орёл.",
-        famous:"Археологический комплекс Аркаим."
-      },
-      "Варненский район": {
-        center:"село Варна",
-        area:"~3 900 км²",
-        population:"~25 тыс.",
-        nature:"Степная зона; полынь, разнотравье; сурки, журавли.",
-        famous:"Сельское хозяйство."
-      },
-      "Верхнеуральский район": {
-        center:"город Верхнеуральск",
-        area:"~3 500 км²",
-        population:"~33 тыс.",
-        nature:"Степи и холмы; ковыль; косуля, лисица.",
-        famous:"Старинный казачий город."
-      },
-      "Еманжелинский район": {
-        center:"город Еманжелинск",
-        area:"~130 км²",
-        population:"~50 тыс.",
-        nature:"Лесостепь; берёза; заяц, лиса.",
-        famous:"Угольная промышленность."
-      },
-      "Еткульский район": {
-        center:"село Еткуль",
-        area:"~2 500 км²",
-        population:"~30 тыс.",
-        nature:"Озёра, сосновые боры; утки, щука.",
-        famous:"Базы отдыха."
-      },
-      "Карталинский район": {
-        center:"город Карталы",
-        area:"~4 700 км²",
-        population:"~45 тыс.",
-        nature:"Степи; полынь; степной хорёк.",
-        famous:"Железнодорожный узел."
-      },
-      "Каслинский район": {
-        center:"город Касли",
-        area:"~3 300 км²",
-        population:"~30 тыс.",
-        nature:"Озёра и леса; сосна; бобр, лось.",
-        famous:"Каслинское художественное литьё."
-      },
-      "Катав-Ивановский район": {
-        center:"город Катав-Ивановск",
-        area:"~3 400 км²",
-        population:"~30 тыс.",
-        nature:"Горы Южного Урала; ель, пихта; медведь.",
-        famous:"Цементная промышленность."
-      },
-      "Кизильский район": {
-        center:"село Кизильское",
-        area:"~4 400 км²",
-        population:"~23 тыс.",
-        nature:"Степи; ковыль; сурок-байбак.",
-        famous:"Археология, древние поселения."
-      },
-      "Коркинский район": {
-        center:"город Коркино",
-        area:"~100 км²",
-        population:"~60 тыс.",
-        nature:"Лесостепь; берёза; лисица.",
-        famous:"Коркинский угольный разрез."
-      },
-      "Красноармейский район": {
-        center:"село Миасское",
-        area:"~3 800 км²",
-        population:"~40 тыс.",
-        nature:"Озёра и леса; сосна; лось.",
-        famous:"Сельское хозяйство, рыболовство."
-      },
-      "Кунашакский район": {
-        center:"село Кунашак",
-        area:"~3 300 км²",
-        population:"~30 тыс.",
-        nature:"Озёра; камыш, берёза; водоплавающие птицы.",
-        famous:"Рыбные хозяйства."
-      },
-      "Нагайбакский район": {
-        center:"село Фершампенуаз",
-        area:"~3 000 км²",
-        population:"~20 тыс.",
-        nature:"Степная зона; ковыль; степные птицы.",
-        famous:"Нагайбакская культура."
-      },
-      "Октябрьский район": {
-        center:"село Октябрьское",
-        area:"~4 400 км²",
-        population:"~25 тыс.",
-        nature:"Степи и озёра; суслик, журавль.",
-        famous:"Аграрное производство."
-      },
-      "Пластовский район": {
-        center:"город Пласт",
-        area:"~1 800 км²",
-        population:"~25 тыс.",
-        nature:"Лесостепь; сосна; косуля.",
-        famous:"Добыча золота."
-      },
-      "Саткинский район": {
-        center:"город Сатка",
-        area:"~2 400 км²",
-        population:"~80 тыс.",
-        nature:"Горы, тайга; ель; медведь, рысь.",
-        famous:"Национальный парк «Зюраткуль»."
-      },
-      "Сосновский район": {
-        center:"село Долгодеревенское",
-        area:"~2 100 км²",
-        population:"~90 тыс.",
-        nature:"Леса и озёра; сосна; лось.",
-        famous:"Пригород Челябинска."
-      },
-      "Троицкий район": {
-        center:"город Троицк",
-        area:"~4 000 км²",
-        population:"~30 тыс.",
-        nature:"Степи; ковыль; степные орлы.",
-        famous:"Историческая архитектура."
-      },
-      "Увельский район": {
-        center:"посёлок Увельский",
-        area:"~2 300 км²",
-        population:"~35 тыс.",
-        nature:"Лесостепь; берёза; косуля.",
-        famous:"Сельское хозяйство."
-      },
-      "Уйский район": {
-        center:"село Уйское",
-        area:"~2 600 км²",
-        population:"~25 тыс.",
-        nature:"Лесостепь; сосна; лиса.",
-        famous:"Природные ландшафты."
-      },
-      "Чебаркульский район": {
-        center:"город Чебаркуль",
-        area:"~2 900 км²",
-        population:"~40 тыс.",
-        nature:"Озёра, леса; бобр, щука.",
-        famous:"Озёрная зона и регион падения метеорита 2013 года."
-      }
+      "Агаповский район": {center:"село Агаповка", area:"~2 600 км²", population:"~30 тыс. чел.", nature:"Степные травы, берёзовые колки; суслики, лисицы, косули.", famous:"Сельское хозяйство, близость к Магнитогорску."},
+      "Аргаяшский район": {center:"село Аргаяш", area:"~2 700 км²", population:"~40 тыс.", nature:"Лесостепь, озёра Увильды и Аргази; сосна, берёза; лось, кабан.", famous:"Крупные озёра, башкирская культура."},
+      "Ашинский район": {center:"город Аша", area:"~2 800 км²", population:"~55 тыс.", nature:"Горно-лесная зона Южного Урала; ель, пихта; медведь, рысь.", famous:"Металлургия, живописные горы."},
+      "Брединский район": {center:"посёлок Бреды", area:"~5 000 км²", population:"~25 тыс.", nature:"Степи; ковыль, типчак; сайгак (редко), степной орёл.", famous:"Археологический комплекс Аркаим."},
+      "Варненский район": {center:"село Варна", area:"~3 900 км²", population:"~25 тыс.", nature:"Степная зона; полынь, разнотравье; сурки, журавли.", famous:"Сельское хозяйство."},
+      "Верхнеуральский район": {center:"город Верхнеуральск", area:"~3 500 км²", population:"~33 тыс.", nature:"Степи и холмы; ковыль; косуля, лисица.", famous:"Старинный казачий город."},
+      "Еманжелинский район": {center:"город Еманжелинск", area:"~130 км²", population:"~50 тыс.", nature:"Лесостепь; берёза; заяц, лиса.", famous:"Угольная промышленность."},
+      "Еткульский район": {center:"село Еткуль", area:"~2 500 км²", population:"~30 тыс.", nature:"Озёра, сосновые боры; утки, щука.", famous:"Базы отдыха."},
+      "Карталинский район": {center:"город Карталы", area:"~4 700 км²", population:"~45 тыс.", nature:"Степи; полынь; степной хорёк.", famous:"Железнодорожный узел."},
+      "Каслинский район": {center:"город Касли", area:"~3 300 км²", population:"~30 тыс.", nature:"Озёра и леса; сосна; бобр, лось.", famous:"Каслинское художественное литьё."},
+      "Катав-Ивановский район": {center:"город Катав-Ивановск", area:"~3 400 км²", population:"~30 тыс.", nature:"Горы Южного Урала; ель, пихта; медведь.", famous:"Цементная промышленность."},
+      "Кизильский район": {center:"село Кизильское", area:"~4 400 км²", population:"~23 тыс.", nature:"Степи; ковыль; сурок-байбак.", famous:"Археология, древние поселения."},
+      "Коркинский район": {center:"город Коркино", area:"~100 км²", population:"~60 тыс.", nature:"Лесостепь; берёза; лисица.", famous:"Коркинский угольный разрез."},
+      "Красноармейский район": {center:"село Миасское", area:"~3 800 км²", population:"~40 тыс.", nature:"Озёра и леса; сосна; лось.", famous:"Сельское хозяйство, рыболовство."},
+      "Кунашакский район": {center:"село Кунашак", area:"~3 300 км²", population:"~30 тыс.", nature:"Озёра; камыш, берёза; водоплавающие птицы.", famous:"Рыбные хозяйства."},
+      "Нагайбакский район": {center:"село Фершампенуаз", area:"~3 000 км²", population:"~20 тыс.", nature:"Степная зона; ковыль; степные птицы.", famous:"Нагайбакская культура."},
+      "Нязепетровский район": {center:"город Нязепетровск", area:"~3 500 км²", population:"~22 тыс.", nature:"Лесная и горная зона; сосна, ель, берёза; лось, кабан, бобр.", famous:"Лесные ландшафты, река Уфа, металлургическая история."},
+      "Октябрьский район": {center:"село Октябрьское", area:"~4 400 км²", population:"~25 тыс.", nature:"Степи и озёра; суслик, журавль.", famous:"Аграрное производство."},
+      "Пластовский район": {center:"город Пласт", area:"~1 800 км²", population:"~25 тыс.", nature:"Лесостепь; сосна; косуля.", famous:"Добыча золота."},
+      "Саткинский район": {center:"город Сатка", area:"~2 400 км²", population:"~80 тыс.", nature:"Горы, тайга; ель; медведь, рысь.", famous:"Национальный парк «Зюраткуль»."},
+      "Сосновский район": {center:"село Долгодеревенское", area:"~2 100 км²", population:"~90 тыс.", nature:"Леса и озёра; сосна; лось.", famous:"Пригород Челябинска."},
+      "Троицкий район": {center:"город Троицк", area:"~4 000 км²", population:"~30 тыс.", nature:"Степи; ковыль; степные орлы.", famous:"Историческая архитектура."},
+      "Увельский район": {center:"посёлок Увельский", area:"~2 300 км²", population:"~35 тыс.", nature:"Лесостепь; берёза; косуля.", famous:"Сельское хозяйство."},
+      "Уйский район": {center:"село Уйское", area:"~2 600 км²", population:"~25 тыс.", nature:"Лесостепь; сосна; лиса.", famous:"Природные ландшафты."},
+      "Кусинский район": {center:"город Куса", area:"~3 100 км²", population:"~25 тыс.", nature:"Горные леса; ель, сосна, берёза; лось, медведь, куница.", famous:"Горнозаводская история, близость к Таганаю и Златоусту."},
+      "Чебаркульский район": {center:"город Чебаркуль", area:"~2 900 км²", population:"~40 тыс.", nature:"Озёра, леса; бобр, щука.", famous:"Озёрная зона и регион падения метеорита 2013 года."},
+      "Чесменский район": {center:"село Чесма", area:"~4 000 км²", population:"~20 тыс.", nature:"Степные ландшафты; ковыль, полынь; сурки, степные птицы.", famous:"Сельское хозяйство и степные природные комплексы."}
+    };
+
+    const overlays = {
+      districts: null,
+      districtCenters: L.layerGroup(),
+      cities: L.layerGroup(),
+      lakes: L.layerGroup(),
+      rivers: L.layerGroup(),
+      nature: L.layerGroup(),
+      history: L.layerGroup()
     };
 
     const points = [
-      {
-        type:"city",
-        name:"Челябинск",
-        coords:[55.1599, 61.4026],
-        info:"Административный центр области. Крупный промышленный, транспортный и образовательный центр Южного Урала."
-      },
-      {
-        type:"city",
-        name:"Магнитогорск",
-        coords:[53.4072, 59.0472],
-        info:"Один из крупнейших металлургических городов России. Расположен на реке Урал."
-      },
-      {
-        type:"city",
-        name:"Златоуст",
-        coords:[55.1711, 59.6726],
-        info:"Горный город, известный оружейным производством и близостью к Таганаю."
-      },
-      {
-        type:"city",
-        name:"Миасс",
-        coords:[55.0450, 60.1083],
-        info:"Город рядом с озером Тургояк. Известен туризмом и машиностроением."
-      },
-      {
-        type:"city",
-        name:"Троицк",
-        coords:[54.0833, 61.5667],
-        info:"Исторический торговый город с архитектурой XIX–XX веков."
-      },
-      {
-        type:"lake",
-        name:"Озеро Тургояк",
-        coords:[55.1675, 59.6566],
-        info:"Одно из самых чистых озёр Южного Урала. Популярно для отдыха и туризма."
-      },
-      {
-        type:"lake",
-        name:"Озеро Увильды",
-        coords:[55.5170, 60.5000],
-        info:"Крупное озеро области с базами отдыха и лесными берегами."
-      },
-      {
-        type:"lake",
-        name:"Озеро Чебаркуль",
-        coords:[54.9770, 60.3700],
-        info:"Известное озеро, связанное с падением метеорита в 2013 году."
-      },
-      {
-        type:"lake",
-        name:"Аргазинское водохранилище",
-        coords:[55.2400, 60.9800],
-        info:"Крупное водохранилище, используемое для отдыха, рыбалки и водоснабжения."
-      },
-      {
-        type:"river",
-        name:"Река Миасс",
-        coords:[55.1600, 61.3900],
-        info:"Одна из главных рек области, проходит через Челябинск."
-      },
-      {
-        type:"river",
-        name:"Река Урал",
-        coords:[53.3500, 59.0000],
-        info:"Крупная река региона, важная для истории и хозяйства Южного Урала."
-      },
-      {
-        type:"river",
-        name:"Река Ай",
-        coords:[54.9300, 59.2600],
-        info:"Известна живописными скалами, сплавами и туристическими маршрутами."
-      },
-      {
-        type:"nature",
-        name:"Национальный парк Таганай",
-        coords:[55.25, 59.80],
-        info:"Горные хребты, каменные россыпи, хвойные леса и популярные туристические маршруты."
-      },
-      {
-        type:"nature",
-        name:"Национальный парк Зюраткуль",
-        coords:[54.92, 59.20],
-        info:"Высокогорное озеро, хребты, леса и одна из главных природных достопримечательностей области."
-      },
-      {
-        type:"nature",
-        name:"Ильменский заповедник",
-        coords:[55.10, 60.20],
-        info:"Особо охраняемая природная территория, известная минералами и разнообразием природы."
-      },
-      {
-        type:"history",
-        name:"Аркаим",
-        coords:[52.63, 59.55],
-        info:"Археологический комплекс эпохи бронзы, один из самых известных исторических объектов Южного Урала."
-      }
+      {type:"city", name:"Челябинск", coords:[55.1599, 61.4026], info:"Административный центр области. Крупный промышленный, транспортный и образовательный центр Южного Урала."},
+      {type:"city", name:"Магнитогорск", coords:[53.4072, 59.0472], info:"Один из крупнейших металлургических городов России. Расположен на реке Урал."},
+      {type:"city", name:"Златоуст", coords:[55.1711, 59.6726], info:"Горный город, известный оружейным производством и близостью к Таганаю."},
+      {type:"city", name:"Миасс", coords:[55.0450, 60.1083], info:"Город рядом с озером Тургояк. Известен туризмом и машиностроением."},
+      {type:"city", name:"Троицк", coords:[54.0833, 61.5667], info:"Исторический торговый город с архитектурой XIX–XX веков."},
+      {type:"lake", name:"Озеро Тургояк", coords:[55.1675, 59.6566], info:"Одно из самых чистых озёр Южного Урала. Популярно для отдыха и туризма."},
+      {type:"lake", name:"Озеро Увильды", coords:[55.5170, 60.5000], info:"Крупное озеро области с базами отдыха и лесными берегами."},
+      {type:"lake", name:"Озеро Чебаркуль", coords:[54.9770, 60.3700], info:"Известное озеро, связанное с падением метеорита в 2013 году."},
+      {type:"lake", name:"Аргазинское водохранилище", coords:[55.2400, 60.9800], info:"Крупное водохранилище, используемое для отдыха, рыбалки и водоснабжения."},
+      {type:"river", name:"Река Миасс", coords:[55.1600, 61.3900], info:"Одна из главных рек области, проходит через Челябинск."},
+      {type:"river", name:"Река Урал", coords:[53.3500, 59.0000], info:"Крупная река региона, важная для истории и хозяйства Южного Урала."},
+      {type:"river", name:"Река Ай", coords:[54.9300, 59.2600], info:"Известна живописными скалами, сплавами и туристическими маршрутами."},
+      {type:"nature", name:"Национальный парк Таганай", coords:[55.25, 59.80], info:"Горные хребты, каменные россыпи, хвойные леса и популярные туристические маршруты."},
+      {type:"nature", name:"Национальный парк Зюраткуль", coords:[54.92, 59.20], info:"Высокогорное озеро, хребты, леса и одна из главных природных достопримечательностей области."},
+      {type:"nature", name:"Ильменский заповедник", coords:[55.10, 60.20], info:"Особо охраняемая природная территория, известная минералами и разнообразием природы."},
+      {type:"history", name:"Аркаим", coords:[52.63, 59.55], info:"Археологический комплекс эпохи бронзы, один из самых известных исторических объектов Южного Урала."}
     ];
 
     const typeStyle = {
-      city:   { color:"#ff3b30" },
-      lake:   { color:"#007aff" },
-      river:  { color:"#5ac8fa" },
-      nature: { color:"#34c759" },
-      history:{ color:"#ff9500" }
+      city:"#ff3b30",
+      lake:"#007aff",
+      river:"#5ac8fa",
+      nature:"#34c759",
+      history:"#ff9500"
     };
 
+    function layerForType(type){
+      if(type === "city") return overlays.cities;
+      if(type === "lake") return overlays.lakes;
+      if(type === "river") return overlays.rivers;
+      if(type === "nature") return overlays.nature;
+      if(type === "history") return overlays.history;
+      return null;
+    }
+
     points.forEach(point => {
-      const style = typeStyle[point.type] || { color:"#111" };
+      const color = typeStyle[point.type] || "#111";
+      const layer = layerForType(point.type);
+
       L.circleMarker(point.coords, {
+        pane:"markersPane",
         radius:7,
-        color:style.color,
-        fillColor:style.color,
+        color:color,
+        fillColor:color,
         fillOpacity:0.9,
         weight:2
-      }).addTo(map).bindPopup(`
+      })
+      .bindPopup(`
         <div class="popup">
           <b class="title">${point.name}</b>
           ${point.info}
         </div>
-      `);
+      `)
+      .addTo(layer);
     });
 
-    const districtCentersLayer = L.layerGroup().addTo(map);
+    Object.values(overlays).forEach(layer => {
+      if(layer && layer !== overlays.districts) layer.addTo(map);
+    });
 
     fetch("chelyabinsk_districts.geojson")
       .then(response => {
@@ -787,20 +610,17 @@
         return response.json();
       })
       .then(geo => {
-        const districtsLayer = L.geoJSON(geo, {
+        overlays.districts = L.geoJSON(geo, {
+          pane:"districtsPane",
+          filter: feature => {
+            const props = feature.properties || {};
+            return props.TYPE_2 === "Raion";
+          },
           style: feature => {
             const props = feature.properties || {};
-            if (props.TYPE_2 !== "Raion") {
-              return {
-                color:"#888",
-                weight:0.5,
-                fillColor:"#ffffff",
-                fillOpacity:0.03
-              };
-            }
-
-            let districtName = (props.NL_NAME_2 || "").trim();
-            districtName = districtName.replace("район", " район");
+            let districtName = normalizeDistrictName(
+              props.NL_NAME_2 || props.NAME_2 || props.name || ""
+            );
 
             return {
               color:"#222",
@@ -809,13 +629,11 @@
               fillOpacity:0.28
             };
           },
-
           onEachFeature: (feature, layer) => {
             const props = feature.properties || {};
-            if (props.TYPE_2 !== "Raion") return;
-
-            let districtName = (props.NL_NAME_2 || "").trim();
-            districtName = districtName.replace("район", " район");
+            let districtName = normalizeDistrictName(
+              props.NL_NAME_2 || props.NAME_2 || props.name || ""
+            );
 
             const info = districtInfo[districtName];
 
@@ -848,6 +666,7 @@
             }
 
             const center = layer.getBounds().getCenter();
+
             const centerText = info
               ? `
                 <div class="popup">
@@ -867,20 +686,44 @@
               `;
 
             L.circleMarker(center, {
+              pane:"markersPane",
               radius:7,
               color:"#0b0b0b",
               weight:2,
               fillColor:"#ffe066",
               fillOpacity:1
-            }).addTo(districtCentersLayer).bindPopup(centerText);
+            })
+            .bindPopup(centerText)
+            .addTo(overlays.districtCenters);
           }
         }).addTo(map);
 
-        map.fitBounds(districtsLayer.getBounds(), { padding:[20,20] });
+        map.fitBounds(overlays.districts.getBounds(), { padding:[20,20] });
       })
       .catch(() => {
         console.log("Файл chelyabinsk_districts.geojson не найден или не загрузился.");
       });
+
+    function showLayer(type){
+      const allKeys = Object.keys(overlays);
+
+      allKeys.forEach(key => {
+        const layer = overlays[key];
+        if(layer && map.hasLayer(layer)) map.removeLayer(layer);
+      });
+
+      if(type === "all"){
+        allKeys.forEach(key => {
+          const layer = overlays[key];
+          if(layer) layer.addTo(map);
+        });
+        return;
+      }
+
+      if(overlays[type]) overlays[type].addTo(map);
+    }
+
+    window.showLayer = showLayer;
   </script>
 </body>
 </html>
