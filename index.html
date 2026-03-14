@@ -27,6 +27,12 @@
       --radius: 18px;
       --border: rgba(255,255,255,.12);
       --panel:#102117;
+      --yellow:#ffd43b;
+      --yellow2:#fff7a8;
+      --blue:#37c7ff;
+      --blue2:#7df9ff;
+      --green:#35d06f;
+      --green2:#76ff9f;
     }
 
     *{ box-sizing:border-box; }
@@ -268,6 +274,44 @@
       box-shadow:0 8px 18px rgba(0,0,0,.25);
     }
 
+    .heroActions{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:22px;
+      position:relative;
+      z-index:2;
+    }
+
+    .heroActionBtn{
+      border:none;
+      cursor:pointer;
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:.98rem;
+      background:#d8ffb0;
+      color:#102117;
+      box-shadow:0 10px 24px rgba(0,0,0,.22);
+      transition:.25s;
+    }
+
+    .heroActionBtn:hover{
+      transform:translateY(-2px);
+      background:#ffffff;
+    }
+
+    .heroActionBtn.ghostBtn{
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.16);
+    }
+
+    .heroActionBtn.ghostBtn:hover{
+      background:rgba(255,255,255,.18);
+    }
+
     section{
       padding:88px 12%;
       position:relative;
@@ -290,11 +334,11 @@
       line-height:1.7;
     }
 
-    #about, #mapSection, #districtsSection, #cities, #nature, #topPlaces{
+    #about, #factSection, #routesSection, #mapSection, #districtsSection, #cities, #nature, #topPlaces{
       overflow:hidden;
     }
 
-    #about::before, #mapSection::before, #districtsSection::before, #cities::before, #nature::before, #topPlaces::before{
+    #about::before, #factSection::before, #routesSection::before, #mapSection::before, #districtsSection::before, #cities::before, #nature::before, #topPlaces::before{
       content:"";
       position:absolute;
       inset:0;
@@ -307,6 +351,16 @@
 
     #about::before{
       background-image:linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/0/0d/Zyuratkul_lake.jpg");
+    }
+
+    #factSection::before{
+      opacity:.07;
+      background-image:linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/1/1a/Arkaim_steppe.jpg");
+    }
+
+    #routesSection::before{
+      opacity:.08;
+      background-image:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/8/83/Taganay_National_Park.jpg");
     }
 
     #mapSection::before{
@@ -334,7 +388,7 @@
       background-image:linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/0/0d/Zyuratkul_lake.jpg");
     }
 
-    #about > *, #mapSection > *, #districtsSection > *, #cities > *, #nature > *, #topPlaces > *{
+    #about > *, #factSection > *, #routesSection > *, #mapSection > *, #districtsSection > *, #cities > *, #nature > *, #topPlaces > *{
       position:relative;
       z-index:1;
     }
@@ -415,6 +469,62 @@
     .stat .label{
       color:var(--muted);
       margin-top:6px;
+    }
+
+    .factBox{
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;
+      padding:20px;
+      line-height:1.7;
+      color:var(--text);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(10px);
+    }
+
+    .routeCard{
+      grid-column:span 4;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(10px);
+      transition:.3s ease;
+    }
+
+    .routeCard:hover{
+      transform:translateY(-6px);
+      background:rgba(159,232,112,.12);
+      border-color:rgba(159,232,112,.35);
+    }
+
+    .routeCard h3{
+      margin:0 0 10px;
+      font-size:1.08rem;
+      color:#fff;
+    }
+
+    .routeCard p{
+      margin:0 0 12px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .routeBtn{
+      border:none;
+      cursor:pointer;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:800;
+      background:#d8ffb0;
+      color:#102117;
+      transition:.25s;
+    }
+
+    .routeBtn:hover{
+      transform:translateY(-2px);
+      background:#fff;
     }
 
     .mapWrap{
@@ -797,12 +907,12 @@
     @media (max-width:1120px){
       .mapGrid{ grid-template-columns:1fr; }
       .panel{ max-height:none; }
-      .topPlace{ grid-column:span 6; }
+      .topPlace, .routeCard{ grid-column:span 6; }
     }
 
     @media (max-width:960px){
       section{ padding:72px 7%; }
-      .card, .stat, .selectedDistrictBox{ grid-column:span 12; }
+      .card, .stat, .selectedDistrictBox, .routeCard{ grid-column:span 12; }
       nav{ gap:6px; padding:10px 12px; }
       nav a{ padding:8px 8px; font-size:.9rem; }
       #map{ height:500px; }
@@ -814,7 +924,7 @@
 <body>
   <div id="loader">
     <img src="logo.png" alt="Логотип" class="loaderLogo">
-    <div class="loaderText">Загрузка карты Челябинской области...</div>
+    <div class="loaderText">Загрузка интерактивной карты Челябинской области...</div>
   </div>
 
   <div id="tsparticles"></div>
@@ -826,8 +936,9 @@
     </div>
     <a href="#about">О регионе</a>
     <a href="#topPlaces">Топ-места</a>
+    <a href="#routesSection">Маршруты</a>
     <a href="#mapSection">Карта</a>
-    <a href="#districtsSection">Районы</a>
+    <a href="#districtsSection">Полигоны</a>
     <a href="#cities">Города</a>
     <a href="#nature">Природа</a>
   </nav>
@@ -840,11 +951,17 @@
         Интерактивный веб-проект по Челябинской области с акцентом на природные ландшафты,
         озёра, горные маршруты и знаковые достопримечательности региона.
       </p>
+
       <div class="heroBadges">
         <div class="badge">Горные пейзажи Южного Урала</div>
         <div class="badge">Озёра, парки и древние памятники</div>
         <div class="badge">Расширенные pop-up окна</div>
         <div class="badge">Природный визуальный стиль</div>
+      </div>
+
+      <div class="heroActions">
+        <button class="heroActionBtn" onclick="startExploration()">Начать исследование</button>
+        <button class="heroActionBtn ghostBtn" onclick="startTour()">Запустить тур по области</button>
       </div>
     </div>
   </header>
@@ -854,22 +971,29 @@
     <p class="sub">
       Челябинская область расположена на Южном Урале и особенно интересна своим сочетанием горных хребтов,
       лесных массивов, степей, озёр и туристических достопримечательностей. На карте ниже можно переключать слои,
-      смотреть районы и открывать расширенную информацию по каждому объекту.
+      смотреть районы, города и другие муниципальные образования, а также открывать расширенную информацию по каждому объекту.
     </p>
 
     <div class="stats">
       <div class="stat">
-        <div class="num" data-count="27">0</div>
-        <div class="label">районов в справочнике</div>
+        <div class="num" data-count="45">0</div>
+        <div class="label">муниципальных полигонов в GeoJSON</div>
       </div>
       <div class="stat">
         <div class="num" data-count="44">0</div>
         <div class="label">городов, рек, озёр и объектов</div>
       </div>
       <div class="stat">
-        <div class="num" data-count="11">0</div>
-        <div class="label">эффектных функций проекта</div>
+        <div class="num" data-count="14">0</div>
+        <div class="label">интерактивных возможностей проекта</div>
       </div>
+    </div>
+  </section>
+
+  <section id="factSection" class="reveal">
+    <h2>Интересный факт</h2>
+    <div class="factBox" id="factBox">
+      Выбери район, город или объект на карте — здесь появится интересный факт.
     </div>
   </section>
 
@@ -885,7 +1009,7 @@
         <div class="overlay">
           <h4>Зюраткуль</h4>
           <p>Высокогорное озеро и национальный парк с красивыми хребтами и экотропами.</p>
-          <button class="showOnMap" onclick="focusCustomPoint(54.92,59.22,9)">Показать на карте</button>
+          <button class="showOnMap" onclick="focusCustomPoint(54.92,59.22,9); setFact('Зюраткуль');">Показать на карте</button>
         </div>
       </div>
 
@@ -894,7 +1018,7 @@
         <div class="overlay">
           <h4>Таганай</h4>
           <p>Один из самых известных национальных парков Южного Урала.</p>
-          <button class="showOnMap" onclick="focusCustomPoint(55.25,59.80,9)">Показать на карте</button>
+          <button class="showOnMap" onclick="focusCustomPoint(55.25,59.80,9); setFact('Таганай');">Показать на карте</button>
         </div>
       </div>
 
@@ -903,8 +1027,35 @@
         <div class="overlay">
           <h4>Тургояк</h4>
           <p>Одно из самых чистых озёр России, популярное туристическое место.</p>
-          <button class="showOnMap" onclick="focusCustomPoint(55.17,60.06,10)">Показать на карте</button>
+          <button class="showOnMap" onclick="focusCustomPoint(55.17,60.06,10); setFact('Тургояк');">Показать на карте</button>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="routesSection" class="reveal tint">
+    <h2>Маршруты по области</h2>
+    <p class="sub">
+      Несколько тематических маршрутов для знакомства с Челябинской областью.
+    </p>
+
+    <div class="grid">
+      <div class="routeCard">
+        <h3>⛰ Горный маршрут</h3>
+        <p>Таганай → Златоуст → Куса. Подходит для знакомства с горными ландшафтами и природой Южного Урала.</p>
+        <button class="routeBtn" onclick="showMountainRoute()">Показать на карте</button>
+      </div>
+
+      <div class="routeCard">
+        <h3>💧 Озёрный маршрут</h3>
+        <p>Тургояк → Увильды → Чебаркуль. Маршрут по самым известным озёрам области.</p>
+        <button class="routeBtn" onclick="showLakeRoute()">Показать на карте</button>
+      </div>
+
+      <div class="routeCard">
+        <h3>🏛 Исторический маршрут</h3>
+        <p>Аркаим → Игнатьевская пещера → Остров Веры. Для знакомства с историческими и археологическими объектами региона.</p>
+        <button class="routeBtn" onclick="showHistoryRoute()">Показать на карте</button>
       </div>
     </div>
   </section>
@@ -912,15 +1063,15 @@
   <section id="mapSection" class="reveal">
     <h2>Интерактивная карта</h2>
     <p class="sub">
-      На карте отображаются районы из GeoJSON, города, озёра, реки и историко-природные объекты.
-      Справа — поиск по районам и панель подробной информации.
+      На карте отображаются все полигоны из GeoJSON: районы, горсоветы, отдельные города и другие муниципальные образования,
+      а также города, озёра, реки и историко-природные объекты.
     </p>
 
     <div class="mapWrap">
       <div class="filters">
         <button onclick="showLayer('all')">Все слои</button>
-        <button class="ghost" onclick="showLayer('districts')">Районы</button>
-        <button class="ghost" onclick="showLayer('districtCenters')">📍 Центры районов</button>
+        <button class="ghost" onclick="showLayer('districts')">Полигоны</button>
+        <button class="ghost" onclick="showLayer('districtCenters')">📍 Центры полигонов</button>
         <button class="ghost" onclick="showLayer('cities')">🏙 Города</button>
         <button class="ghost" onclick="showLayer('lakes')">💧 Озёра</button>
         <button class="ghost" onclick="showLayer('rivers')">〰 Реки</button>
@@ -936,28 +1087,28 @@
         <div id="map"></div>
 
         <aside class="panel">
-          <h3>Поиск района</h3>
-          <p>Нажми на район в списке, и карта приблизится к его границам.</p>
-          <input id="districtSearch" class="searchInput" type="text" placeholder="Найти район...">
+          <h3>Поиск по полигонам</h3>
+          <p>Нажми на объект в списке, и карта приблизится к его границам.</p>
+          <input id="districtSearch" class="searchInput" type="text" placeholder="Найти район, город или округ...">
           <div id="districtList" class="districtList"></div>
 
           <div class="infoPanel" id="selectedDistrictInfo">
-            <h4>Информация о районе</h4>
-            <div class="line">Выбери район на карте или в списке справа.</div>
+            <h4>Информация об объекте</h4>
+            <div class="line">Выбери полигон на карте или в списке справа.</div>
           </div>
         </aside>
       </div>
 
       <div class="selectedDistrictCard" id="selectedDistrictCard">
-        <h3>Выбранный район</h3>
+        <h3>Выбранный объект</h3>
         <div class="selectedDistrictGrid">
           <div class="selectedDistrictBox">
             <b>Название</b>
-            <div class="meta">Выбери район на карте.</div>
+            <div class="meta">Выбери полигон на карте.</div>
           </div>
           <div class="selectedDistrictBox">
             <b>Описание</b>
-            <div class="meta">После выбора здесь появятся основные сведения о районе.</div>
+            <div class="meta">После выбора здесь появятся основные сведения.</div>
           </div>
         </div>
       </div>
@@ -965,7 +1116,7 @@
   </section>
 
   <section id="districtsSection" class="reveal tint">
-    <h2>Районы области</h2>
+    <h2>Муниципальные образования</h2>
     <div id="districtCards" class="grid"></div>
   </section>
 
@@ -1056,6 +1207,22 @@
       history: L.layerGroup()
     };
 
+    let activePulseLayer = null;
+    let tourLine = null;
+
+    const facts = {
+      "Челябинск":"Челябинск — крупнейший город Южного Урала и административный центр области.",
+      "Магнитогорск":"Магнитогорск — один из крупнейших центров чёрной металлургии в России.",
+      "Златоуст":"Златоуст известен оружейными традициями и близостью к Таганаю.",
+      "Миасс":"Миасс связан с озером Тургояк и развитым природным туризмом.",
+      "Тургояк":"Тургояк считается одним из самых чистых озёр России.",
+      "Таганай":"Таганай — один из самых известных национальных парков Южного Урала.",
+      "Зюраткуль":"Зюраткуль — высокогорное озеро и один из символов горного туризма региона.",
+      "Аркаим":"Аркаим — археологический памятник эпохи бронзы международного значения.",
+      "Остров Веры":"Остров Веры на Тургояке известен археологическими памятниками и легендами.",
+      "Ильменский заповедник":"Ильменский заповедник знаменит редкими минералами и природными ландшафтами."
+    };
+
     const districtDetails = {
       "Агаповский район": { center:"село Агаповка", population:"~30 тыс. чел.", area:"~2 600 км²", flora:"степные травы, берёзовые колки", fauna:"суслики, лисицы, косули", famous:"сельское хозяйство, близость к Магнитогорску" },
       "Аргаяшский район": { center:"село Аргаяш", population:"~40 тыс.", area:"~2 700 км²", flora:"сосна, берёза, лесостепная растительность", fauna:"лось, кабан", famous:"озёра Увильды и Аргази, башкирская культура" },
@@ -1083,7 +1250,20 @@
       "Увельский район": { center:"посёлок Увельский", population:"~35 тыс.", area:"~2 300 км²", flora:"берёза", fauna:"косуля", famous:"сельское хозяйство" },
       "Уйский район": { center:"село Уйское", population:"~25 тыс.", area:"~2 600 км²", flora:"сосна", fauna:"лиса", famous:"природные ландшафты" },
       "Чебаркульский район": { center:"город Чебаркуль", population:"~40 тыс.", area:"~2 900 км²", flora:"леса, приозёрная растительность", fauna:"бобр, щука", famous:"озёра и район падения метеорита 2013 года" },
-      "Чесменский район": { center:"село Чесма", population:"~20 тыс.", area:"~4 000 км²", flora:"ковыль, полынь", fauna:"сурки, степные птицы", famous:"сельское хозяйство и степные природные комплексы" }
+      "Чесменский район": { center:"село Чесма", population:"~20 тыс.", area:"~4 000 км²", flora:"ковыль, полынь", fauna:"сурки, степные птицы", famous:"сельское хозяйство и степные природные комплексы" },
+
+      "Челябинск": { center:"город Челябинск", population:"1 176 770 чел.", area:"≈ 530 км²", flora:"берёза, сосна, тополь", fauna:"белка, утки, чайки", famous:"административный центр области" },
+      "Копейск": { center:"город Копейск", population:"143 751 чел.", area:"≈ 150 км²", flora:"степные травы, берёза", fauna:"лиса, ёж", famous:"спутник Челябинска, шахтёрская история" },
+      "Карабаш": { center:"город Карабаш", population:"10 838 чел.", area:"≈ 68 км²", flora:"сосна, берёза", fauna:"лиса, белка", famous:"горнопромышленная история" },
+      "Кыштым": { center:"город Кыштым", population:"35 325 чел.", area:"≈ 95 км²", flora:"сосна, ель, берёза", fauna:"бобр, лось", famous:"озёра и промышленная история" },
+      "Верхний Уфалей": { center:"город Верхний Уфалей", population:"25 052 чел.", area:"≈ 86 км²", flora:"тайжные леса", fauna:"лось, рысь, белка", famous:"северный промышленный центр" },
+      "Златоуст": { center:"город Златоуст", population:"157 244 чел.", area:"≈ 236 км²", flora:"ель, сосна, пихта", fauna:"медведь, лось, тетерев", famous:"оружейные традиции, близость к Таганаю" },
+      "Миасс": { center:"город Миасс", population:"146 650 чел.", area:"≈ 111 км²", flora:"сосновые боры, березняки", fauna:"косуля, белка", famous:"Тургояк, машиностроение, туризм" },
+      "Магнитогорск": { center:"город Магнитогорск", population:"408 487 чел.", area:"≈ 392 км²", flora:"степные травы, тополь", fauna:"суслик, речные птицы", famous:"крупнейший металлургический центр" },
+      "Пласт": { center:"город Пласт", population:"15 602 чел.", area:"≈ 36 км²", flora:"степные луга", fauna:"косуля, лисица", famous:"добыча золота" },
+      "Усть-Катав": { center:"город Усть-Катав", population:"≈ 21 тыс.", area:"небольшой городской округ", flora:"смешанные леса", fauna:"лось, белка", famous:"вагоностроение, горно-лесная зона" },
+      "Южноуральск": { center:"город Южноуральск", population:"37 313 чел.", area:"≈ 111 км²", flora:"степные луга, берёза", fauna:"лисица, суслик", famous:"энергетика и промышленность" },
+      "Троицк": { center:"город Троицк", population:"69 983 чел.", area:"≈ 139 км²", flora:"ковыль, разнотравье", fauna:"заяц-русак, степные птицы", famous:"исторический торговый город" }
     };
 
     const data = {
@@ -1174,6 +1354,12 @@
     addPointCards('cityCards', data.cities, ['Карта + pop-up']);
     addPointCards('natureCards', [...data.lakes, ...data.history, ...data.rivers], ['Туризм']);
 
+    function setFact(name){
+      const factBox = document.getElementById("factBox");
+      if(!factBox) return;
+      factBox.textContent = facts[name] || `Интересный факт: ${name} — важный объект Челябинской области, связанный с природой, историей или хозяйственным развитием региона.`;
+    }
+
     function focusCustomPoint(lat, lng, zoom = 9){
       map.flyTo([lat, lng], zoom, { duration:1.2 });
     }
@@ -1185,12 +1371,13 @@
 
       const marker = L.circleMarker(c.coords, {
         radius: isMain ? 10 : 7,
-        color: isMain ? "#ffe066" : "#9ee7ff",
-        fillColor: isMain ? "#ffd43b" : "#37c7ff",
+        color: isMain ? varOr('#ffe066') : varOr('#9ee7ff'),
+        fillColor: isMain ? varOr('#ffd43b') : varOr('#37c7ff'),
         fillOpacity: 0.95,
         weight: isMain ? 2.5 : 1.5
       }).bindPopup(popupHtml(c));
 
+      marker.on("click", () => setFact(c.name));
       layers.cities.addLayer(marker);
 
       if (isMain) {
@@ -1205,30 +1392,39 @@
     });
 
     data.lakes.forEach(l => {
-      L.circleMarker(l.coords, {
+      const lakeMarker = L.circleMarker(l.coords, {
         radius:6,
         color:"#7df9ff",
         fillColor:"#2cd7ff",
         fillOpacity:0.85,
         weight:1.5
-      }).bindPopup(popupHtml(l)).addTo(layers.lakes);
+      }).bindPopup(popupHtml(l));
+
+      lakeMarker.on("click", () => setFact(l.name));
+      lakeMarker.addTo(layers.lakes);
     });
 
     data.rivers.forEach(r => {
-      L.polyline(r.coords, {
+      const riverLine = L.polyline(r.coords, {
         weight:3,
         color:"#59d7ff",
         opacity:0.85
-      }).bindPopup(popupHtml(r)).addTo(layers.rivers);
+      }).bindPopup(popupHtml(r));
+
+      riverLine.on("click", () => setFact(r.name));
+      riverLine.addTo(layers.rivers);
     });
 
     data.history.forEach(h => {
-      L.marker(h.coords, {
+      const histMarker = L.marker(h.coords, {
         icon: L.divIcon({
           className: "custom-icon",
           html: `<div style="font-size:20px;">${h.icon || "📍"}</div>`
         })
-      }).bindPopup(popupHtml(h)).addTo(layers.history);
+      }).bindPopup(popupHtml(h));
+
+      histMarker.on("click", () => setFact(h.name));
+      histMarker.addTo(layers.history);
     });
 
     let districtMeta = [];
@@ -1236,10 +1432,34 @@
     function normalizeDistrictName(name){
       if(!name) return "";
       return String(name)
-        .replace(/\(горсовет\)/gi, "")
-        .replace(/(?<!\s)(район|область|округ)/gi, " $1")
+        .replace(/\([^)]*\)/g, "")
+        .replace(/(?<!\s)(район|область|округ|город)/gi, " $1")
         .replace(/\s+/g, " ")
         .trim();
+    }
+
+    function pulsePolygon(layer){
+      if(activePulseLayer === layer) return;
+      activePulseLayer = layer;
+
+      let t = 0;
+      const baseFill = 0.34;
+      const baseWeight = 2.8;
+
+      function animate(){
+        if(activePulseLayer !== layer) return;
+        t += 0.08;
+        const fill = baseFill + Math.sin(t) * 0.10;
+        const weight = baseWeight + Math.sin(t) * 0.8;
+        layer.setStyle({
+          color:'#fff7a8',
+          fillColor:'#76ff9f',
+          fillOpacity:Math.max(0.28, fill),
+          weight:Math.max(2.8, weight)
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
     }
 
     function setDistrictInfo(d){
@@ -1257,7 +1477,7 @@
         <h4>${d.name}</h4>
         <div class="line"><b>Тип:</b> ${d.type}</div>
         <div class="line"><b>Код:</b> ${d.code}</div>
-        <div class="line">Подробная информация для этого района пока не добавлена.</div>
+        <div class="line">Подробная информация для этого объекта пока не добавлена.</div>
       `;
 
       selectedDistrictCard.innerHTML = details ? `
@@ -1285,6 +1505,9 @@
           </div>
         </div>
       `;
+
+      setFact(d.name);
+      pulsePolygon(d.layer);
     }
 
     function renderDistrictList(list){
@@ -1316,6 +1539,91 @@
       });
     }
 
+    function clearTourLine(){
+      if(tourLine){
+        map.removeLayer(tourLine);
+        tourLine = null;
+      }
+    }
+
+    function showRoute(points, zoomPadding = [30,30]){
+      clearTourLine();
+      tourLine = L.polyline(points, {
+        color:"#d8ffb0",
+        weight:4,
+        opacity:0.9,
+        dashArray:"10 8"
+      }).addTo(map);
+
+      map.fitBounds(tourLine.getBounds(), { padding: zoomPadding });
+      document.getElementById("mapSection").scrollIntoView({ behavior:"smooth" });
+    }
+
+    function showMountainRoute(){
+      showRoute([
+        [55.25,59.80],
+        [55.17,59.67],
+        [55.34,59.44]
+      ]);
+      setFact("Таганай");
+    }
+    window.showMountainRoute = showMountainRoute;
+
+    function showLakeRoute(){
+      showRoute([
+        [55.17,60.06],
+        [55.52,60.50],
+        [54.98,60.30]
+      ]);
+      setFact("Тургояк");
+    }
+    window.showLakeRoute = showLakeRoute;
+
+    function showHistoryRoute(){
+      showRoute([
+        [52.63,59.55],
+        [54.74,57.77],
+        [55.15,60.06]
+      ]);
+      setFact("Аркаим");
+    }
+    window.showHistoryRoute = showHistoryRoute;
+
+    function startExploration(){
+      document.getElementById("mapSection").scrollIntoView({ behavior:"smooth" });
+      setTimeout(() => {
+        map.invalidateSize();
+        resetMapView();
+      }, 700);
+    }
+    window.startExploration = startExploration;
+
+    function startTour(){
+      const tourStops = [
+        { name:"Челябинск", coords:[55.16,61.40], zoom:8 },
+        { name:"Магнитогорск", coords:[53.41,59.04], zoom:8 },
+        { name:"Тургояк", coords:[55.17,60.06], zoom:10 },
+        { name:"Таганай", coords:[55.25,59.80], zoom:9 },
+        { name:"Аркаим", coords:[52.63,59.55], zoom:9 }
+      ];
+
+      document.getElementById("mapSection").scrollIntoView({ behavior:"smooth" });
+
+      let i = 0;
+      function nextStop(){
+        if(i >= tourStops.length) return;
+        const stop = tourStops[i];
+        map.flyTo(stop.coords, stop.zoom, { duration:1.4 });
+        setFact(stop.name);
+        i++;
+        setTimeout(nextStop, 2200);
+      }
+      setTimeout(nextStop, 700);
+    }
+    window.startTour = startTour;
+
+    function varOr(v){ return v; }
+
     fetch("chelyabinsk_districts.geojson")
       .then(r => {
         if(!r.ok) throw new Error("GeoJSON не найден. Проверь файл chelyabinsk_districts.geojson рядом с index.html");
@@ -1328,7 +1636,7 @@
           filter: (feature) => {
             const p = feature.properties || {};
             const name = normalizeDistrictName(p.NL_NAME_2 || p.NAME_2 || "");
-            return name.toLowerCase().includes("район");
+            return !!name;
           },
           style: () => ({
             color:'#dfff7a',
@@ -1342,7 +1650,7 @@
           filter: (feature) => {
             const p = feature.properties || {};
             const name = normalizeDistrictName(p.NL_NAME_2 || p.NAME_2 || "");
-            return name.toLowerCase().includes("район");
+            return !!name;
           },
           style: () => ({
             color:'#e9ff8f',
@@ -1353,8 +1661,9 @@
           }),
           onEachFeature: (feature, layer) => {
             const p = feature.properties || {};
-            const name = normalizeDistrictName(p.NL_NAME_2 || p.NAME_2 || "Район");
-            const type = p.ENGTYPE_2 || p.TYPE_2 || 'District';
+            const rawName = p.NL_NAME_2 || p.NAME_2 || "Объект";
+            const name = normalizeDistrictName(rawName);
+            const type = p.ENGTYPE_2 || p.TYPE_2 || 'Муниципальный объект';
             const code = p.HASC_2 || p.GID_2 || '—';
             const details = districtDetails[name];
 
@@ -1375,6 +1684,7 @@
                 <div class="popupRow"><b>Тип:</b> ${type}</div>
                 <div class="popupRow"><b>Код:</b> ${code}</div>
                 <div class="popupRow"><b>Регион:</b> Челябинская область</div>
+                <div class="popupRow"><b>Источник:</b> локальный GeoJSON</div>
               </div>
             `;
 
@@ -1388,7 +1698,11 @@
               if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) layer.bringToFront();
             });
 
-            layer.on('mouseout', () => districtGeo.resetStyle(layer));
+            layer.on('mouseout', () => {
+              if(activePulseLayer !== layer){
+                districtGeo.resetStyle(layer);
+              }
+            });
 
             layer.on('click', () => {
               setDistrictInfo({ name, type, code, layer });
@@ -1403,13 +1717,19 @@
 
             const centerPoint = layer.getBounds().getCenter();
 
-            L.circleMarker(centerPoint, {
+            const centerMarker = L.circleMarker(centerPoint, {
               radius: 6,
               color: "#fff7a8",
               fillColor: "#ffd43b",
               fillOpacity: 0.95,
               weight: 2
-            }).bindPopup(html).addTo(layers.districtCenters);
+            }).bindPopup(html);
+
+            centerMarker.on("click", () => {
+              setFact(name);
+              pulsePolygon(layer);
+            });
+            centerMarker.addTo(layers.districtCenters);
 
             L.marker(centerPoint, {
               interactive: false,
@@ -1438,7 +1758,7 @@
               <div class="meta">
                 ${details
                   ? `Центр: ${details.center}. Чем знаменит: ${details.famous}.`
-                  : 'Административная единица Челябинской области, загруженная из локального GeoJSON-файла.'}
+                  : 'Муниципальный объект Челябинской области, загруженный из локального GeoJSON-файла.'}
               </div>
               <div class="chipline">
                 <span class="chip">${d.type}</span>
@@ -1498,6 +1818,7 @@
     window.toggleMapFullscreen = toggleMapFullscreen;
 
     function resetMapView(){
+      clearTourLine();
       map.fitBounds([
         [52.4, 57.0],
         [56.9, 63.5]
