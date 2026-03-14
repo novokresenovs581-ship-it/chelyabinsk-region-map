@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Челябинская область — интерактивный проект</title>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
   <link rel="icon" href="logo.png"/>
 
@@ -25,6 +24,8 @@
       --radius: 18px;
       --border: rgba(255,255,255,.12);
       --panel:#102117;
+      --mainGlow1: rgba(159,232,112,.35);
+      --mainGlow2: rgba(55,199,255,.18);
     }
 
     *{ box-sizing:border-box; }
@@ -32,12 +33,12 @@
 
     body{
       margin:0;
-      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      font-family:"Segoe UI", system-ui, -apple-system, Arial, sans-serif;
       background:
         radial-gradient(circle at 20% 12%, rgba(159,232,112,.14), transparent 28%),
         radial-gradient(circle at 78% 24%, rgba(216,255,176,.08), transparent 24%),
         linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 22%, var(--bg3) 40%, var(--section1) 54%, var(--section2) 72%, #07110c 100%);
-      color: var(--text);
+      color:var(--text);
       overflow-x:hidden;
     }
 
@@ -45,6 +46,44 @@
       position:fixed;
       inset:0;
       z-index:-1;
+    }
+
+    #loader{
+      position:fixed;
+      inset:0;
+      z-index:2000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:18px;
+      background:
+        radial-gradient(circle at center, rgba(159,232,112,.12), transparent 40%),
+        linear-gradient(180deg, #08140f, #102319);
+      transition:opacity .45s ease, visibility .45s ease;
+    }
+
+    #loader.hidden{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+
+    .loaderLogo{
+      width:96px;
+      height:96px;
+      object-fit:contain;
+      padding:12px;
+      border-radius:24px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 10px 28px rgba(0,0,0,.32);
+    }
+
+    .loaderText{
+      color:var(--muted);
+      font-size:1rem;
+      text-align:center;
     }
 
     nav{
@@ -58,11 +97,11 @@
       align-items:center;
       padding:12px 18px;
       border-radius:999px;
-      background: var(--glass);
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
+      background:var(--glass);
+      backdrop-filter:blur(14px);
+      box-shadow:var(--shadow);
       border:1px solid var(--border);
-      max-width: calc(100% - 24px);
+      max-width:calc(100% - 24px);
       flex-wrap:wrap;
       justify-content:center;
       transition: opacity .3s ease, transform .3s ease;
@@ -84,11 +123,15 @@
     }
 
     .navLogo{
-      width:34px;
-      height:34px;
+      width:36px;
+      height:36px;
       object-fit:contain;
-      border-radius:8px;
+      border-radius:10px;
       display:block;
+      padding:5px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 6px 16px rgba(0,0,0,.18);
     }
 
     .navBrandText{
@@ -110,7 +153,7 @@
 
     nav a:hover{
       color:white;
-      background: rgba(159,232,112,.18);
+      background:rgba(159,232,112,.18);
       opacity:1;
     }
 
@@ -135,7 +178,7 @@
       position:absolute;
       left:0; right:0; bottom:-1px;
       height:160px;
-      background: linear-gradient(180deg, rgba(32,74,49,0) 0%, rgba(32,74,49,.62) 40%, var(--section1) 100%);
+      background:linear-gradient(180deg, rgba(32,74,49,0) 0%, rgba(32,74,49,.62) 40%, var(--section1) 100%);
       pointer-events:none;
     }
 
@@ -148,33 +191,38 @@
     .wrap::before{
       content:"";
       position:absolute;
-      top:10px;
+      top:0;
       left:50%;
       transform:translateX(-50%);
-      width:180px;
-      height:180px;
+      width:220px;
+      height:220px;
       border-radius:50%;
       background:
-        radial-gradient(circle, rgba(159,232,112,.35) 0%, rgba(55,199,255,.18) 45%, rgba(255,255,255,0) 75%);
-      filter: blur(18px);
+        radial-gradient(circle, rgba(255,255,255,.16) 0%, rgba(159,232,112,.18) 35%, rgba(55,199,255,.10) 58%, rgba(255,255,255,0) 78%);
+      filter:blur(26px);
       z-index:1;
       pointer-events:none;
     }
 
     .heroLogo{
-      width:120px;
-      height:120px;
+      width:122px;
+      height:122px;
       object-fit:contain;
       display:block;
       margin:0 auto 18px;
-      filter: drop-shadow(0 10px 22px rgba(0,0,0,.35));
       position:relative;
       z-index:2;
+      padding:14px;
+      border-radius:24px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 10px 30px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.12);
+      backdrop-filter:blur(10px);
     }
 
     header h1{
       margin:0 0 14px;
-      font-size: clamp(2.2rem, 4vw, 3.7rem);
+      font-size:clamp(2.2rem, 4vw, 3.7rem);
       letter-spacing:.5px;
       position:relative;
       z-index:2;
@@ -183,8 +231,8 @@
     header p{
       margin:0 auto 26px;
       max-width:760px;
-      font-size: clamp(1rem, 1.6vw, 1.18rem);
-      color: var(--muted);
+      font-size:clamp(1rem, 1.6vw, 1.18rem);
+      color:var(--muted);
       line-height:1.6;
       position:relative;
       z-index:2;
@@ -201,42 +249,42 @@
 
     .badge{
       border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.07);
-      backdrop-filter: blur(10px);
+      background:rgba(255,255,255,.07);
+      backdrop-filter:blur(10px);
       padding:10px 12px;
       border-radius:999px;
       font-weight:600;
       font-size:.92rem;
-      box-shadow: 0 8px 18px rgba(0,0,0,.25);
+      box-shadow:0 8px 18px rgba(0,0,0,.25);
     }
 
     section{
-      padding: 88px 12%;
+      padding:88px 12%;
       position:relative;
     }
 
     section.tint{
-      background: linear-gradient(180deg, rgba(32,74,49,.28), rgba(16,35,25,.12));
+      background:linear-gradient(180deg, rgba(32,74,49,.28), rgba(16,35,25,.12));
     }
 
     h2{
       margin:0 0 18px;
-      color: var(--accent2);
-      font-size: clamp(1.4rem, 2.2vw, 2rem);
+      color:var(--accent2);
+      font-size:clamp(1.4rem, 2.2vw, 2rem);
     }
 
     .sub{
       margin:0 0 26px;
-      color: var(--muted);
-      max-width: 980px;
+      color:var(--muted);
+      max-width:980px;
       line-height:1.7;
     }
 
-    #about, #mapSection, #districtsSection, #cities, #nature{
+    #about, #mapSection, #districtsSection, #cities, #nature, #topPlaces{
       overflow:hidden;
     }
 
-    #about::before, #mapSection::before, #districtsSection::before, #cities::before, #nature::before{
+    #about::before, #mapSection::before, #districtsSection::before, #cities::before, #nature::before, #topPlaces::before{
       content:"";
       position:absolute;
       inset:0;
@@ -248,30 +296,35 @@
     }
 
     #about::before{
-      background-image: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/0/0d/Zyuratkul_lake.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/0/0d/Zyuratkul_lake.jpg");
     }
 
     #mapSection::before{
       opacity:.10;
-      background-image: linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/8/83/Taganay_National_Park.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/8/83/Taganay_National_Park.jpg");
     }
 
     #districtsSection::before{
       opacity:.08;
-      background-image: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.5)), url("https://upload.wikimedia.org/wikipedia/commons/6/68/Ural_mountains_south.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.5)), url("https://upload.wikimedia.org/wikipedia/commons/6/68/Ural_mountains_south.jpg");
     }
 
     #cities::before{
       opacity:.08;
-      background-image: linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.5)), url("https://upload.wikimedia.org/wikipedia/commons/1/1a/Arkaim_steppe.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.5)), url("https://upload.wikimedia.org/wikipedia/commons/1/1a/Arkaim_steppe.jpg");
     }
 
     #nature::before{
       opacity:.16;
-      background-image: linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.55)), url("https://upload.wikimedia.org/wikipedia/commons/e/e5/Arakul_shikhany.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.55)), url("https://upload.wikimedia.org/wikipedia/commons/e/e5/Arakul_shikhany.jpg");
     }
 
-    #about > *, #mapSection > *, #districtsSection > *, #cities > *, #nature > *{
+    #topPlaces::before{
+      opacity:.08;
+      background-image:linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/0/0d/Zyuratkul_lake.jpg");
+    }
+
+    #about > *, #mapSection > *, #districtsSection > *, #cities > *, #nature > *, #topPlaces > *{
       position:relative;
       z-index:1;
     }
@@ -283,20 +336,20 @@
     }
 
     .card{
-      grid-column: span 6;
-      background: var(--glass2);
+      grid-column:span 6;
+      background:var(--glass2);
       border:1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius:var(--radius);
       padding:18px;
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
-      transition: .35s ease;
+      backdrop-filter:blur(12px);
+      box-shadow:var(--shadow);
+      transition:.35s ease;
     }
 
     .card:hover{
-      transform: translateY(-6px);
-      background: rgba(159,232,112,.12);
-      border-color: rgba(159,232,112,.35);
+      transform:translateY(-6px);
+      background:rgba(159,232,112,.12);
+      border-color:rgba(159,232,112,.35);
     }
 
     .card b{
@@ -306,7 +359,7 @@
     }
 
     .meta{
-      color: var(--muted);
+      color:var(--muted);
       line-height:1.6;
     }
 
@@ -321,46 +374,46 @@
       padding:6px 10px;
       border-radius:999px;
       font-size:.84rem;
-      background: rgba(255,255,255,.08);
+      background:rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.12);
       color:var(--text);
     }
 
     .stats{
       display:grid;
-      grid-template-columns: repeat(12, 1fr);
+      grid-template-columns:repeat(12, 1fr);
       gap:16px;
       margin-top:22px;
     }
 
     .stat{
-      grid-column: span 4;
+      grid-column:span 4;
       padding:18px;
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.06);
+      border-radius:var(--radius);
+      background:rgba(255,255,255,.06);
       border:1px solid var(--border);
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
+      backdrop-filter:blur(12px);
+      box-shadow:var(--shadow);
     }
 
     .stat .num{
-      font-size: 2rem;
-      font-weight: 800;
+      font-size:2rem;
+      font-weight:800;
       letter-spacing:.5px;
     }
 
     .stat .label{
-      color: var(--muted);
-      margin-top: 6px;
+      color:var(--muted);
+      margin-top:6px;
     }
 
     .mapWrap{
-      background: rgba(255,255,255,.05);
+      background:rgba(255,255,255,.05);
       border:1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius:var(--radius);
       padding:16px;
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
+      backdrop-filter:blur(12px);
+      box-shadow:var(--shadow);
     }
 
     .filters{
@@ -375,7 +428,7 @@
       cursor:pointer;
       padding:10px 14px;
       border-radius:999px;
-      background: rgba(159,232,112,.95);
+      background:rgba(159,232,112,.95);
       color:#102112;
       font-weight:800;
       transition:.25s;
@@ -383,37 +436,37 @@
 
     .filters button:hover{
       background:#fff;
-      transform: translateY(-2px);
+      transform:translateY(-2px);
     }
 
     .filters .ghost{
-      background: rgba(255,255,255,.08);
-      color: var(--text);
+      background:rgba(255,255,255,.08);
+      color:var(--text);
       border:1px solid rgba(255,255,255,.14);
     }
 
     .filters .ghost:hover{
-      background: rgba(255,255,255,.18);
+      background:rgba(255,255,255,.18);
       color:#fff;
     }
 
     .mapGrid{
       display:grid;
-      grid-template-columns: minmax(0, 1.8fr) minmax(290px, .95fr);
+      grid-template-columns:minmax(0, 1.8fr) minmax(300px, .95fr);
       gap:16px;
       align-items:start;
     }
 
     #map{
-      height: 580px;
-      border-radius: 14px;
+      height:580px;
+      border-radius:14px;
       overflow:hidden;
     }
 
     .panel{
-      background: rgba(255,255,255,.06);
+      background:rgba(255,255,255,.06);
       border:1px solid var(--border);
-      border-radius: 16px;
+      border-radius:16px;
       padding:16px;
       max-height:580px;
       overflow:auto;
@@ -456,16 +509,16 @@
       padding:12px;
       border-radius:14px;
       cursor:pointer;
-      background: rgba(255,255,255,.05);
+      background:rgba(255,255,255,.05);
       border:1px solid rgba(255,255,255,.1);
       transition:.25s;
     }
 
     .districtItem:hover,
     .districtItem.active{
-      background: rgba(159,232,112,.12);
-      border-color: rgba(159,232,112,.35);
-      transform: translateY(-2px);
+      background:rgba(159,232,112,.12);
+      border-color:rgba(159,232,112,.35);
+      transform:translateY(-2px);
     }
 
     .districtItem strong{
@@ -498,6 +551,93 @@
       font-size:.94rem;
     }
 
+    .selectedDistrictCard{
+      margin-top:18px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(12px);
+    }
+
+    .selectedDistrictCard h3{
+      margin:0 0 12px;
+      font-size:1.15rem;
+      color:#fff;
+    }
+
+    .selectedDistrictGrid{
+      display:grid;
+      grid-template-columns:repeat(12, 1fr);
+      gap:14px;
+    }
+
+    .selectedDistrictBox{
+      grid-column:span 6;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:14px;
+      padding:14px;
+    }
+
+    .selectedDistrictBox b{
+      display:block;
+      margin-bottom:6px;
+    }
+
+    .topPlace{
+      grid-column:span 4;
+      position:relative;
+      overflow:hidden;
+      min-height:220px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .topPlace img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      display:block;
+      opacity:.72;
+    }
+
+    .topPlace .overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.68));
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:16px;
+    }
+
+    .topPlace h4{
+      margin:0 0 8px;
+      font-size:1.1rem;
+    }
+
+    .topPlace p{
+      margin:0;
+      color:rgba(255,255,255,.82);
+      line-height:1.45;
+      font-size:.94rem;
+    }
+
+    .showOnMap{
+      margin-top:10px;
+      border:none;
+      border-radius:999px;
+      padding:8px 12px;
+      font-weight:700;
+      cursor:pointer;
+      background:#d8ffb0;
+      color:#102117;
+    }
+
     .leaflet-popup-content-wrapper,
     .leaflet-popup-tip{
       background:var(--panel);
@@ -518,7 +658,7 @@
     }
 
     .popupRow{
-      color: rgba(255,255,255,.86);
+      color:rgba(255,255,255,.86);
     }
 
     .popupRow b{
@@ -526,40 +666,47 @@
     }
 
     footer{
-      padding: 34px 10%;
+      padding:34px 10%;
       text-align:center;
-      color: rgba(255,255,255,.6);
+      color:rgba(255,255,255,.6);
       background:#050d18;
-      border-top: 1px solid rgba(255,255,255,.08);
+      border-top:1px solid rgba(255,255,255,.08);
     }
 
     .reveal{
       opacity:0;
-      transform: translateY(28px);
-      transition: 1s ease;
+      transform:translateY(28px);
+      transition:1s ease;
     }
 
     .reveal.show{
       opacity:1;
-      transform: translateY(0);
+      transform:translateY(0);
     }
 
     @media (max-width: 1120px){
-      .mapGrid{ grid-template-columns: 1fr; }
+      .mapGrid{ grid-template-columns:1fr; }
       .panel{ max-height:none; }
+      .topPlace{ grid-column:span 6; }
     }
 
     @media (max-width: 960px){
-      section{ padding: 72px 7%; }
-      .card, .stat{ grid-column: span 12; }
+      section{ padding:72px 7%; }
+      .card, .stat, .selectedDistrictBox{ grid-column:span 12; }
       nav{ gap:6px; padding:10px 12px; }
       nav a{ padding:8px 8px; font-size:.9rem; }
-      #map{ height: 500px; }
+      #map{ height:500px; }
       .heroLogo{ width:100px; height:100px; }
+      .topPlace{ grid-column:span 12; }
     }
   </style>
 </head>
 <body>
+  <div id="loader">
+    <img src="logo.png" alt="Логотип" class="loaderLogo">
+    <div class="loaderText">Загрузка карты Челябинской области...</div>
+  </div>
+
   <div id="tsparticles"></div>
 
   <nav id="topNav">
@@ -568,6 +715,7 @@
       <span class="navBrandText">Челябинская область</span>
     </div>
     <a href="#about">О регионе</a>
+    <a href="#topPlaces">Топ-места</a>
     <a href="#mapSection">Карта</a>
     <a href="#districtsSection">Районы</a>
     <a href="#cities">Города</a>
@@ -585,6 +733,8 @@
       <div class="heroBadges">
         <div class="badge">Горные пейзажи Южного Урала</div>
         <div class="badge">Озёра, парки и древние памятники</div>
+        <div class="badge">Расширенные pop-up окна</div>
+        <div class="badge">Природный визуальный стиль</div>
       </div>
     </div>
   </header>
@@ -593,7 +743,8 @@
     <h2>О регионе</h2>
     <p class="sub">
       Челябинская область расположена на Южном Урале и особенно интересна своим сочетанием горных хребтов,
-      лесных массивов, степей, озёр и туристических достопримечательностей.
+      лесных массивов, степей, озёр и туристических достопримечательностей. На карте ниже можно переключать слои,
+      смотреть районы и открывать расширенную информацию по каждому объекту.
     </p>
 
     <div class="stats">
@@ -603,22 +754,66 @@
       </div>
       <div class="stat">
         <div class="num" data-count="25">0</div>
-        <div class="label">точек на карте: города, природа и история</div>
+        <div class="label">городов, рек, озёр и объектов</div>
+      </div>
+      <div class="stat">
+        <div class="num" data-count="10">0</div>
+        <div class="label">эффектных функций проекта</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="topPlaces" class="reveal">
+    <h2>Топ-места области</h2>
+    <p class="sub">
+      Самые узнаваемые и красивые места региона. Нажми кнопку, чтобы сразу показать объект на карте.
+    </p>
+
+    <div class="grid">
+      <div class="topPlace">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Zyuratkul_lake.jpg" alt="Зюраткуль">
+        <div class="overlay">
+          <h4>Зюраткуль</h4>
+          <p>Высокогорное озеро и нацпарк с хребтами, лесами и экотропами.</p>
+          <button class="showOnMap" onclick="focusCustomPoint(54.92,59.22,9)">Показать на карте</button>
+        </div>
+      </div>
+
+      <div class="topPlace">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Taganay_National_Park.jpg" alt="Таганай">
+        <div class="overlay">
+          <h4>Таганай</h4>
+          <p>Один из самых известных природных символов Южного Урала.</p>
+          <button class="showOnMap" onclick="focusCustomPoint(55.25,59.80,9)">Показать на карте</button>
+        </div>
+      </div>
+
+      <div class="topPlace">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Taganay.jpg" alt="Тургояк">
+        <div class="overlay">
+          <h4>Тургояк</h4>
+          <p>Одно из самых чистых озёр России и важный туристический центр региона.</p>
+          <button class="showOnMap" onclick="focusCustomPoint(55.17,60.06,10)">Показать на карте</button>
+        </div>
       </div>
     </div>
   </section>
 
   <section id="mapSection" class="reveal">
     <h2>Интерактивная карта</h2>
+    <p class="sub">
+      На карте отображаются районы из GeoJSON, города, озёра, реки и историко-природные объекты.
+      Справа — поиск по районам и панель подробной информации.
+    </p>
 
     <div class="mapWrap">
       <div class="filters">
         <button onclick="showLayer('all')">Все слои</button>
         <button class="ghost" onclick="showLayer('districts')">Районы</button>
-        <button class="ghost" onclick="showLayer('cities')">Города</button>
-        <button class="ghost" onclick="showLayer('lakes')">Озёра</button>
-        <button class="ghost" onclick="showLayer('rivers')">Реки</button>
-        <button class="ghost" onclick="showLayer('history')">История и природа</button>
+        <button class="ghost" onclick="showLayer('cities')">🏙 Города</button>
+        <button class="ghost" onclick="showLayer('lakes')">💧 Озёра</button>
+        <button class="ghost" onclick="showLayer('rivers')">〰 Реки</button>
+        <button class="ghost" onclick="showLayer('history')">🏛 История и природа</button>
       </div>
 
       <div class="mapGrid">
@@ -635,6 +830,20 @@
             <div class="line">Выбери район на карте или в списке справа.</div>
           </div>
         </aside>
+      </div>
+
+      <div class="selectedDistrictCard" id="selectedDistrictCard">
+        <h3>Выбранный район</h3>
+        <div class="selectedDistrictGrid">
+          <div class="selectedDistrictBox">
+            <b>Название</b>
+            <div class="meta">Выбери район на карте.</div>
+          </div>
+          <div class="selectedDistrictBox">
+            <b>Описание</b>
+            <div class="meta">После выбора здесь появятся основные сведения о районе.</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -654,12 +863,45 @@
     <div class="grid" id="natureCards"></div>
   </section>
 
-  <footer>2026</footer>
+  <footer>
+    Проект о Челябинской области • HTML • CSS • JavaScript • Leaflet
+  </footer>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
 
   <script>
+    const topNav = document.getElementById("topNav");
+    const hero = document.getElementById("hero");
+    const loader = document.getElementById("loader");
+    const districtList = document.getElementById('districtList');
+    const districtCards = document.getElementById('districtCards');
+    const districtSearch = document.getElementById('districtSearch');
+    const selectedDistrictInfo = document.getElementById('selectedDistrictInfo');
+    const selectedDistrictCard = document.getElementById('selectedDistrictCard');
+
+    function updateNavVisibility(){
+      const heroBottom = hero.getBoundingClientRect().bottom;
+      if(heroBottom <= 80) topNav.classList.add("hide");
+      else topNav.classList.remove("hide");
+    }
+
+    window.addEventListener("scroll", updateNavVisibility);
+    updateNavVisibility();
+
+    if (window.tsParticles) {
+      tsParticles.load("tsparticles", {
+        background: { color: "transparent" },
+        particles: {
+          number: { value: 55 },
+          color: { value: ["#37c7ff", "#7df9ff"] },
+          move: { enable: true, speed: 0.9 },
+          size: { value: { min: 1, max: 2.8 } },
+          opacity: { value: 0.55 }
+        }
+      }).catch(() => {});
+    }
+
     const map = L.map("map", {
       zoomControl: false,
       minZoom: 6,
@@ -679,6 +921,11 @@
     }).addTo(map);
 
     L.control.zoom({ position: "bottomright" }).addTo(map);
+
+    map.createPane('districtGlow');
+    map.getPane('districtGlow').style.zIndex = 399;
+    map.getPane('districtGlow').style.pointerEvents = 'none';
+    map.getPane('districtGlow').style.filter = 'blur(4px)';
 
     const layers = {
       districts: L.layerGroup(),
@@ -720,37 +967,35 @@
 
     const data = {
       cities: [
-        { name: "Челябинск", coords: [55.16, 61.40], type: "Городской округ", info: "Административный центр области", population: "1 176 770 чел.", area: "≈ 530 км²", capital: "Столица Челябинской области", flora: "берёза, сосна, тополь, луговые травы", fauna: "белка, лисица, утки, чайки", description: "Крупнейший город Южного Урала, важный промышленный, транспортный и образовательный центр региона." },
-        { name: "Магнитогорск", coords: [53.41, 59.04], type: "Город", info: "Металлургический центр", population: "408 487 чел.", area: "≈ 392 км²", capital: "Центр Магнитогорского городского округа", flora: "степные травы, тополь, клён, берёза", fauna: "суслик, заяц, лисица, речные птицы", description: "Один из крупнейших центров чёрной металлургии страны, расположен у реки Урал." },
-        { name: "Златоуст", coords: [55.17, 59.67], type: "Город", info: "Горнозаводская зона", population: "157 244 чел.", area: "≈ 236 км²", capital: "Центр Златоустовского городского округа", flora: "ель, сосна, пихта, горные луга", fauna: "лось, медведь, рысь, тетерев", description: "Известен оружейными традициями, гравюрой по металлу и близостью к национальному парку Таганай." },
-        { name: "Миасс", coords: [55.05, 60.10], type: "Город", info: "Туризм и промышленность", population: "146 650 чел.", area: "≈ 111 км²", capital: "Центр Миасского городского округа", flora: "сосновые боры, березняки, луговая растительность", fauna: "косуля, лисица, белка, водоплавающие птицы", description: "Связан с озером Тургояк, машиностроением и активным природным туризмом." },
-        { name: "Копейск", coords: [55.12, 61.62], type: "Город", info: "Спутник Челябинска", population: "143 751 чел.", area: "≈ 150 км²", capital: "Центр Копейского городского округа", flora: "степные травы, берёза, ива", fauna: "лиса, ёж, полевые птицы", description: "Исторически развивался как шахтёрский город и сегодня входит в Челябинскую агломерацию." },
-        { name: "Троицк", coords: [54.08, 61.56], type: "Город", info: "Южный узел региона", population: "69 983 чел.", area: "≈ 139 км²", capital: "Центр Троицкого городского округа", flora: "ковыль, разнотравье, тополь, ива", fauna: "заяц-русак, степные птицы", description: "Исторический торговый город у границы с Казахстаном." },
-        { name: "Сатка", coords: [55.04, 58.98], type: "Город", info: "Горнозаводской район", population: "42 062 чел.", area: "≈ 46 км²", capital: "Центр Саткинского муниципального округа", flora: "ельники, пихта, берёза, горные луга", fauna: "медведь, лось, куница, глухарь", description: "Связана с парком Зюраткуль, промышленностью и горным туризмом западной части области." },
-        { name: "Чебаркуль", coords: [54.97, 60.37], type: "Город", info: "Озёрная зона", population: "44 671 чел.", area: "≈ 71 км²", capital: "Центр Чебаркульского городского округа", flora: "сосновый бор, берёза, приозёрные травы", fauna: "утки, щука, лиса, белка", description: "Город рядом с одноимённым озером, известен рекреацией и метеоритом." },
-        { name: "Кыштым", coords: [55.71, 60.56], type: "Город", info: "Город озёр и заводов", population: "35 325 чел.", area: "≈ 95 км²", capital: "Центр Кыштымского городского округа", flora: "сосна, ель, берёза", fauna: "бобр, выдра, лось", description: "Старый уральский город среди озёр." },
-        { name: "Аша", coords: [54.99, 57.27], type: "Город", info: "Западный горный узел", population: "27 064 чел.", area: "≈ 32 км²", capital: "Центр Ашинского района", flora: "пихта, ель, берёза", fauna: "медведь, лось, куница", description: "Город на западе области в горно-лесной зоне." }
+        { name: "Челябинск", coords: [55.16, 61.40], type: "Городской округ", icon:"🏙", info: "Административный центр области", population: "1 176 770 чел.", area: "≈ 530 км²", capital: "Столица Челябинской области", flora: "берёза, сосна, тополь, луговые травы", fauna: "белка, лисица, утки, чайки", description: "Крупнейший город Южного Урала, важный промышленный, транспортный и образовательный центр региона." },
+        { name: "Магнитогорск", coords: [53.41, 59.04], type: "Город", icon:"🏭", info: "Металлургический центр", population: "408 487 чел.", area: "≈ 392 км²", capital: "Центр Магнитогорского городского округа", flora: "степные травы, тополь, клён, берёза", fauna: "суслик, заяц, лисица, речные птицы", description: "Один из крупнейших центров чёрной металлургии страны, расположен у реки Урал." },
+        { name: "Златоуст", coords: [55.17, 59.67], type: "Город", icon:"⛰", info: "Горнозаводская зона", population: "157 244 чел.", area: "≈ 236 км²", capital: "Центр Златоустовского городского округа", flora: "ель, сосна, пихта, горные луга", fauna: "лось, медведь, рысь, тетерев", description: "Известен оружейными традициями, гравюрой по металлу и близостью к национальному парку Таганай." },
+        { name: "Миасс", coords: [55.05, 60.10], type: "Город", icon:"🌲", info: "Туризм и промышленность", population: "146 650 чел.", area: "≈ 111 км²", capital: "Центр Миасского городского округа", flora: "сосновые боры, березняки, луговая растительность", fauna: "косуля, лисица, белка, водоплавающие птицы", description: "Связан с озером Тургояк, машиностроением и активным природным туризмом." },
+        { name: "Копейск", coords: [55.12, 61.62], type: "Город", icon:"🏙", info: "Спутник Челябинска", population: "143 751 чел.", area: "≈ 150 км²", capital: "Центр Копейского городского округа", flora: "степные травы, берёза, ива", fauna: "лиса, ёж, полевые птицы", description: "Исторически развивался как шахтёрский город и сегодня входит в Челябинскую агломерацию." },
+        { name: "Троицк", coords: [54.08, 61.56], type: "Город", icon:"🏛", info: "Южный узел региона", population: "69 983 чел.", area: "≈ 139 км²", capital: "Центр Троицкого городского округа", flora: "ковыль, разнотравье, тополь, ива", fauna: "заяц-русак, степные птицы", description: "Исторический торговый город у границы с Казахстаном." },
+        { name: "Сатка", coords: [55.04, 58.98], type: "Город", icon:"⛰", info: "Горнозаводской район", population: "42 062 чел.", area: "≈ 46 км²", capital: "Центр Саткинского муниципального округа", flora: "ельники, пихта, берёза, горные луга", fauna: "медведь, лось, куница, глухарь", description: "Связана с парком Зюраткуль, промышленностью и горным туризмом западной части области." },
+        { name: "Чебаркуль", coords: [54.97, 60.37], type: "Город", icon:"💧", info: "Озёрная зона", population: "44 671 чел.", area: "≈ 71 км²", capital: "Центр Чебаркульского городского округа", flora: "сосновый бор, берёза, приозёрные травы", fauna: "утки, щука, лиса, белка", description: "Город рядом с одноимённым озером, известен рекреацией и метеоритом." }
       ],
       lakes: [
-        { name: "Тургояк", coords: [55.17, 60.06], type: "Озеро", info: "Одно из самых чистых озёр", population: "постоянного населения нет", area: "≈ 26,4 км²", capital: "Ближайший центр — Миасс", flora: "сосновые леса, водоросли, прибрежные травы", fauna: "окунь, щука, раки, водоплавающие птицы", description: "Популярное место отдыха, известное прозрачной водой и островом Веры." },
-        { name: "Увильды", coords: [55.52, 60.50], type: "Озеро", info: "Крупная рекреационная зона", population: "постоянного населения нет", area: "≈ 68,1 км²", capital: "Ближайшие центры — Карабаш и Кыштым", flora: "сосна, берёза, камыш, водная флора", fauna: "щука, утки, бобр", description: "Большое озеро с курортной инфраструктурой, базами отдыха и островами." },
-        { name: "Зюраткуль", coords: [54.92, 59.22], type: "Высокогорное озеро", info: "Озеро в нацпарке", population: "постоянного населения нет", area: "≈ 13,5 км²", capital: "Ближайший центр — Сатка", flora: "ель, пихта, горные луга", fauna: "лось, медведь, глухарь", description: "Одно из самых известных высокогорных озёр Урала." },
-        { name: "Чебаркуль", coords: [54.98, 60.30], type: "Озеро", info: "Известно по метеориту", population: "постоянного населения нет", area: "≈ 19,8 км²", capital: "Ближайший центр — Чебаркуль", flora: "камыш, осока", fauna: "карась, щука, утки", description: "Озеро стало известно после падения фрагмента метеорита в 2013 году." },
-        { name: "Иткуль", coords: [55.63, 60.47], type: "Озеро", info: "Скалистые берега", population: "постоянного населения нет", area: "≈ 30 км²", capital: "Ближайший центр — Верхний Уфалей", flora: "сосновый бор, кустарники, мхи", fauna: "окунь, плотва, бобр", description: "Живописное северное озеро, популярное у туристов и рыбаков." }
+        { name: "Тургояк", coords: [55.17, 60.06], type: "Озеро", icon:"💧", info: "Одно из самых чистых озёр", population: "постоянного населения нет", area: "≈ 26,4 км²", capital: "Ближайший центр — Миасс", flora: "сосновые леса, водоросли, прибрежные травы", fauna: "окунь, щука, раки, водоплавающие птицы", description: "Популярное место отдыха, известное прозрачной водой и островом Веры." },
+        { name: "Увильды", coords: [55.52, 60.50], type: "Озеро", icon:"💧", info: "Крупная рекреационная зона", population: "постоянного населения нет", area: "≈ 68,1 км²", capital: "Ближайшие центры — Карабаш и Кыштым", flora: "сосна, берёза, камыш, водная флора", fauna: "щука, утки, бобр", description: "Большое озеро с курортной инфраструктурой, базами отдыха и островами." },
+        { name: "Зюраткуль", coords: [54.92, 59.22], type: "Высокогорное озеро", icon:"💧", info: "Озеро в нацпарке", population: "постоянного населения нет", area: "≈ 13,5 км²", capital: "Ближайший центр — Сатка", flora: "ель, пихта, горные луга", fauna: "лось, медведь, глухарь", description: "Одно из самых известных высокогорных озёр Урала." },
+        { name: "Чебаркуль", coords: [54.98, 60.30], type: "Озеро", icon:"💧", info: "Известно по метеориту", population: "постоянного населения нет", area: "≈ 19,8 км²", capital: "Ближайший центр — Чебаркуль", flora: "камыш, осока", fauna: "карась, щука, утки", description: "Озеро стало известно после падения фрагмента метеорита в 2013 году." },
+        { name: "Иткуль", coords: [55.63, 60.47], type: "Озеро", icon:"💧", info: "Скалистые берега", population: "постоянного населения нет", area: "≈ 30 км²", capital: "Ближайший центр — Верхний Уфалей", flora: "сосновый бор, кустарники, мхи", fauna: "окунь, плотва, бобр", description: "Живописное северное озеро, популярное у туристов и рыбаков." }
       ],
       rivers: [
-        { name: "Ай", coords: [[54.50,58.80],[54.76,59.05],[55.05,59.55]], type: "Река", info: "Скалы и сплавы", population: "население проживает в долине реки", area: "условная длина на карте", capital: "Куса и Сатка", flora: "ивняк, пойменные луга, смешанные леса", fauna: "хариус, щука, бобр", description: "Одна из самых живописных рек Южного Урала." },
-        { name: "Урал", coords: [[53.45,58.90],[53.38,59.04],[52.95,59.20]], type: "Река", info: "Крупная водная артерия", population: "населённые пункты тяготеют к долине", area: "крупнейшая речная система юга области", capital: "Магнитогорск", flora: "степная пойма, камыш, ива", fauna: "судак, щука, утки", description: "Одна из крупнейших рек региона." },
-        { name: "Миасс", coords: [[55.58,60.90],[55.20,61.30],[54.90,60.80]], type: "Река", info: "Проходит через Челябинск", population: "вдоль реки живут сотни тысяч человек", area: "главная городская река области", capital: "Челябинск", flora: "тростник, ива, пойменные луга", fauna: "карась, утки, бобр", description: "Главная городская река для Челябинска." },
-        { name: "Уй", coords: [[54.35,60.70],[54.12,61.10],[53.95,61.65]], type: "Река", info: "Южные районы", population: "долина реки заселена сельскими районами", area: "существенная водная артерия юга", capital: "Троицк", flora: "степное разнотравье, кустарники, ивняк", fauna: "карась, заяц, болотные птицы", description: "Река южной части области, важная для сельского хозяйства." }
+        { name: "Ай", coords: [[54.50,58.80],[54.76,59.05],[55.05,59.55]], type: "Река", icon:"〰", info: "Скалы и сплавы", population: "население проживает в долине реки", area: "условная длина на карте", capital: "Куса и Сатка", flora: "ивняк, пойменные луга, смешанные леса", fauna: "хариус, щука, бобр", description: "Одна из самых живописных рек Южного Урала." },
+        { name: "Урал", coords: [[53.45,58.90],[53.38,59.04],[52.95,59.20]], type: "Река", icon:"〰", info: "Крупная водная артерия", population: "населённые пункты тяготеют к долине", area: "крупнейшая речная система юга области", capital: "Магнитогорск", flora: "степная пойма, камыш, ива", fauna: "судак, щука, утки", description: "Одна из крупнейших рек региона." },
+        { name: "Миасс", coords: [[55.58,60.90],[55.20,61.30],[54.90,60.80]], type: "Река", icon:"〰", info: "Проходит через Челябинск", population: "вдоль реки живут сотни тысяч человек", area: "главная городская река области", capital: "Челябинск", flora: "тростник, ива, пойменные луга", fauna: "карась, утки, бобр", description: "Главная городская река для Челябинска." },
+        { name: "Уй", coords: [[54.35,60.70],[54.12,61.10],[53.95,61.65]], type: "Река", icon:"〰", info: "Южные районы", population: "долина реки заселена сельскими районами", area: "существенная водная артерия юга", capital: "Троицк", flora: "степное разнотравье, кустарники, ивняк", fauna: "карась, заяц, болотные птицы", description: "Река южной части области, важная для сельского хозяйства." }
       ],
       history: [
-        { name: "Аркаим", coords: [52.63, 59.55], type: "Археология", info: "Памятник эпохи бронзы", population: "постоянного городского населения нет", area: "музейно-заповедная территория", capital: "Ближайший центр — Бреды", flora: "степные травы, ковыль, полынь", fauna: "сурок, степные птицы", description: "Археологический комплекс международной известности." },
-        { name: "Таганай", coords: [55.25, 59.80], type: "Нацпарк", info: "Горные хребты и курумы", population: "постоянного населения нет", area: "≈ 568 км²", capital: "Ближайший центр — Златоуст", flora: "пихта, ель, кедровый стланик", fauna: "медведь, рысь, лось", description: "Национальный парк с вершинами и маршрутами." },
-        { name: "Зюраткуль (НП)", coords: [54.88, 59.19], type: "Нацпарк", info: "Озеро и хребты", population: "постоянного населения нет", area: "≈ 882 км²", capital: "Ближайший центр — Сатка", flora: "ель, пихта, берёза", fauna: "лось, медведь, выдра", description: "Территория с озером, хребтами и экотропами." },
-        { name: "Остров Веры", coords: [55.15, 60.06], type: "Исторический объект", info: "Мегалиты на Тургояке", population: "постоянного населения нет", area: "небольшой остров", capital: "Ближайший центр — Миасс", flora: "сосна, берёза", fauna: "чайки, утки", description: "Остров на озере Тургояк с археологическими памятниками." },
-        { name: "Игнатьевская пещера", coords: [54.74, 57.77], type: "Памятник природы", info: "Пещера с древними рисунками", population: "постоянного населения нет", area: "карстовый объект", capital: "Ближайший центр — Катав-Ивановск", flora: "смешанные леса, мхи", fauna: "летучие мыши, лесные птицы", description: "Одна из наиболее известных пещер Южного Урала." },
-        { name: "Аракульский Шихан", coords: [55.99, 60.49], type: "Природный объект", info: "Скальный массив", population: "постоянного населения нет", area: "скальный гребень", capital: "Ближайший центр — Верхний Уфалей", flora: "сосна, берёза, лишайники", fauna: "ястребы, белка, лисица", description: "Популярный скальный гребень на севере области." }
+        { name: "Аркаим", coords: [52.63, 59.55], type: "Археология", icon:"🏛", info: "Памятник эпохи бронзы", population: "постоянного городского населения нет", area: "музейно-заповедная территория", capital: "Ближайший центр — Бреды", flora: "степные травы, ковыль, полынь", fauna: "сурок, степные птицы", description: "Археологический комплекс международной известности." },
+        { name: "Таганай", coords: [55.25, 59.80], type: "Нацпарк", icon:"🌲", info: "Горные хребты и курумы", population: "постоянного населения нет", area: "≈ 568 км²", capital: "Ближайший центр — Златоуст", flora: "пихта, ель, кедровый стланик", fauna: "медведь, рысь, лось", description: "Национальный парк с вершинами и маршрутами." },
+        { name: "Зюраткуль (НП)", coords: [54.88, 59.19], type: "Нацпарк", icon:"🌲", info: "Озеро и хребты", population: "постоянного населения нет", area: "≈ 882 км²", capital: "Ближайший центр — Сатка", flora: "ель, пихта, берёза", fauna: "лось, медведь, выдра", description: "Территория с озером, хребтами и экотропами." },
+        { name: "Остров Веры", coords: [55.15, 60.06], type: "Исторический объект", icon:"🏛", info: "Мегалиты на Тургояке", population: "постоянного населения нет", area: "небольшой остров", capital: "Ближайший центр — Миасс", flora: "сосна, берёза", fauna: "чайки, утки", description: "Остров на озере Тургояк с археологическими памятниками." },
+        { name: "Игнатьевская пещера", coords: [54.74, 57.77], type: "Памятник природы", icon:"⛰", info: "Пещера с древними рисунками", population: "постоянного населения нет", area: "карстовый объект", capital: "Ближайший центр — Катав-Ивановск", flora: "смешанные леса, мхи", fauna: "летучие мыши, лесные птицы", description: "Одна из наиболее известных пещер Южного Урала." },
+        { name: "Аракульский Шихан", coords: [55.99, 60.49], type: "Природный объект", icon:"⛰", info: "Скальный массив", population: "постоянного населения нет", area: "скальный гребень", capital: "Ближайший центр — Верхний Уфалей", flora: "сосна, берёза, лишайники", fauna: "ястребы, белка, лисица", description: "Популярный скальный гребень на севере области." }
       ]
     };
 
@@ -760,7 +1005,7 @@
 
     function popupHtml(item){
       return `
-        <div class="popupTitle">${item.name}</div>
+        <div class="popupTitle">${item.icon ? item.icon + " " : ""}${item.name}</div>
         <div class="popupGrid">
           ${fieldRow('Тип', item.type)}
           ${fieldRow('Кратко', item.info)}
@@ -778,7 +1023,7 @@
       const wrap = document.getElementById(targetId);
       wrap.innerHTML = items.map(item => `
         <div class="card">
-          <b>${item.name}</b>
+          <b>${item.icon ? item.icon + " " : ""}${item.name}</b>
           <div class="meta">${item.description}</div>
           <div class="chipline">
             <span class="chip">${item.type}</span>
@@ -793,17 +1038,25 @@
     addPointCards('cityCards', data.cities, ['Карта + pop-up']);
     addPointCards('natureCards', [...data.lakes, ...data.history, ...data.rivers], ['Туризм']);
 
+    const pointIndex = {};
+
+    function savePointRef(name, layer){
+      pointIndex[name] = layer;
+    }
+
     data.cities.forEach(c => {
       const importantCities = ["Челябинск", "Магнитогорск", "Златоуст", "Миасс"];
       const isMain = importantCities.includes(c.name);
 
-      L.circleMarker(c.coords, {
+      const circle = L.circleMarker(c.coords, {
         radius: isMain ? 10 : 7,
         color: isMain ? "#ffe066" : "#9ee7ff",
         fillColor: isMain ? "#ffd43b" : "#37c7ff",
         fillOpacity: 0.95,
         weight: isMain ? 2.5 : 1.5
       }).bindPopup(popupHtml(c)).addTo(layers.cities);
+
+      savePointRef(c.name, circle);
 
       if (isMain) {
         L.marker(c.coords, {
@@ -817,24 +1070,34 @@
     });
 
     data.lakes.forEach(l => {
-      L.circleMarker(l.coords, {
-        radius: 6, color: "#7df9ff", fillColor: "#2cd7ff", fillOpacity: 0.85, weight: 1.5
+      const m = L.circleMarker(l.coords, {
+        radius: 6,
+        color: "#7df9ff",
+        fillColor: "#2cd7ff",
+        fillOpacity: 0.85,
+        weight: 1.5
       }).bindPopup(popupHtml(l)).addTo(layers.lakes);
+      savePointRef(l.name, m);
     });
 
     data.rivers.forEach(r => {
-      L.polyline(r.coords, { weight: 3, color: "#59d7ff", opacity: 0.85 })
-        .bindPopup(popupHtml(r)).addTo(layers.rivers);
+      const line = L.polyline(r.coords, {
+        weight: 3,
+        color: "#59d7ff",
+        opacity: 0.85
+      }).bindPopup(popupHtml(r)).addTo(layers.rivers);
+      savePointRef(r.name, line);
     });
 
     data.history.forEach(h => {
-      L.marker(h.coords).bindPopup(popupHtml(h)).addTo(layers.history);
+      const marker = L.marker(h.coords, {
+        icon: L.divIcon({
+          className: "custom-icon",
+          html: `<div style="font-size:20px;">${h.icon || "📍"}</div>`
+        })
+      }).bindPopup(popupHtml(h)).addTo(layers.history);
+      savePointRef(h.name, marker);
     });
-
-    const districtList = document.getElementById('districtList');
-    const districtCards = document.getElementById('districtCards');
-    const districtSearch = document.getElementById('districtSearch');
-    const selectedDistrictInfo = document.getElementById('selectedDistrictInfo');
 
     let districtMeta = [];
 
@@ -859,6 +1122,36 @@
         <div class="line"><b>Фауна:</b> ${details.fauna}</div>
         <div class="line"><b>Чем знаменит:</b> ${details.famous}</div>
       ` : `
+        <h4>${d.name}</h4>
+        <div class="line"><b>Тип:</b> ${d.type}</div>
+        <div class="line"><b>Код:</b> ${d.code}</div>
+        <div class="line">Подробная информация для этого района пока не добавлена.</div>
+      `;
+
+      selectedDistrictCard.innerHTML = details ? `
+        <h3>${d.name}</h3>
+        <div class="selectedDistrictGrid">
+          <div class="selectedDistrictBox">
+            <b>Основная информация</b>
+            <div class="meta">Центр: ${details.center}<br>Население: ${details.population}<br>Площадь: ${details.area}</div>
+          </div>
+          <div class="selectedDistrictBox">
+            <b>Природа и особенности</b>
+            <div class="meta">Флора: ${details.flora}<br>Фауна: ${details.fauna}<br>Чем знаменит: ${details.famous}</div>
+          </div>
+        </div>
+      ` : `
+        <h3>${d.name}</h3>
+        <div class="selectedDistrictGrid">
+          <div class="selectedDistrictBox">
+            <b>Тип</b>
+            <div class="meta">${d.type}</div>
+          </div>
+          <div class="selectedDistrictBox">
+            <b>Код</b>
+            <div class="meta">${d.code}</div>
+          </div>
+        </div>
       `;
     }
 
@@ -870,11 +1163,18 @@
         </div>
       `).join('');
 
-      districtList.querySelectorAll('.districtItem').forEach(item => {
+      const items = districtList.querySelectorAll('.districtItem');
+      items.forEach(item => {
         item.addEventListener('click', () => {
           const d = districtMeta.find(x => x.name === item.dataset.name);
           if(!d) return;
-          map.fitBounds(d.layer.getBounds(), { padding: [20, 20] });
+
+          map.fitBounds(d.layer.getBounds(), {
+            padding:[20,20],
+            animate:true,
+            duration:1
+          });
+
           d.layer.openPopup();
           setDistrictInfo(d);
 
@@ -884,10 +1184,33 @@
       });
     }
 
+    function focusCustomPoint(lat, lng, zoom = 9){
+      map.flyTo([lat, lng], zoom, { duration: 1.2 });
+    }
+    window.focusCustomPoint = focusCustomPoint;
+
     fetch("chelyabinsk_districts.geojson")
       .then(r => {
+        if(!r.ok) throw new Error("GeoJSON не найден. Проверь файл chelyabinsk_districts.geojson рядом с index.html");
+        return r.json();
       })
       .then(geo => {
+        const districtGlow = L.geoJSON(geo, {
+          pane: 'districtGlow',
+          interactive: false,
+          filter: (feature) => {
+            const p = feature.properties || {};
+            const name = normalizeDistrictName(p.NL_NAME_2 || p.NAME_2 || "");
+            return name.toLowerCase().includes("район");
+          },
+          style: () => ({
+            color: '#dfff7a',
+            weight: 10,
+            opacity: 0.22,
+            fillOpacity: 0
+          })
+        });
+
         const districtGeo = L.geoJSON(geo, {
           filter: (feature) => {
             const p = feature.properties || {};
@@ -939,17 +1262,26 @@
             });
 
             layer.on('mouseout', () => districtGeo.resetStyle(layer));
-            layer.bindPopup(html);
 
+            layer.on('click', () => {
+              setDistrictInfo({ name, type, code, layer });
+              const activeItem = document.querySelector(`.districtItem[data-name="${name}"]`);
+              if (activeItem) {
+                document.querySelectorAll('.districtItem').forEach(el => el.classList.remove('active'));
+                activeItem.classList.add('active');
+              }
+            });
+
+            layer.bindPopup(html);
             districtMeta.push({ name, type, code, layer });
           }
         });
 
+        districtGlow.addTo(layers.districts);
         districtGeo.addTo(layers.districts);
         layers.districts.addTo(map);
 
         districtMeta.sort((a,b) => a.name.localeCompare(b.name, 'ru'));
-
         renderDistrictList(districtMeta);
 
         districtCards.innerHTML = districtMeta.map(d => {
@@ -971,17 +1303,31 @@
           `;
         }).join('');
 
-        try {
-          const bounds = districtGeo.getBounds();
-          map.fitBounds(bounds, { padding: [20, 20] });
+        const bounds = districtGeo.getBounds();
+        if(bounds.isValid()){
+          map.fitBounds(bounds, { padding:[20,20] });
           map.setMaxBounds(bounds.pad(0.15));
-        } catch(e){}
+        }
+
+        loader.classList.add("hidden");
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        loader.classList.add("hidden");
+      });
 
     districtSearch.addEventListener('input', () => {
       const value = districtSearch.value.toLowerCase().trim();
-      const filtered = districtMeta.filter(d => d.name.toLowerCase().includes(value));
+
+      if (!value) {
+        renderDistrictList(districtMeta);
+        return;
+      }
+
+      const filtered = districtMeta.filter(d =>
+        d.name.toLowerCase().includes(value)
+      );
+
       renderDistrictList(filtered);
     });
 
@@ -1017,7 +1363,6 @@
         el.textContent = val;
         if(p < 1) requestAnimationFrame(frame);
       }
-
       requestAnimationFrame(frame);
     }
 
@@ -1032,28 +1377,6 @@
     }, { threshold: 0.3 });
 
     aboutObs.observe(about);
-
-    if (window.tsParticles) {
-      tsParticles.load("tsparticles", {
-        background: { color: "transparent" },
-        particles: {
-          number: { value: 55 },
-          color: { value: ["#37c7ff", "#7df9ff"] },
-          move: { enable: true, speed: 0.9 },
-          size: { value: { min: 1, max: 2.8 } },
-          opacity: { value: 0.55 }
-        }
-      }).catch(() => {});
-    }
-
-    function updateNavVisibility(){
-      const heroBottom = hero.getBoundingClientRect().bottom;
-      if(heroBottom <= 80) topNav.classList.add("hide");
-      else topNav.classList.remove("hide");
-    }
-
-    window.addEventListener("scroll", updateNavVisibility);
-    updateNavVisibility();
   </script>
 </body>
 </html>
