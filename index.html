@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css"/>
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
-  <link rel="icon" href="logo.png"/>
+  <link rel="icon" href="logo (1).png"/>
 
   <style>
     :root{
@@ -27,12 +27,6 @@
       --radius: 18px;
       --border: rgba(255,255,255,.12);
       --panel:#102117;
-      --yellow:#ffd43b;
-      --yellow2:#fff7a8;
-      --blue:#37c7ff;
-      --blue2:#7df9ff;
-      --green:#35d06f;
-      --green2:#76ff9f;
     }
 
     *{ box-sizing:border-box; }
@@ -58,7 +52,7 @@
     #loader{
       position:fixed;
       inset:0;
-      z-index:2000;
+      z-index:2500;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -180,7 +174,7 @@
       background:
         linear-gradient(180deg, rgba(4,14,10,.35) 0%, rgba(8,24,16,.52) 32%, rgba(18,53,31,.72) 62%, rgba(32,74,49,.94) 100%),
         linear-gradient(120deg, rgba(0,0,0,.05), rgba(0,0,0,.28)),
-        url("https://upload.wikimedia.org/wikipedia/commons/5/5a/Taganay.jpg");
+        url("taganay.PNG");
       background-size:cover;
       background-position:center;
     }
@@ -350,42 +344,42 @@
     }
 
     #about::before{
-      background-image:linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/0/0d/Zyuratkul_lake.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)), url("zyuratkul.PNG");
     }
 
     #factSection::before{
       opacity:.07;
-      background-image:linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/1/1a/Arkaim_steppe.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.45)), url("turgoyak.PNG");
     }
 
     #routesSection::before{
       opacity:.08;
-      background-image:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/8/83/Taganay_National_Park.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.45)), url("taganay.PNG");
     }
 
     #mapSection::before{
       opacity:.10;
-      background-image:linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/8/83/Taganay_National_Park.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.45)), url("taganay.PNG");
     }
 
     #districtsSection::before{
       opacity:.08;
-      background-image:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.5)), url("https://upload.wikimedia.org/wikipedia/commons/6/68/Ural_mountains_south.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.5)), url("taganay.PNG");
     }
 
     #cities::before{
       opacity:.08;
-      background-image:linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.5)), url("https://upload.wikimedia.org/wikipedia/commons/1/1a/Arkaim_steppe.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.5)), url("turgoyak.PNG");
     }
 
     #nature::before{
-      opacity:.16;
-      background-image:linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.55)), url("https://upload.wikimedia.org/wikipedia/commons/e/e5/Arakul_shikhany.jpg");
+      opacity:.12;
+      background-image:linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.55)), url("zyuratkul.PNG");
     }
 
     #topPlaces::before{
       opacity:.08;
-      background-image:linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.45)), url("https://upload.wikimedia.org/wikipedia/commons/0/0d/Zyuratkul_lake.jpg");
+      background-image:linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.45)), url("turgoyak.PNG");
     }
 
     #about > *, #factSection > *, #routesSection > *, #mapSection > *, #districtsSection > *, #cities > *, #nature > *, #topPlaces > *{
@@ -769,39 +763,18 @@
       border-color:rgba(159,232,112,.35);
     }
 
-    .topPlace::before{
-      content:"";
-      position:absolute;
-      top:-60%;
-      left:-40%;
-      width:80%;
-      height:220%;
-      background:linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.14) 50%, rgba(255,255,255,0) 100%);
-      transform:rotate(18deg) translateX(-180%);
-      transition:transform .9s ease;
-      pointer-events:none;
-      z-index:2;
-    }
-
-    .topPlace:hover::before{
-      transform:rotate(18deg) translateX(260%);
-    }
-
     .topPlace img{
       width:100%;
       height:220px;
       object-fit:cover;
       display:block;
-      opacity:.78;
-      transform:scale(1);
-      transition:transform .7s ease, opacity .45s ease, filter .45s ease;
-      filter:saturate(1);
+      opacity:.86;
+      transition:.5s;
     }
 
     .topPlace:hover img{
-      transform:scale(1.08);
-      opacity:.92;
-      filter:saturate(1.12);
+      transform:scale(1.06);
+      opacity:.95;
     }
 
     .topPlace .overlay{
@@ -812,18 +785,11 @@
       flex-direction:column;
       justify-content:flex-end;
       padding:16px;
-      transition:background .45s ease;
-    }
-
-    .topPlace:hover .overlay{
-      background:linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.78));
     }
 
     .topPlace h4{
       margin:0 0 8px;
       font-size:1.1rem;
-      transform:translateY(0);
-      transition:transform .4s ease;
     }
 
     .topPlace p{
@@ -831,13 +797,6 @@
       color:rgba(255,255,255,.82);
       line-height:1.45;
       font-size:.94rem;
-      transform:translateY(0);
-      transition:transform .45s ease, color .45s ease;
-    }
-
-    .topPlace:hover h4,
-    .topPlace:hover p{
-      transform:translateY(-4px);
     }
 
     .showOnMap{
@@ -849,13 +808,12 @@
       cursor:pointer;
       background:#d8ffb0;
       color:#102117;
-      transition:transform .25s ease, background .25s ease, box-shadow .25s ease;
+      transition:.25s;
     }
 
     .showOnMap:hover{
       transform:translateY(-2px);
       background:#ffffff;
-      box-shadow:0 8px 18px rgba(0,0,0,.25);
     }
 
     .leaflet-popup-content-wrapper,
@@ -885,6 +843,89 @@
       color:#d8ffb0;
     }
 
+    .tourOverlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.56);
+      z-index:1800;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+
+    .tourOverlay.show{
+      display:flex;
+    }
+
+    .tourCard{
+      width:min(960px, 100%);
+      background:#0d1f16;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:0 18px 50px rgba(0,0,0,.45);
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+    }
+
+    .tourCard img{
+      width:100%;
+      height:100%;
+      min-height:320px;
+      object-fit:cover;
+      display:block;
+    }
+
+    .tourInfo{
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:12px;
+    }
+
+    .tourInfo h3{
+      margin:0;
+      font-size:1.6rem;
+      color:#fff;
+    }
+
+    .tourInfo p{
+      margin:0;
+      line-height:1.65;
+      color:var(--muted);
+    }
+
+    .tourStep{
+      color:#d8ffb0;
+      font-weight:700;
+      font-size:.95rem;
+    }
+
+    .tourControls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+
+    .tourBtn{
+      border:none;
+      cursor:pointer;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:800;
+      background:#d8ffb0;
+      color:#102117;
+    }
+
+    .tourBtn.secondary{
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.14);
+    }
+
     footer{
       padding:34px 10%;
       text-align:center;
@@ -908,6 +949,7 @@
       .mapGrid{ grid-template-columns:1fr; }
       .panel{ max-height:none; }
       .topPlace, .routeCard{ grid-column:span 6; }
+      .tourCard{ grid-template-columns:1fr; }
     }
 
     @media (max-width:960px){
@@ -918,20 +960,36 @@
       #map{ height:500px; }
       .heroLogo{ width:104px; height:104px; }
       .topPlace{ grid-column:span 12; }
+      .tourInfo h3{ font-size:1.35rem; }
     }
   </style>
 </head>
 <body>
   <div id="loader">
-    <img src="logo.png" alt="Логотип" class="loaderLogo">
+    <img src="logo (1).png" alt="Логотип" class="loaderLogo">
     <div class="loaderText">Загрузка интерактивной карты Челябинской области...</div>
   </div>
 
   <div id="tsparticles"></div>
 
+  <div class="tourOverlay" id="tourOverlay">
+    <div class="tourCard">
+      <img id="tourImage" src="" alt="Фото места">
+      <div class="tourInfo">
+        <div class="tourStep" id="tourStep">Шаг 1</div>
+        <h3 id="tourTitle">Название</h3>
+        <p id="tourText">Описание</p>
+        <div class="tourControls">
+          <button class="tourBtn" id="tourNextBtn">Дальше</button>
+          <button class="tourBtn secondary" onclick="closeTour()">Закрыть</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <nav id="topNav">
     <div class="navBrand">
-      <img src="logo.png" alt="Логотип" class="navLogo">
+      <img src="logo (1).png" alt="Логотип" class="navLogo">
       <span class="navBrandText">Челябинская область</span>
     </div>
     <a href="#about">О регионе</a>
@@ -945,7 +1003,7 @@
 
   <header id="hero">
     <div class="wrap">
-      <img src="logo.png" alt="Логотип" class="heroLogo">
+      <img src="logo (1).png" alt="Логотип" class="heroLogo">
       <h1>Челябинская область — природа и достопримечательности</h1>
       <p>
         Интерактивный веб-проект по Челябинской области с акцентом на природные ландшафты,
@@ -1005,7 +1063,7 @@
 
     <div class="grid">
       <div class="topPlace">
-        <img src="Zyuratkul.jpg" alt="Зюраткуль">
+        <img src="zyuratkul.PNG" alt="Зюраткуль">
         <div class="overlay">
           <h4>Зюраткуль</h4>
           <p>Высокогорное озеро и национальный парк с красивыми хребтами и экотропами.</p>
@@ -1014,20 +1072,20 @@
       </div>
 
       <div class="topPlace">
-        <img src="Taganay.jpg" alt="Таганай">
-        <div class="overlay">
-          <h4>Таганай</h4>
-          <p>Один из самых известных национальных парков Южного Урала.</p>
-          <button class="showOnMap" onclick="focusCustomPoint(55.25,59.80,9); setFact('Таганай');">Показать на карте</button>
-        </div>
-      </div>
-
-      <div class="topPlace">
-        <img src="Turgoyak.jpg" alt="Тургояк">
+        <img src="turgoyak.PNG" alt="Тургояк">
         <div class="overlay">
           <h4>Тургояк</h4>
           <p>Одно из самых чистых озёр России, популярное туристическое место.</p>
           <button class="showOnMap" onclick="focusCustomPoint(55.17,60.06,10); setFact('Тургояк');">Показать на карте</button>
+        </div>
+      </div>
+
+      <div class="topPlace">
+        <img src="taganay.PNG" alt="Таганай">
+        <div class="overlay">
+          <h4>Таганай</h4>
+          <p>Один из самых известных национальных парков Южного Урала.</p>
+          <button class="showOnMap" onclick="focusCustomPoint(55.25,59.80,9); setFact('Таганай');">Показать на карте</button>
         </div>
       </div>
     </div>
@@ -1147,6 +1205,12 @@
     const districtSearch = document.getElementById('districtSearch');
     const selectedDistrictInfo = document.getElementById('selectedDistrictInfo');
     const selectedDistrictCard = document.getElementById('selectedDistrictCard');
+    const tourOverlay = document.getElementById("tourOverlay");
+    const tourImage = document.getElementById("tourImage");
+    const tourTitle = document.getElementById("tourTitle");
+    const tourText = document.getElementById("tourText");
+    const tourStep = document.getElementById("tourStep");
+    const tourNextBtn = document.getElementById("tourNextBtn");
 
     function updateNavVisibility(){
       const heroBottom = hero.getBoundingClientRect().bottom;
@@ -1209,6 +1273,8 @@
 
     let activePulseLayer = null;
     let tourLine = null;
+    let districtGeoRef = null;
+    let districtMeta = [];
 
     const facts = {
       "Челябинск":"Челябинск — крупнейший город Южного Урала и административный центр области.",
@@ -1315,6 +1381,39 @@
       ]
     };
 
+    const tourStops = [
+      {
+        name:"Таганай",
+        coords:[55.25,59.80],
+        zoom:9,
+        image:"taganay.PNG",
+        text:"Национальный парк Таганай — один из самых известных символов Южного Урала. Здесь горные хребты, каменные россыпи, густые леса и красивые панорамы."
+      },
+      {
+        name:"Тургояк",
+        coords:[55.17,60.06],
+        zoom:10,
+        image:"turgoyak.PNG",
+        text:"Тургояк — одно из самых чистых озёр России. Это популярное место отдыха, туризма и прогулок по живописному берегу."
+      },
+      {
+        name:"Зюраткуль",
+        coords:[54.92,59.22],
+        zoom:9,
+        image:"zyuratkul.PNG",
+        text:"Зюраткуль — высокогорное озеро и национальный парк, известные красивыми хребтами, лесами и атмосферой горного Урала."
+      },
+      {
+        name:"Аркаим",
+        coords:[52.63,59.55],
+        zoom:9,
+        image:"zyuratkul.PNG",
+        text:"Аркаим — один из самых известных археологических памятников Южного Урала, связанный с эпохой бронзы."
+      }
+    ];
+
+    let currentTourIndex = 0;
+
     function fieldRow(label, value){
       return value ? `<div class="popupRow"><b>${label}:</b> ${value}</div>` : '';
     }
@@ -1365,14 +1464,112 @@
     }
     window.focusCustomPoint = focusCustomPoint;
 
+    function clearTourLine(){
+      if(tourLine){
+        map.removeLayer(tourLine);
+        tourLine = null;
+      }
+    }
+
+    function showRoute(points, zoomPadding = [30,30]){
+      clearTourLine();
+      tourLine = L.polyline(points, {
+        color:"#d8ffb0",
+        weight:4,
+        opacity:0.9,
+        dashArray:"10 8"
+      }).addTo(map);
+
+      map.fitBounds(tourLine.getBounds(), { padding: zoomPadding });
+      document.getElementById("mapSection").scrollIntoView({ behavior:"smooth" });
+    }
+
+    function showMountainRoute(){
+      showRoute([
+        [55.25,59.80],
+        [55.17,59.67],
+        [55.34,59.44]
+      ]);
+      setFact("Таганай");
+    }
+    window.showMountainRoute = showMountainRoute;
+
+    function showLakeRoute(){
+      showRoute([
+        [55.17,60.06],
+        [55.52,60.50],
+        [54.98,60.30]
+      ]);
+      setFact("Тургояк");
+    }
+    window.showLakeRoute = showLakeRoute;
+
+    function showHistoryRoute(){
+      showRoute([
+        [52.63,59.55],
+        [54.74,57.77],
+        [55.15,60.06]
+      ]);
+      setFact("Аркаим");
+    }
+    window.showHistoryRoute = showHistoryRoute;
+
+    function startExploration(){
+      document.getElementById("mapSection").scrollIntoView({ behavior:"smooth" });
+      setTimeout(() => {
+        map.invalidateSize();
+        resetMapView();
+      }, 700);
+    }
+    window.startExploration = startExploration;
+
+    function openTourStep(index){
+      const stop = tourStops[index];
+      currentTourIndex = index;
+
+      map.flyTo(stop.coords, stop.zoom, { duration:1.4 });
+      setFact(stop.name);
+
+      tourImage.src = stop.image;
+      tourTitle.textContent = stop.name;
+      tourText.textContent = stop.text;
+      tourStep.textContent = `Шаг ${index + 1} из ${tourStops.length}`;
+      tourOverlay.classList.add("show");
+
+      if(index === tourStops.length - 1){
+        tourNextBtn.textContent = "Завершить";
+      } else {
+        tourNextBtn.textContent = "Дальше";
+      }
+    }
+
+    function startTour(){
+      document.getElementById("mapSection").scrollIntoView({ behavior:"smooth" });
+      setTimeout(() => openTourStep(0), 700);
+    }
+    window.startTour = startTour;
+
+    function closeTour(){
+      tourOverlay.classList.remove("show");
+    }
+    window.closeTour = closeTour;
+
+    tourNextBtn.addEventListener("click", () => {
+      if(currentTourIndex >= tourStops.length - 1){
+        closeTour();
+        return;
+      }
+      openTourStep(currentTourIndex + 1);
+    });
+
     data.cities.forEach(c => {
       const importantCities = ["Челябинск", "Магнитогорск", "Златоуст", "Миасс"];
       const isMain = importantCities.includes(c.name);
 
       const marker = L.circleMarker(c.coords, {
         radius: isMain ? 10 : 7,
-        color: isMain ? varOr('#ffe066') : varOr('#9ee7ff'),
-        fillColor: isMain ? varOr('#ffd43b') : varOr('#37c7ff'),
+        color: isMain ? "#ffe066" : "#9ee7ff",
+        fillColor: isMain ? "#ffd43b" : "#37c7ff",
         fillOpacity: 0.95,
         weight: isMain ? 2.5 : 1.5
       }).bindPopup(popupHtml(c));
@@ -1426,8 +1623,6 @@
       histMarker.on("click", () => setFact(h.name));
       histMarker.addTo(layers.history);
     });
-
-    let districtMeta = [];
 
     function normalizeDistrictName(name){
       if(!name) return "";
@@ -1538,91 +1733,6 @@
         });
       });
     }
-
-    function clearTourLine(){
-      if(tourLine){
-        map.removeLayer(tourLine);
-        tourLine = null;
-      }
-    }
-
-    function showRoute(points, zoomPadding = [30,30]){
-      clearTourLine();
-      tourLine = L.polyline(points, {
-        color:"#d8ffb0",
-        weight:4,
-        opacity:0.9,
-        dashArray:"10 8"
-      }).addTo(map);
-
-      map.fitBounds(tourLine.getBounds(), { padding: zoomPadding });
-      document.getElementById("mapSection").scrollIntoView({ behavior:"smooth" });
-    }
-
-    function showMountainRoute(){
-      showRoute([
-        [55.25,59.80],
-        [55.17,59.67],
-        [55.34,59.44]
-      ]);
-      setFact("Таганай");
-    }
-    window.showMountainRoute = showMountainRoute;
-
-    function showLakeRoute(){
-      showRoute([
-        [55.17,60.06],
-        [55.52,60.50],
-        [54.98,60.30]
-      ]);
-      setFact("Тургояк");
-    }
-    window.showLakeRoute = showLakeRoute;
-
-    function showHistoryRoute(){
-      showRoute([
-        [52.63,59.55],
-        [54.74,57.77],
-        [55.15,60.06]
-      ]);
-      setFact("Аркаим");
-    }
-    window.showHistoryRoute = showHistoryRoute;
-
-    function startExploration(){
-      document.getElementById("mapSection").scrollIntoView({ behavior:"smooth" });
-      setTimeout(() => {
-        map.invalidateSize();
-        resetMapView();
-      }, 700);
-    }
-    window.startExploration = startExploration;
-
-    function startTour(){
-      const tourStops = [
-        { name:"Челябинск", coords:[55.16,61.40], zoom:8 },
-        { name:"Магнитогорск", coords:[53.41,59.04], zoom:8 },
-        { name:"Тургояк", coords:[55.17,60.06], zoom:10 },
-        { name:"Таганай", coords:[55.25,59.80], zoom:9 },
-        { name:"Аркаим", coords:[52.63,59.55], zoom:9 }
-      ];
-
-      document.getElementById("mapSection").scrollIntoView({ behavior:"smooth" });
-
-      let i = 0;
-      function nextStop(){
-        if(i >= tourStops.length) return;
-        const stop = tourStops[i];
-        map.flyTo(stop.coords, stop.zoom, { duration:1.4 });
-        setFact(stop.name);
-        i++;
-        setTimeout(nextStop, 2200);
-      }
-      setTimeout(nextStop, 700);
-    }
-    window.startTour = startTour;
-
-    function varOr(v){ return v; }
 
     fetch("chelyabinsk_districts.geojson")
       .then(r => {
@@ -1743,6 +1853,7 @@
           }
         });
 
+        districtGeoRef = districtGeo;
         districtGlow.addTo(layers.districts);
         districtGeo.addTo(layers.districts);
         layers.districts.addTo(map);
@@ -1795,7 +1906,6 @@
     });
 
     Object.values(layers).forEach(l => map.addLayer(l));
-
     setTimeout(() => map.invalidateSize(), 300);
 
     function showLayer(type){
