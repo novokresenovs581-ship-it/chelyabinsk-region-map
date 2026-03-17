@@ -35,7 +35,7 @@
 
     body{
       margin:0;
-      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      font-family:"Segoe UI", system-ui, -apple-system, Arial, sans-serif;
       color:var(--text);
       background:
         radial-gradient(circle at 20% 18%, rgba(168,241,115,.12), transparent 25%),
@@ -394,10 +394,11 @@
 
     .map-shell{
       padding:16px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
-        url("zyuratkul.PNG") center/cover no-repeat;
-      background-blend-mode:overlay;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(12px);
     }
 
     .filters, .map-actions{
@@ -707,6 +708,8 @@
     <a href="#topPlaces">Топ-места</a>
     <a href="#routes">Маршруты</a>
     <a href="#mapSection">Карта</a>
+    <a href="#cities">Города</a>
+    <a href="#nature">Объекты</a>
   </nav>
 
   <header>
@@ -731,7 +734,7 @@
 
       <div class="hero-stats">
         <div class="hero-stat"><div class="num">45</div><div class="label">районов и округов</div></div>
-        <div class="hero-stat"><div class="num">40+</div><div class="label">объектов на карте</div></div>
+        <div class="hero-stat"><div class="num">55+</div><div class="label">объектов на карте</div></div>
         <div class="hero-stat"><div class="num">5</div><div class="label">слоёв карты</div></div>
         <div class="hero-stat"><div class="num">74</div><div class="label">регион России</div></div>
       </div>
@@ -747,7 +750,7 @@
 
     <div class="grid stats-grid">
       <div class="info-card"><div class="n">3000+</div><div class="t">озёр и водоёмов</div></div>
-      <div class="info-card"><div class="n">4</div><div class="t">главных города региона</div></div>
+      <div class="info-card"><div class="n">10+</div><div class="t">крупных городов и центров</div></div>
       <div class="info-card"><div class="n">3</div><div class="t">маршрута для изучения</div></div>
       <div class="info-card"><div class="n">1</div><div class="t">интерактивный проект о регионе</div></div>
     </div>
@@ -888,6 +891,18 @@
     </div>
   </section>
 
+  <section id="cities" class="reveal">
+    <h2>Города</h2>
+    <p class="sub">Крупные города Челябинской области и их особенности.</p>
+    <div class="grid" id="cityCards"></div>
+  </section>
+
+  <section id="nature" class="reveal">
+    <h2>Природные и исторические объекты</h2>
+    <p class="sub">Озёра, реки, парки, археологические и природные объекты Южного Урала.</p>
+    <div class="grid" id="natureCards"></div>
+  </section>
+
   <footer>
     Интерактивная карта Челябинской области • проект о 74 регионе
   </footer>
@@ -935,10 +950,14 @@
       "Магнитогорск":"Магнитогорск — один из крупнейших металлургических центров России.",
       "Златоуст":"Златоуст известен оружейными традициями и близостью к Таганаю.",
       "Миасс":"Миасс связан с Тургояком и природным туризмом.",
+      "Кыштым":"Кыштым — старый уральский город озёрной зоны.",
+      "Троицк":"Троицк — исторический город юга области.",
       "Тургояк":"Тургояк считается одним из самых чистых озёр России.",
       "Таганай":"Таганай — один из главных символов Южного Урала.",
       "Зюраткуль":"Зюраткуль — высокогорное озеро и красивый национальный парк.",
-      "Аркаим":"Аркаим — знаменитый археологический памятник эпохи бронзы."
+      "Аркаим":"Аркаим — знаменитый археологический памятник эпохи бронзы.",
+      "Увильды":"Увильды — одно из крупнейших озёр области.",
+      "Остров Веры":"Остров Веры известен археологическими памятниками на Тургояке."
     };
 
     const districtDetails = {
@@ -1003,21 +1022,41 @@
         { name:"Златоуст", coords:[55.17,59.67], type:"Город", about:"Город оружейных традиций рядом с Таганаем." },
         { name:"Миасс", coords:[55.05,60.10], type:"Город", about:"Город рядом с Тургояком и Ильменским заповедником." },
         { name:"Кыштым", coords:[55.71,60.56], type:"Город", about:"Старый уральский город среди озёр." },
-        { name:"Троицк", coords:[54.08,61.56], type:"Город", about:"Исторический город у границы с Казахстаном." }
+        { name:"Троицк", coords:[54.08,61.56], type:"Город", about:"Исторический город у границы с Казахстаном." },
+        { name:"Копейск", coords:[55.12,61.62], type:"Город", about:"Город-спутник Челябинска." },
+        { name:"Озёрск", coords:[55.76,60.70], type:"Город", about:"Закрытый город северной части области." },
+        { name:"Аша", coords:[54.99,57.27], type:"Город", about:"Город западной горной зоны области." },
+        { name:"Чебаркуль", coords:[54.97,60.37], type:"Город", about:"Город рядом с одноимённым озером." },
+        { name:"Сатка", coords:[55.04,58.98], type:"Город", about:"Город рядом с парком Зюраткуль." },
+        { name:"Карталы", coords:[53.05,60.65], type:"Город", about:"Южный транспортный узел региона." },
+        { name:"Пласт", coords:[54.37,60.81], type:"Город", about:"Город, связанный с золотодобычей." },
+        { name:"Куса", coords:[55.34,59.44], type:"Город", about:"Небольшой горный город западной части области." },
+        { name:"Верхний Уфалей", coords:[56.06,60.24], type:"Город", about:"Северный город лесной зоны." },
+        { name:"Южноуральск", coords:[54.45,61.25], type:"Город", about:"Город с энергетической и промышленной базой." }
       ],
       lakes: [
         { name:"Тургояк", coords:[55.17,60.06], type:"Озеро", about:"Одно из самых чистых озёр России." },
         { name:"Увильды", coords:[55.52,60.50], type:"Озеро", about:"Крупное озеро и рекреационная зона." },
-        { name:"Зюраткуль", coords:[54.92,59.22], type:"Озеро", about:"Высокогорное озеро в одноимённом парке." }
+        { name:"Зюраткуль", coords:[54.92,59.22], type:"Озеро", about:"Высокогорное озеро в одноимённом парке." },
+        { name:"Чебаркуль", coords:[54.98,60.30], type:"Озеро", about:"Озеро, известное после падения метеорита." },
+        { name:"Иткуль", coords:[55.63,60.47], type:"Озеро", about:"Живописное северное озеро." },
+        { name:"Синара", coords:[56.07,60.83], type:"Озеро", about:"Крупное озеро северной части региона." },
+        { name:"Смолино", coords:[55.10,61.46], type:"Озеро", about:"Городское озеро Челябинска." }
       ],
       rivers: [
         { name:"Ай", coords:[[54.50,58.80],[54.76,59.05],[55.05,59.55]], type:"Река", about:"Одна из самых живописных рек Южного Урала." },
-        { name:"Урал", coords:[[53.45,58.90],[53.38,59.04],[52.95,59.20]], type:"Река", about:"Крупная река юга области." }
+        { name:"Урал", coords:[[53.45,58.90],[53.38,59.04],[52.95,59.20]], type:"Река", about:"Крупная река юга области." },
+        { name:"Миасс", coords:[[55.58,60.90],[55.20,61.30],[54.90,60.80]], type:"Река", about:"Главная городская река Челябинска." },
+        { name:"Уй", coords:[[54.35,60.70],[54.12,61.10],[53.95,61.65]], type:"Река", about:"Река южной части области." }
       ],
       history: [
         { name:"Аркаим", coords:[52.63,59.55], type:"Исторический объект", about:"Археологический комплекс эпохи бронзы." },
         { name:"Таганай", coords:[55.25,59.80], type:"Национальный парк", about:"Природный символ Южного Урала." },
-        { name:"Остров Веры", coords:[55.15,60.06], type:"Исторический объект", about:"Остров на Тургояке с археологическими памятниками." }
+        { name:"Остров Веры", coords:[55.15,60.06], type:"Исторический объект", about:"Остров на Тургояке с археологическими памятниками." },
+        { name:"Аракульский Шихан", coords:[55.99,60.49], type:"Природный объект", about:"Скальный массив северной части области." },
+        { name:"Игнатьевская пещера", coords:[54.74,57.77], type:"Природный объект", about:"Пещера с древними рисунками." },
+        { name:"Ильменский заповедник", coords:[55.09,60.18], type:"Заповедник", about:"Известная охраняемая территория Южного Урала." },
+        { name:"Зюраткуль (парк)", coords:[54.88,59.19], type:"Национальный парк", about:"Парк с озером, хребтами и маршрутами." }
       ]
     };
 
@@ -1155,6 +1194,38 @@
       marker.addTo(layers.history);
     });
 
+    function fillCards(){
+      const cityCards = document.getElementById('cityCards');
+      const natureCards = document.getElementById('natureCards');
+
+      cityCards.innerHTML = points.cities.map(item => `
+        <article class="card">
+          <div class="card-body">
+            <h3>${item.name}</h3>
+            <p>${item.about}</p>
+            <div class="chips">
+              <span class="chip">${item.type}</span>
+              <button class="btn btn-primary" onclick="focusCustomPoint(${item.coords[0]},${item.coords[1]},9); setFact('${item.name}')">Показать на карте</button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+
+      natureCards.innerHTML = [...points.lakes, ...points.history].map(item => `
+        <article class="card">
+          <div class="card-body">
+            <h3>${item.name}</h3>
+            <p>${item.about}</p>
+            <div class="chips">
+              <span class="chip">${item.type}</span>
+              <button class="btn btn-primary" onclick="focusCustomPoint(${item.coords[0]},${item.coords[1]},9); setFact('${item.name}')">Показать на карте</button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+    fillCards();
+
     function normalizeDistrictName(name){
       if(!name) return '';
       return String(name)
@@ -1203,6 +1274,7 @@
           <div class="selected-box">
             <b>Название</b>
             <div>${d.name}</div>
+            <div style="margin-top:8px;color:rgba(255,255,255,.72);">Тип: ${d.kind}</div>
             <div style="margin-top:8px;color:rgba(255,255,255,.72);">Центр: ${details.center}</div>
           </div>
           <div class="selected-box">
@@ -1217,6 +1289,7 @@
           <div class="selected-box">
             <b>Название</b>
             <div>${d.name}</div>
+            <div style="margin-top:8px;color:rgba(255,255,255,.72);">Тип: ${d.kind}</div>
           </div>
           <div class="selected-box">
             <b>Описание</b>
@@ -1231,7 +1304,7 @@
       const districtList = document.getElementById('districtList');
 
       districtList.innerHTML = list.map(d => `
-        <div class="district-item" data-name="${d.name}">
+        <div class="district-item" data-name="${d.name}" data-kind="${d.kind}">
           <strong>${d.name}</strong>
           <span>${d.kind}</span>
         </div>
@@ -1240,12 +1313,33 @@
       districtList.querySelectorAll('.district-item').forEach(item => {
         item.addEventListener('click', () => {
           const d = districtMeta.find(x => x.name === item.dataset.name);
-          if(!d) return;
-
-          map.fitBounds(d.layer.getBounds(), { padding:[20,20], animate:true, duration:1 });
-          d.layer.openPopup();
-          focusDistrict(d.layer);
-          setDistrictInfo(d);
+          if(d){
+            map.fitBounds(d.layer.getBounds(), { padding:[20,20], animate:true, duration:1 });
+            d.layer.openPopup();
+            focusDistrict(d.layer);
+            setDistrictInfo(d);
+          } else {
+            const allExtras = [...points.cities, ...points.lakes, ...points.history];
+            const found = allExtras.find(x => x.name === item.dataset.name);
+            if(found && Array.isArray(found.coords) && typeof found.coords[0] === 'number'){
+              focusCustomPoint(found.coords[0], found.coords[1], 9);
+              setFact(found.name);
+              document.getElementById('selectedInfo').innerHTML = `
+                <h3>${found.name}</h3>
+                <div class="selected-grid">
+                  <div class="selected-box">
+                    <b>Название</b>
+                    <div>${found.name}</div>
+                    <div style="margin-top:8px;color:rgba(255,255,255,.72);">Тип: ${found.type}</div>
+                  </div>
+                  <div class="selected-box">
+                    <b>Описание</b>
+                    <div>${found.about}</div>
+                  </div>
+                </div>
+              `;
+            }
+          }
 
           document.querySelectorAll('.district-item').forEach(el => el.classList.remove('active'));
           item.classList.add('active');
