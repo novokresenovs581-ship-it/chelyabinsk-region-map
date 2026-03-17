@@ -1060,13 +1060,21 @@
       ]
     };
 
-    function popupHtml(item){
-      return `
-        <div class="popup-title">${item.name}</div>
-        <div class="popup-row"><b>Тип:</b> ${item.type}</div>
-        <div class="popup-row"><b>Описание:</b> ${item.about}</div>
-      `;
-    }
+    function fieldRow(label, value){
+  return value ? `<div class="popup-row"><b>${label}:</b> ${value}</div>` : '';
+}
+
+function popupHtml(item){
+  return `
+    <div class="popup-title">${item.name}</div>
+    ${fieldRow('Тип', item.type)}
+    ${fieldRow('Население', item.population)}
+    ${fieldRow('Площадь', item.area)}
+    ${fieldRow('Флора', item.flora)}
+    ${fieldRow('Фауна', item.fauna)}
+    ${fieldRow('Описание', item.about || item.description)}
+  `;
+}
 
     function setFact(name){
       const el = document.getElementById('factBox');
