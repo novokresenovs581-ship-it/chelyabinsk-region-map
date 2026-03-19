@@ -5,6 +5,22 @@ window.pointLayers = null;
 window.allPointItems = [];
 window.districtMeta = [];
 
+window.DISTRICT_INFO = {
+  "Сосновский район": {center:"Долгодеревенское", population:"≈ 76 тыс. чел.", area:"≈ 2 113 км²", flora:"лесостепь, берёза, сосна, луговые травы", fauna:"косуля, лисица, заяц", famous:"Близость к Челябинску, сельские ландшафты и быстрый доступ к озёрам."},
+  "Красноармейский район": {center:"Миасское", population:"≈ 40 тыс. чел.", area:"≈ 3 835 км²", flora:"степные луга, берёза, ива", fauna:"лисица, косуля, степные птицы", famous:"Крупная территория на востоке Челябинской агломерации."},
+  "Аргаяшский район": {center:"Аргаяш", population:"≈ 38 тыс. чел.", area:"≈ 2 700 км²", flora:"лесостепь, сосна, берёза", fauna:"заяц, косуля, утки", famous:"Район с озёрами и сельскими ландшафтами."},
+  "Саткинский район": {center:"Сатка", population:"≈ 80 тыс. чел.", area:"≈ 2 399 км²", flora:"ельники, пихта, горные луга", fauna:"медведь, лось, куница", famous:"Зюраткуль, горные маршруты и туристический потенциал."},
+  "Троицкий район": {center:"Троицк", population:"≈ 25 тыс. чел.", area:"≈ 4 000 км²", flora:"степное разнотравье, ива, тополь", fauna:"суслик, заяц-русак, степные птицы", famous:"Южная степная территория у границы с Казахстаном."}
+};
+
+window.DISTRICT_FACTS = {
+  "Сосновский район":"Один из районов, который сильнее всего связан с Челябинской агломерацией.",
+  "Саткинский район":"Через район проходят ключевые природные маршруты к Зюраткулю и горной зоне Южного Урала.",
+  "Аргаяшский район":"Территория района известна сочетанием озёр, лесостепи и сельских поселений.",
+  "Красноармейский район":"Здесь находится село Миасское — важный районный центр восточной части области.",
+  "Троицкий район":"Это одна из степных территорий области с историческим значением и южным характером ландшафта."
+};
+
 function popupHtml(item){
   return `
     <div class="popup-title">${item.name}</div>
@@ -27,13 +43,22 @@ function distKm(a,b){
   return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
 }
 
-window.renderInfo = function(item){
+window.renderInfo = async function(item){
   const pool = [...APP_POINTS.cities, ...APP_POINTS.nature, ...APP_POINTS.history].filter(x => x.name !== item.name);
   const nearest = pool.map(x => ({...x, km: distKm(item.coords, x.coords)})).sort((a,b)=>a.km-b.km).slice(0,4);
   const selectedInfo = document.getElementById('selectedInfo');
+  selectedInfo.innerHTML = `<h3>${item.name}</h3><div class="photo-empty">Загрузка фото и карточки объекта…</div>`;
+  const images = await loadPhotos(item.name);
+
   selectedInfo.innerHTML = `
     <h3>${item.name}</h3>
-    <div class="selected-grid">
+    ${buildPhotoGallery(images, item.name)}
+    <div class="quick-stats">
+      <div class="quick-chip">${item.type}</div>
+      <div class="quick-chip">${item.population}</div>
+      <div class="quick-chip">${item.area}</div>
+    </div>
+    <div class="selected-grid" style="margin-top:14px;">
       <div class="selected-box">
         <b>Основная информация</b>
         <div>Тип: ${item.type}</div>
@@ -207,8 +232,30 @@ window.initMap = function(){
           const p = feature.properties || {};
           const raw = p.NL_NAME_2 || p.NAME_2 || 'Район';
           const name = String(raw).replace(/\([^)]*\)/g, '').replace(/\s+/g,' ').trim();
-          layer.bindPopup(`<div class="popup-title">${name}</div><div class="popup-row"><b>Тип:</b> Район</div><div class="popup-row"><b>Описание:</b> Район Челябинской области.</div>`);
-          layer.on('click', ()=> map.fitBounds(layer.getBounds(), {padding:[20,20], animate:true, duration:1}));
+          const info = DISTRICT_INFO[name] || {center:'—', population:'—', area:'—', flora:'типичная флора района', fauna:'типичная фауна района', famous:'Район Челябинской области.'};
+          layer.bindPopup(`<div class="popup-title">${name}</div><div class="popup-row"><b>Тип:</b> Район</div><div class="popup-row"><b>Центр:</b> ${info.center}</div><div class="popup-row"><b>Население:</b> ${info.population}</div><div class="popup-row"><b>Площадь:</b> ${info.area}</div><div class="popup-row"><b>Чем знаменит:</b> ${info.famous}</div>`);
+          layer.on('click', ()=> {
+            map.fitBounds(layer.getBounds(), {padding:[20,20], animate:true, duration:1});
+            const fact = DISTRICT_FACTS[name] || 'Район Челябинской области со своими природными и культурными особенностями.';
+            document.getElementById('selectedInfo').innerHTML = `
+              <h3>${name}</h3>
+              <div class="selected-grid">
+                <div class="selected-box">
+                  <b>Мини-энциклопедия района</b>
+                  <div>Центр: ${info.center}</div>
+                  <div style="margin-top:8px;">Население: ${info.population}</div>
+                  <div style="margin-top:8px;">Площадь: ${info.area}</div>
+                  <div style="margin-top:8px;">Чем знаменит: ${info.famous}</div>
+                </div>
+                <div class="selected-box">
+                  <b>Природа и интересный факт</b>
+                  <div>Флора: ${info.flora}</div>
+                  <div style="margin-top:8px;">Фауна: ${info.fauna}</div>
+                  <div style="margin-top:8px;"><b>Факт:</b> ${fact}</div>
+                </div>
+              </div>
+            `;
+          });
           districtMeta.push({name, layer, kind:'Район'});
         }
       });

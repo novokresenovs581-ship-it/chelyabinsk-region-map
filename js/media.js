@@ -13,3 +13,15 @@ window.loadPhotos = async function(name){
     return [];
   }
 };
+
+window.buildPhotoGallery = function(images, title){
+  if(!images || !images.length){
+    return `<div class="photo-empty">Фото пока не добавлены</div>`;
+  }
+  return `
+    <div class="photo-main"><img src="${images[0]}" alt="${title}"></div>
+    <div class="photo-strip">
+      ${images.map(src => `<img src="${src}" alt="${title}">`).join('')}
+    </div>
+  `;
+};
