@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Челябинская область — интерактивная карта 11.1</title>
+  <meta name="description" content="Интерактивная карта Челябинской области: районы, города, озёра, история, топ-места и экспедиция по Южному Уралу." />
+  <link rel="icon" href="assets/logo.png" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+  <div class="tour-overlay" id="tourOverlay">
+    <div class="tour-card">
+      <img id="tourImage" src="assets/taganay.PNG" alt="Фото места">
+      <div class="tour-info">
+        <div class="tour-step" id="tourStep">Шаг 1</div>
+        <h3 id="tourTitle">Название</h3>
+        <p id="tourText">Описание</p>
+        <div class="tour-controls">
+          <button class="btn btn-primary" id="tourNextBtn">Дальше</button>
+          <button class="btn btn-secondary" onclick="closeTour()">Закрыть</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="placeDrawerBackdrop"></div>
+
+  <nav id="mainNav">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Логотип">
+      <span>Челябинская область</span>
+    </div>
+    <a href="#about">О регионе</a>
+    <a href="#topPlaces">Топ-места</a>
+    <a href="#mapSection">Карта</a>
+    <a href="#compareCitiesPro">Сравнить города</a>
+    <a href="#citiesCards">Карточки</a>
+    <a href="#factsSection">Факты</a>
+    <a href="#whyVisit">Почему посетить</a>
+  </nav>
+
+  <button class="floating-night" onclick="toggleTheme()">🌙 Ночной режим</button>
+
+  <header>
+    <div class="hero">
+      <div class="hero-grid">
+        <div class="reveal show">
+          <div class="hero-kicker">● Южный Урал • интерактивный travel-проект</div>
+          <h1 class="hero-display">Открой<br>Челябинскую область<br>по‑новому</h1>
+          <div class="subline">карта, экспедиция, районы, города и красивые места региона</div>
+          <p class="desc">
+            Исследуй 74 регион через районы, города, озёра, историю и национальные парки. 
+            Запускай экспедицию, открывай топ‑места и собирай собственный маршрут по Южному Уралу.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="startExploration()">Исследовать карту</button>
+            <button class="btn btn-secondary" onclick="startTour()">Запустить экспедицию</button>
+          </div>
+
+          <div class="hero-badges">
+            <div class="hero-badge">Районы и округа</div>
+            <div class="hero-badge">Города и сёла</div>
+            <div class="hero-badge">Природа и история</div>
+            <div class="hero-badge">Что посмотреть рядом</div>
+          </div>
+        </div>
+
+        <div class="hero-card reveal show">
+          <div class="hero-logo">
+            <div class="hero-logo-box">
+              <img src="assets/logo.png" alt="Логотип">
+            </div>
+          </div>
+          <h3 style="margin:0 0 8px;font-size:1.4rem;">Премиум‑обзор региона</h3>
+          <p style="margin:0;color:var(--muted);line-height:1.7;">
+            В одном проекте собраны районы, города, озёра, исторические места, витрина лучших локаций и сценарий экспедиции по главным точкам области.
+          </p>
+
+          <div class="hero-mini-map">
+            <div class="hero-tile"><b>45</b>районов и округов</div>
+            <div class="hero-tile"><b>50+</b>объектов на карте</div>
+            <div class="hero-tile"><b>4</b>ключевых точки экспедиции</div>
+            <div class="hero-tile"><b>74</b>регион России</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about" class="reveal">
+    <h2>О регионе</h2>
+    <p class="sub">
+      Челябинская область — это Южный Урал, где сочетаются горные хребты, леса, степи, озёра и крупные города.
+      Здесь находятся известные природные территории, туристические маршруты и исторические объекты.
+    </p>
+  </section>
+
+  <section id="topPlaces" class="reveal">
+    <h2>Топ-места области</h2>
+    <p class="sub">Витрина самых атмосферных и узнаваемых мест региона — с быстрым переходом на карту и большой карточкой места.</p>
+
+    <div class="showcase-grid">
+      <article class="showcase-main" onclick="openPlaceDrawer('Тургояк')">
+        <img src="assets/turgoyak.PNG" alt="Тургояк">
+        <div class="showcase-overlay">
+          <span class="showcase-tag">Озеро • отдых • Миасс</span>
+          <div class="showcase-title">Тургояк</div>
+          <div class="showcase-text">Одно из самых чистых озёр России, место летнего отдыха, прогулок и одной из самых известных панорам Южного Урала.</div>
+          <div class="showcase-actions">
+            <button class="btn btn-primary" onclick="event.stopPropagation(); focusCustomPoint(55.17,60.06,10)">Показать на карте</button>
+            <button class="btn btn-secondary" onclick="event.stopPropagation(); openPlaceDrawer('Тургояк')">Открыть карточку</button>
+          </div>
+        </div>
+      </article>
+
+      <div class="showcase-stack">
+        <article onclick="openPlaceDrawer('Таганай')">
+          <img src="assets/taganay.PNG" alt="Таганай">
+          <div class="showcase-overlay">
+            <span class="showcase-tag">Нацпарк • горы</span>
+            <div class="showcase-title">Таганай</div>
+            <div class="showcase-text">Хребты, курумы, обзорные вершины и один из самых узнаваемых пейзажей области.</div>
+          </div>
+        </article>
+
+        <article onclick="openPlaceDrawer('Зюраткуль')">
+          <img src="assets/zyuratkul.PNG" alt="Зюраткуль">
+          <div class="showcase-overlay">
+            <span class="showcase-tag">Высокогорное озеро</span>
+            <div class="showcase-title">Зюраткуль</div>
+            <div class="showcase-text">Высокогорное озеро и парк с красивыми тропами, лесами и панорамами Южного Урала.</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="mapSection" class="reveal">
+    <h2>Интерактивная карта</h2>
+    <p class="sub">Цветная карта‑гибрид: днём — светлая подложка, ночью — тёмная. На карте — районы, города, сёла, природные и исторические объекты.</p>
+
+    <div class="map-shell">
+      <div class="filters">
+        <button class="filter-btn" onclick="showLayer('all')">Все</button>
+        <button class="ghost-btn" onclick="showLayer('districts')">Районы</button>
+        <button class="ghost-btn" onclick="showLayer('cities')">Города и сёла</button>
+        <button class="ghost-btn" onclick="showLayer('nature')">Природа</button>
+        <button class="ghost-btn" onclick="showLayer('history')">История</button>
+      </div>
+
+      <div class="map-actions">
+        <button class="ghost-btn" onclick="resetMapView()">Сбросить вид</button>
+      </div>
+
+      <div class="map-grid">
+        <div id="map"></div>
+
+        <aside class="side-panel">
+          <h3>Поиск по объектам</h3>
+          <p>Ищи район, город, село, озеро, парк или исторический объект.</p>
+          <input id="districtSearch" class="search" type="text" placeholder="Найти район, город, озеро или объект..." />
+          <div id="districtList" class="district-list"></div>
+
+          <div class="selected-card" id="selectedInfo">
+            <h3>Информация об объекте</h3>
+            <div class="selected-grid">
+              <div class="selected-box">
+                <b>Название</b>
+                <div>Выбери объект на карте или в списке.</div>
+              </div>
+              <div class="selected-box">
+                <b>Описание</b>
+                <div>После выбора здесь появится подробная информация и рекомендации, что посмотреть рядом.</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="compare-pro reveal" id="compareCitiesPro">
+    <h2>Сравнить города</h2>
+    <p class="sub">Быстрый взгляд на главные города области: население, специализация и характер места.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Город</th>
+            <th>Население</th>
+            <th>Площадь</th>
+            <th>Чем известен</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Челябинск</td><td>1 176 770</td><td>≈ 530 км²</td><td>Административный центр, крупный транспортный и промышленный узел</td></tr>
+          <tr><td>Магнитогорск</td><td>408 487</td><td>≈ 392 км²</td><td>Один из крупнейших металлургических центров России</td></tr>
+          <tr><td>Златоуст</td><td>157 244</td><td>≈ 236 км²</td><td>Оружейные традиции, близость к Таганаю</td></tr>
+          <tr><td>Миасс</td><td>146 650</td><td>≈ 111 км²</td><td>Тургояк, Ильменский заповедник, туризм</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="why-visit reveal" id="whyVisit">
+    <h2>Почему стоит посетить область</h2>
+    <p class="sub">Челябинская область — это не только промышленный регион, но и одна из самых разнообразных по ландшафтам и маршрутам территорий Южного Урала.</p>
+    <div class="why-grid">
+      <article class="why-card">
+        <h3>Природа</h3>
+        <p>Озёра, горные хребты, леса, заповедники и национальные парки делают регион сильной точкой для поездок на природу.</p>
+      </article>
+      <article class="why-card">
+        <h3>Маршруты и экспедиции</h3>
+        <p>От коротких выездов выходного дня до полноценных путешествий по озёрам, горам и историческим местам области.</p>
+      </article>
+      <article class="why-card">
+        <h3>История и культура</h3>
+        <p>Аркаим, старые уральские города, промышленное наследие и локальные легенды создают сильную культурную карту региона.</p>
+      </article>
+    </div>
+  </section>
+
+  
+  <section id="citiesCards" class="reveal">
+    <h2>Карточки городов</h2>
+    <p class="sub">Крупные города и районные центры области — с кратким описанием и быстрым переходом на карту.</p>
+    <div class="object-grid" id="citiesGrid"></div>
+  </section>
+
+  <section id="natureCards" class="reveal">
+    <h2>Природные объекты</h2>
+    <p class="sub">Озёра, заповедники, национальные парки и горные направления — всё, что делает Южный Урал сильной туристической территорией.</p>
+    <div class="object-grid" id="natureGrid"></div>
+  </section>
+
+  <section id="historyCards" class="reveal">
+    <h2>Исторические объекты</h2>
+    <p class="sub">Культурные и исторические точки области: от археологии до старых уральских городов.</p>
+    <div class="object-grid" id="historyGrid"></div>
+  </section>
+
+  <section id="factsSection" class="reveal">
+    <h2>Интересные факты</h2>
+    <p class="sub">Короткие факты, которые делают область узнаваемой и необычной.</p>
+    <div class="facts-grid">
+      <article class="fact-card"><b>Тургояк</b><p>Озеро часто называют одним из самых чистых в России благодаря прозрачной воде и каменистому дну.</p></article>
+      <article class="fact-card"><b>Аркаим</b><p>Археологический комплекс стал одной из самых известных исторических точек Южного Урала.</p></article>
+      <article class="fact-card"><b>Таганай</b><p>Национальный парк известен сочетанием тайги, курумов и обзорных горных маршрутов.</p></article>
+      <article class="fact-card"><b>Касли</b><p>Город известен художественным литьём, которое стало узнаваемым брендом Урала.</p></article>
+    </div>
+  </section>
+
+
+  <footer>
+    Интерактивная карта Челябинской области • версия 11.3
+  </footer>
+
+  <div id="placeDrawer">
+    <button class="drawer-close" onclick="closePlaceDrawer()">✕</button>
+    <img class="drawer-cover" id="drawerCover" src="assets/turgoyak.PNG" alt="Фото места">
+    <div class="drawer-body">
+      <h2 id="drawerTitle" style="margin:0 0 10px;">Место</h2>
+      <p id="drawerText" style="margin:0 0 16px;color:var(--muted);line-height:1.7;"></p>
+      <div class="drawer-grid">
+        <div class="drawer-box">
+          <b>Почему это место стоит посетить</b>
+          <div id="drawerWhy" style="margin-top:8px;color:var(--muted);line-height:1.6;"></div>
+        </div>
+        <div class="drawer-box">
+          <b>Мини-галерея</b>
+          <div class="drawer-gallery" id="drawerGallery"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend-panel" id="legendPanel">
+    <h4>Легенда карты</h4>
+    <div class="legend-item"><span class="legend-dot" style="background:#ffd93d"></span> Города и сёла</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#4fd3ff"></span> Природные объекты</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#ffb14f"></span> Исторические места</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#9fe870"></span> Районы области</div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="js/points.js"></script>
+  <script src="js/media.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
