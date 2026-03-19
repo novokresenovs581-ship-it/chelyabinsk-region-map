@@ -1,0 +1,152 @@
+{
+  "Тургояк": {
+    "images": [
+      "assets/turgoyak.PNG",
+      "assets/zyuratkul.PNG",
+      "assets/taganay.PNG"
+    ]
+  },
+  "Таганай": {
+    "images": [
+      "assets/taganay.PNG",
+      "assets/zyuratkul.PNG",
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Зюраткуль": {
+    "images": [
+      "assets/zyuratkul.PNG",
+      "assets/taganay.PNG",
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Аркаим": {
+    "images": [
+      "assets/zyuratkul.PNG",
+      "assets/taganay.PNG"
+    ]
+  },
+  "Челябинск": {
+    "images": [
+      "assets/taganay.PNG",
+      "assets/turgoyak.PNG",
+      "assets/zyuratkul.PNG"
+    ]
+  },
+  "Миасс": {
+    "images": [
+      "assets/turgoyak.PNG",
+      "assets/taganay.PNG",
+      "assets/zyuratkul.PNG"
+    ]
+  },
+  "Златоуст": {
+    "images": [
+      "assets/taganay.PNG",
+      "assets/zyuratkul.PNG",
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Ильменский заповедник": {
+    "images": [
+      "assets/turgoyak.PNG",
+      "assets/taganay.PNG"
+    ]
+  },
+  "Кыштым": {
+    "images": [
+      "assets/turgoyak.PNG",
+      "assets/zyuratkul.PNG"
+    ]
+  },
+  "Касли": {
+    "images": [
+      "assets/turgoyak.PNG",
+      "assets/taganay.PNG"
+    ]
+  },
+  "Магнитогорск": {
+    "images": [
+      "assets/taganay.PNG",
+      "assets/zyuratkul.PNG"
+    ]
+  },
+  "Чебаркуль": {
+    "images": [
+      "assets/turgoyak.PNG",
+      "assets/zyuratkul.PNG"
+    ]
+  },
+  "Сатка": {
+    "images": [
+      "assets/zyuratkul.PNG",
+      "assets/taganay.PNG"
+    ]
+  },
+  "Увильды": {
+    "images": [
+      "assets/turgoyak.PNG",
+      "assets/zyuratkul.PNG"
+    ]
+  },
+  "Иткуль": {
+    "images": [
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Синара": {
+    "images": [
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Смолино": {
+    "images": [
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Троицк": {
+    "images": [
+      "assets/taganay.PNG"
+    ]
+  },
+  "Озёрск": {
+    "images": [
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Остров Веры": {
+    "images": [
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Игнатьевская пещера": {
+    "images": [
+      "assets/taganay.PNG"
+    ]
+  },
+  "Верхнеуральск": {
+    "images": [
+      "assets/taganay.PNG"
+    ]
+  },
+  "Аргаяш": {
+    "images": [
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Бреды": {
+    "images": [
+      "assets/zyuratkul.PNG"
+    ]
+  },
+  "Варна": {
+    "images": [
+      "assets/zyuratkul.PNG"
+    ]
+  },
+  "Долгодеревенское": {
+    "images": [
+      "assets/taganay.PNG"
+    ]
+  }
+}
