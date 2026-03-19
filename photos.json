@@ -1,0 +1,27 @@
+{
+  "Тургояк": {
+    "images": [
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Таганай": {
+    "images": [
+      "assets/taganay.PNG"
+    ]
+  },
+  "Зюраткуль": {
+    "images": [
+      "assets/zyuratkul.PNG"
+    ]
+  },
+  "Аркаим": {
+    "images": [
+      "assets/zyuratkul.PNG"
+    ]
+  },
+  "Челябинск": {
+    "images": [
+      "assets/taganay.PNG"
+    ]
+  }
+}
