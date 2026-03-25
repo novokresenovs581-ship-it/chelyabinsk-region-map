@@ -287,3 +287,13 @@ footer{padding:36px 9%;text-align:center;color:rgba(255,255,255,.58);border-top:
 @media (max-width:760px){
   .object-grid,.facts-grid{grid-template-columns:1fr}
 }
+
+/* 11.3 FIXES */
+.legend-panel{display:none !important;}
+.brand img,.hero-logo-box img{
+  object-fit:contain !important;
+  background:transparent !important;
+}
+.brand img{width:40px;height:40px;padding:0;border-radius:12px;}
+.hero-logo-box{overflow:hidden;}
+.hero-logo-box img{width:64px;height:64px;}
