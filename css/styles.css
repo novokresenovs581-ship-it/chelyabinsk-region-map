@@ -297,3 +297,15 @@ footer{padding:36px 9%;text-align:center;color:rgba(255,255,255,.58);border-top:
 .brand img{width:40px;height:40px;padding:0;border-radius:12px;}
 .hero-logo-box{overflow:hidden;}
 .hero-logo-box img{width:64px;height:64px;}
+
+/* 11.5 fixes */
+.leaflet-control-attribution{display:none !important;}
+.brand img,.hero-logo-box img{
+  filter:none !important;
+  background:transparent !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  display:block !important;
+}
+.brand img{width:42px;height:42px;padding:0;}
+.hero-logo-box img{width:64px;height:64px;}
