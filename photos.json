@@ -2,151 +2,232 @@
   "Тургояк": {
     "images": [
       "assets/turgoyak.PNG",
-      "assets/zyuratkul.PNG",
-      "assets/taganay.PNG"
+      "assets/nature-placeholder.svg"
     ]
   },
   "Таганай": {
     "images": [
       "assets/taganay.PNG",
-      "assets/Taganay.PNG",
-      "assets/tag.PNG"
+      "assets/nature-placeholder.svg"
     ]
   },
   "Зюраткуль": {
     "images": [
       "assets/zyuratkul.PNG",
-      "assets/taganay.PNG",
-      "assets/turgoyak.PNG"
+      "assets/nature-placeholder.svg"
     ]
   },
   "Аркаим": {
     "images": [
-      "assets/zyuratkul.PNG",
-      "assets/taganay.PNG"
+      "assets/history-placeholder.svg"
     ]
   },
   "Челябинск": {
     "images": [
-      "assets/taganay.PNG",
-      "assets/turgoyak.PNG",
-      "assets/zyuratkul.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Миасс": {
     "images": [
-      "assets/turgoyak.PNG",
-      "assets/taganay.PNG",
-      "assets/zyuratkul.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Златоуст": {
     "images": [
-      "assets/taganay.PNG",
-      "assets/zyuratkul.PNG",
-      "assets/turgoyak.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Ильменский заповедник": {
     "images": [
-      "assets/turgoyak.PNG",
-      "assets/taganay.PNG"
+      "assets/nature-placeholder.svg",
+      "assets/taganay.PNG",
+      "assets/turgoyak.PNG"
     ]
   },
   "Кыштым": {
     "images": [
-      "assets/turgoyak.PNG",
-      "assets/zyuratkul.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Касли": {
     "images": [
-      "assets/turgoyak.PNG",
-      "assets/taganay.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Магнитогорск": {
     "images": [
-      "assets/taganay.PNG",
-      "assets/zyuratkul.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Чебаркуль": {
     "images": [
-      "assets/turgoyak.PNG",
-      "assets/zyuratkul.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Сатка": {
     "images": [
-      "assets/zyuratkul.PNG",
-      "assets/taganay.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Увильды": {
     "images": [
-      "assets/turgoyak.PNG",
-      "assets/zyuratkul.PNG"
+      "assets/nature-placeholder.svg",
+      "assets/taganay.PNG",
+      "assets/turgoyak.PNG"
     ]
   },
   "Иткуль": {
     "images": [
+      "assets/nature-placeholder.svg",
+      "assets/taganay.PNG",
       "assets/turgoyak.PNG"
     ]
   },
   "Синара": {
     "images": [
+      "assets/nature-placeholder.svg",
+      "assets/taganay.PNG",
       "assets/turgoyak.PNG"
     ]
   },
   "Смолино": {
     "images": [
+      "assets/nature-placeholder.svg",
+      "assets/taganay.PNG",
       "assets/turgoyak.PNG"
     ]
   },
   "Троицк": {
     "images": [
-      "assets/taganay.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Озёрск": {
     "images": [
-      "assets/turgoyak.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Остров Веры": {
     "images": [
-      "assets/turgoyak.PNG"
+      "assets/history-placeholder.svg"
     ]
   },
   "Игнатьевская пещера": {
     "images": [
-      "assets/taganay.PNG"
+      "assets/history-placeholder.svg"
     ]
   },
   "Верхнеуральск": {
     "images": [
-      "assets/taganay.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Аргаяш": {
     "images": [
-      "assets/turgoyak.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Бреды": {
     "images": [
-      "assets/zyuratkul.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Варна": {
     "images": [
-      "assets/zyuratkul.PNG"
+      "assets/city-placeholder.svg"
     ]
   },
   "Долгодеревенское": {
     "images": [
-      "assets/taganay.PNG"
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Копейск": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Южноуральск": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Аша": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Карталы": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Пласт": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Верхний Уфалей": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Коркино": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Еманжелинск": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Карабаш": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Куса": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Миасское": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Аргази": {
+    "images": [
+      "assets/nature-placeholder.svg",
+      "assets/taganay.PNG",
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Зюраткуль (парк)": {
+    "images": [
+      "assets/nature-placeholder.svg",
+      "assets/taganay.PNG",
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Аракульский Шихан": {
+    "images": [
+      "assets/nature-placeholder.svg",
+      "assets/taganay.PNG",
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Нургуш": {
+    "images": [
+      "assets/nature-placeholder.svg",
+      "assets/taganay.PNG",
+      "assets/turgoyak.PNG"
+    ]
+  },
+  "Кыштымский исторический центр": {
+    "images": [
+      "assets/history-placeholder.svg"
     ]
   }
 }
