@@ -309,3 +309,61 @@ footer{padding:36px 9%;text-align:center;color:rgba(255,255,255,.58);border-top:
 }
 .brand img{width:42px;height:42px;padding:0;}
 .hero-logo-box img{width:64px;height:64px;}
+
+/* 12.0 additions */
+.brand img,.hero-logo-box img{
+  filter:none !important;
+  object-fit:contain;
+  background:transparent !important;
+}
+.brand img{
+  width:42px !important;
+  height:42px !important;
+}
+.hero-logo-box img{
+  width:64px !important;
+  height:64px !important;
+}
+.object-card .fact-note{
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  line-height:1.55;
+  font-size:.92rem;
+}
+.detail-grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:14px;
+  margin-top:14px;
+}
+.detail-box{
+  grid-column:span 4;
+  padding:14px;
+  border-radius:16px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.10);
+}
+.detail-box b{display:block;margin-bottom:8px}
+.quick-stats{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:10px 0 0;
+}
+.quick-chip{
+  padding:8px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  font-size:.9rem;
+}
+.region-mask{
+  filter: blur(2px);
+}
+@media (max-width:760px){
+  .detail-box{grid-column:span 12;}
+}
