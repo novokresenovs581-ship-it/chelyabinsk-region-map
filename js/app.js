@@ -51,14 +51,46 @@ window.toggleTheme = function(){
 };
 
 
+
+window.objectMeta = function(item){
+  const text = item.type.toLowerCase();
+  let season = 'май — сентябрь';
+  let format = 'поездка на 1 день';
+  let level = 'лёгкий доступ';
+  let fact = 'Одна из заметных точек Челябинской области.';
+  if(text.includes('озеро') || text.includes('водохранилище')){
+    season = 'июнь — сентябрь';
+    format = 'отдых у воды / прогулка';
+    level = 'лёгкий доступ';
+    fact = 'Водные объекты региона — одна из самых сильных сторон туристической карты области.';
+  } else if(text.includes('парк') || text.includes('заповедник') || text.includes('гора') || text.includes('хребет')){
+    season = 'май — октябрь';
+    format = 'поход / автопоездка';
+    level = 'средний';
+    fact = 'Горные и заповедные территории формируют образ Южного Урала как природного направления.';
+  } else if(text.includes('истор')){
+    season = 'круглый год';
+    format = 'экскурсия / поездка';
+    level = 'лёгкий доступ';
+    fact = 'Исторические точки области делают карту не только природной, но и культурной.';
+  } else if(text.includes('город') || text.includes('село')){
+    season = 'круглый год';
+    format = 'городская / районная поездка';
+    level = 'лёгкий доступ';
+    fact = 'Населённые пункты на карте помогают связать природные и исторические маршруты в одно путешествие.';
+  }
+  return {season, format, level, fact};
+};
+
 window.renderObjectCards = async function(){
   async function buildCards(containerId, items){
     const container = document.getElementById(containerId);
     if(!container) return;
     container.innerHTML = '';
-    for(const item of items.slice(0, 9)){
+    for(const item of items.slice(0, 12)){
       const images = await loadPhotos(item.name);
       const cover = images[0] || 'assets/taganay.PNG';
+      const meta = objectMeta(item);
       const card = document.createElement('article');
       card.className = 'object-card';
       card.innerHTML = `
@@ -66,6 +98,11 @@ window.renderObjectCards = async function(){
         <div class="object-card-body">
           <h3>${item.name}</h3>
           <p>${item.description}</p>
+          <div class="quick-stats">
+            <div class="quick-chip">${item.type}</div>
+            <div class="quick-chip">${meta.season}</div>
+          </div>
+          <div class="fact-note"><b>Факт:</b> ${meta.fact}</div>
           <div class="object-card-actions">
             <button class="primary" data-map="${item.name}">Показать на карте</button>
             <button class="secondary" data-info="${item.name}">Подробнее</button>
@@ -81,7 +118,7 @@ window.renderObjectCards = async function(){
         if(item){
           document.getElementById('mapSection').scrollIntoView({behavior:'smooth'});
           setTimeout(()=> {
-            map.flyTo(item.coords, 9, {duration:1.2});
+            map.flyTo(item.coords, 9.4, {duration:1.25});
             renderInfo(item);
           }, 250);
         }
@@ -103,6 +140,7 @@ window.renderObjectCards = async function(){
   await buildCards('natureGrid', APP_POINTS.nature);
   await buildCards('historyGrid', APP_POINTS.history);
 };
+
 
 
 document.addEventListener('DOMContentLoaded', async ()=>{

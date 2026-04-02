@@ -110,20 +110,31 @@ function distKm(a,b){
   return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
 }
 
+
 window.renderInfo = async function(item){
   const pool = [...APP_POINTS.cities, ...APP_POINTS.nature, ...APP_POINTS.history].filter(x => x.name !== item.name);
-  const nearest = pool.map(x => ({...x, km: distKm(item.coords, x.coords)})).sort((a,b)=>a.km-b.km).slice(0,4);
+  const nearest = pool.map(x => ({...x, km: distKm(item.coords, x.coords)})).sort((a,b)=>a.km-b.km).slice(0,5);
   const selectedInfo = document.getElementById('selectedInfo');
-  selectedInfo.innerHTML = `<h3>${item.name}</h3><div class="photo-empty">Загрузка фото и карточки объекта…</div>`;
+  selectedInfo.innerHTML = `<h3>${item.name}</h3><div class="photo-empty">Загрузка карточки объекта…</div>`;
   const images = await loadPhotos(item.name);
+
+  const meta = (window.objectMeta ? objectMeta(item) : {season:'круглый год', format:'поездка', level:'лёгкий доступ', fact:'Интересная точка региона.'});
+  const nearestDistrict = districtMeta.find(d => d.layer.getBounds().contains(L.latLng(item.coords[0], item.coords[1])));
+  const districtName = nearestDistrict ? nearestDistrict.name : 'район уточняется';
+
+  const gallery = images && images.length
+    ? `<div class="photo-main"><img src="${images[0]}" alt="${item.name}"></div>
+       <div class="photo-strip">${images.slice(0,3).map(src => `<img src="${src}" alt="${item.name}">`).join('')}</div>`
+    : `<div class="photo-empty">Фото пока не добавлены</div>`;
 
   selectedInfo.innerHTML = `
     <h3>${item.name}</h3>
-    ${buildPhotoGallery(images, item.name)}
+    ${gallery}
     <div class="quick-stats">
       <div class="quick-chip">${item.type}</div>
       <div class="quick-chip">${item.population}</div>
       <div class="quick-chip">${item.area}</div>
+      <div class="quick-chip">${districtName}</div>
     </div>
     <div class="selected-grid" style="margin-top:14px;">
       <div class="selected-box">
@@ -131,12 +142,28 @@ window.renderInfo = async function(item){
         <div>Тип: ${item.type}</div>
         <div style="margin-top:8px;">Население: ${item.population}</div>
         <div style="margin-top:8px;">Площадь: ${item.area}</div>
+        <div style="margin-top:8px;">Район / округ: ${districtName}</div>
       </div>
       <div class="selected-box">
         <b>Природа и описание</b>
         <div>Флора: ${item.flora}</div>
         <div style="margin-top:8px;">Фауна: ${item.fauna}</div>
         <div style="margin-top:8px;">${item.description}</div>
+      </div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-box">
+        <b>Как лучше ехать</b>
+        <div>${meta.format}</div>
+        <div style="margin-top:8px;">Уровень: ${meta.level}</div>
+      </div>
+      <div class="detail-box">
+        <b>Лучшее время</b>
+        <div>${meta.season}</div>
+      </div>
+      <div class="detail-box">
+        <b>Интересный факт</b>
+        <div>${meta.fact}</div>
       </div>
     </div>
     <div style="margin-top:14px;">
@@ -151,7 +178,7 @@ window.renderInfo = async function(item){
       const name = el.dataset.near;
       const found = [...APP_POINTS.cities, ...APP_POINTS.nature, ...APP_POINTS.history].find(x => x.name === name);
       if(found){
-        map.flyTo(found.coords, 9, {duration:1.2});
+        map.flyTo(found.coords, 9.35, {duration:1.15});
         renderInfo(found);
       }
     });
@@ -167,7 +194,7 @@ function addPoint(item, group, color, radius){
     weight:2.8,
     opacity:1
   }).bindPopup(popupHtml(item));
-  marker.on('click', ()=>renderInfo(item));
+  marker.on('click', ()=>{ map.flyTo(item.coords, Math.max(map.getZoom(), 8.8), {duration:0.9}); renderInfo(item); });
   marker.addTo(group);
   let pulseState = false;
   setInterval(()=>{
@@ -275,6 +302,33 @@ window.focusCustomPoint = function(lat, lng, zoom=9){
   setTimeout(()=>map.flyTo([lat,lng], zoom, {duration:1.2}), 300);
 };
 
+
+function buildOutsideMask(geo){
+  const outer = [[90,-180],[90,180],[-90,180],[-90,-180]];
+  const holes = [];
+  function addPolygonCoords(coords){
+    try{
+      if(Array.isArray(coords[0][0][0])){
+        coords.forEach(poly => addPolygonCoords(poly));
+      }else{
+        holes.push(coords[0].map(pt => [pt[1], pt[0]]));
+      }
+    }catch(e){}
+  }
+  (geo.features || []).forEach(f=>{
+    const g = f.geometry || {};
+    if(g.type === 'Polygon') addPolygonCoords(g.coordinates);
+    if(g.type === 'MultiPolygon') addPolygonCoords(g.coordinates);
+  });
+  const mask = L.polygon([outer, ...holes], {
+    stroke:false,
+    fillColor:'#0b1013',
+    fillOpacity:0.38,
+    interactive:false,
+    className:'region-mask'
+  });
+  mask.addTo(map);
+}
 window.initMap = function(){
   map = L.map('map', {zoomControl:true, minZoom:6, maxZoom:10, maxBounds:[[52.0,57.0],[56.8,63.2]], maxBoundsViscosity:1.0}).setView([54.8,60.5],7);
 
@@ -291,9 +345,9 @@ window.initMap = function(){
   districtLayer = L.layerGroup().addTo(map);
   pointLayers = {cities:L.layerGroup().addTo(map), nature:L.layerGroup().addTo(map), history:L.layerGroup().addTo(map)};
 
-  APP_POINTS.cities.forEach(item => addPoint(item, pointLayers.cities, '#ffd93d', ['Челябинск','Магнитогорск','Златоуст','Миасс'].includes(item.name) ? 9 : 6));
-  APP_POINTS.nature.forEach(item => addPoint(item, pointLayers.nature, '#4fd3ff', 6));
-  APP_POINTS.history.forEach(item => addPoint(item, pointLayers.history, '#ffb14f', 6));
+  APP_POINTS.cities.forEach(item => addPoint(item, pointLayers.cities, '#ffd93d', ['Челябинск','Магнитогорск','Златоуст','Миасс'].includes(item.name) ? 11 : 7));
+  APP_POINTS.nature.forEach(item => addPoint(item, pointLayers.nature, '#25cfff', 7));
+  APP_POINTS.history.forEach(item => addPoint(item, pointLayers.history, '#ff9c1a', 7));
 
   fetch('districts.geojson')
     .then(r=>{ if(!r.ok) throw new Error('Не найден districts.geojson'); return r.json();})
@@ -307,7 +361,7 @@ window.initMap = function(){
           const info = DISTRICT_INFO[name] || {center:'районный центр уточняется', population:'данные уточняются', area:'данные уточняются', flora:'берёзовые колки, степные и луговые растения', fauna:'лиса, заяц, птицы лесостепной зоны', famous:'Район Челябинской области с природными и культурными особенностями.'};
           layer.bindPopup(`<div class="popup-title">${name}</div><div class="popup-row"><b>Тип:</b> Район</div><div class="popup-row"><b>Центр:</b> ${info.center}</div><div class="popup-row"><b>Население:</b> ${info.population}</div><div class="popup-row"><b>Площадь:</b> ${info.area}</div><div class="popup-row"><b>Чем знаменит:</b> ${info.famous}</div>`);
           layer.on('click', ()=> {
-            map.fitBounds(layer.getBounds(), {padding:[20,20], animate:true, duration:1});
+            map.fitBounds(layer.getBounds(), {padding:[20,20], animate:true, duration:1.1});
             const fact = DISTRICT_FACTS[name] || 'Район Челябинской области со своими природными и культурными особенностями.';
             document.getElementById('selectedInfo').innerHTML = `
               <h3>${name}</h3>
@@ -332,6 +386,7 @@ window.initMap = function(){
         }
       });
       geoJson.eachLayer(l => districtLayer.addLayer(l));
+      buildOutsideMask(geo);
       colorDistricts();
       renderSearch();
     })
