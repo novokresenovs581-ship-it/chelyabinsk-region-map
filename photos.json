@@ -229,5 +229,135 @@
     "images": [
       "assets/history-placeholder.svg"
     ]
+  },
+  "Чесма": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Агаповка": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Уйское": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Фершампенуаз": {
+    "images": [
+      "assets/history-placeholder.svg"
+    ]
+  },
+  "Кизильское": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Октябрьское": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Еткуль": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Кунашак": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Большой Иремель (направление)": {
+    "images": [
+      "assets/nature-placeholder.svg"
+    ]
+  },
+  "Озеро Большой Кисегач": {
+    "images": [
+      "assets/nature-placeholder.svg"
+    ]
+  },
+  "Озеро Еловое": {
+    "images": [
+      "assets/nature-placeholder.svg"
+    ]
+  },
+  "Озеро Аракуль": {
+    "images": [
+      "assets/nature-placeholder.svg"
+    ]
+  },
+  "Старая часть Троицка": {
+    "images": [
+      "assets/history-placeholder.svg"
+    ]
+  },
+  "Катав-Ивановск": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Усть-Катав": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Юрюзань": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Трёхгорный": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Нязепетровск": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Еманжелинка": {
+    "images": [
+      "assets/city-placeholder.svg"
+    ]
+  },
+  "Озеро Сунгуль": {
+    "images": [
+      "assets/nature-placeholder.svg"
+    ]
+  },
+  "Озеро Калды": {
+    "images": [
+      "assets/nature-placeholder.svg"
+    ]
+  },
+  "Озеро Кумкуль": {
+    "images": [
+      "assets/nature-placeholder.svg"
+    ]
+  },
+  "Национальный парк Зюраткуль": {
+    "images": [
+      "assets/nature-placeholder.svg"
+    ]
+  },
+  "Гора Юрма": {
+    "images": [
+      "assets/nature-placeholder.svg"
+    ]
+  },
+  "Исторический центр Верхнеуральска": {
+    "images": [
+      "assets/history-placeholder.svg"
+    ]
+  },
+  "Каслинский заводской центр": {
+    "images": [
+      "assets/history-placeholder.svg"
+    ]
   }
 }
