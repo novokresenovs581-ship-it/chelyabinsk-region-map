@@ -19,31 +19,31 @@
   },
   "Аркаим": {
     "images": [
-      "assets/arkaim.png",
+      "assets/arkaim.PNG",
       "assets/history-placeholder.svg"
     ]
   },
   "Челябинск": {
     "images": [
-      "assets/chelybinsk.png",
+      "assets/chelybinsk.PNG",
       "assets/city-placeholder.svg"
     ]
   },
   "Миасс": {
     "images": [
-      "assets/miass.png",
+      "assets/miass.PNG",
       "assets/city-placeholder.svg"
     ]
   },
   "Златоуст": {
     "images": [
-      "assets/zlatoust.png",
+      "assets/zlatoust.PNG",
       "assets/city-placeholder.svg"
     ]
   },
   "Ильменский заповедник": {
     "images": [
-      "assets/ilmen.png",
+      "assets/ilmen.PNG",
       "assets/nature-placeholder.svg",
     ]
   },
